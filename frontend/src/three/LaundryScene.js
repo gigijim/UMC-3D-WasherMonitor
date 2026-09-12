@@ -9,6 +9,7 @@ export class LaundryScene {
     this.activeWashers = []; // running washer vortexes to rotate
     this.activeDryers = []; // running dryer drums to rotate
     this.steamParticles = []; // steam puffs for running dryers
+    this.idleMachines = []; // available idle machines to shimmer with green ambient glow
     this.floorGroups = new Map();
     this.hoveredMesh = null;
 
@@ -69,6 +70,25 @@ export class LaundryScene {
     this.raycaster = new THREE.Raycaster();
     this.mouse = new THREE.Vector2(-999, -999);
     this.lastFrameTime = performance.now();
+
+    // Shared reusable geometry for outer neon contour edge lines (ZERO extra geometry alloc per machine)
+    const boxGeo = new THREE.BoxGeometry(1.63, 2.03, 1.63);
+    this.sharedEdgeGeo = new THREE.EdgesGeometry(boxGeo);
+
+    // Shared reusable ground radial aura texture (128x128 canvas, generated once)
+    const baseGlowCanvas = document.createElement('canvas');
+    baseGlowCanvas.width = 128;
+    baseGlowCanvas.height = 128;
+    const bCtx = baseGlowCanvas.getContext('2d');
+    const radGrad = bCtx.createRadialGradient(64, 64, 15, 64, 64, 62);
+    radGrad.addColorStop(0, 'rgba(74, 222, 128, 0.85)'); // Radiant emerald green
+    radGrad.addColorStop(0.45, 'rgba(34, 197, 94, 0.45)');
+    radGrad.addColorStop(0.8, 'rgba(16, 185, 129, 0.15)');
+    radGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+    bCtx.fillStyle = radGrad;
+    bCtx.fillRect(0, 0, 128, 128);
+    this.sharedBaseGlowTex = new THREE.CanvasTexture(baseGlowCanvas);
+    this.sharedBaseGlowGeo = new THREE.PlaneGeometry(2.4, 2.4);
   }
 
   buildEnvironment() {
@@ -286,6 +306,36 @@ export class LaundryScene {
     group.userData.bodyMesh = body;
     group.userData.bodyMat = bodyMat;
 
+    // Outer Green Neon Contour Edges (環繞整個外殼的綠光輪廓線)
+    const edgeMat = new THREE.LineBasicMaterial({
+      color: 0x4ade80,
+      transparent: true,
+      opacity: 0.85,
+      depthWrite: false
+    });
+    const glowEdges = new THREE.LineSegments(this.sharedEdgeGeo, edgeMat);
+    glowEdges.position.y = 1.0;
+    glowEdges.visible = false;
+    group.add(glowEdges);
+    group.userData.glowEdges = glowEdges;
+    group.userData.edgeMat = edgeMat;
+
+    // Ground Radiant Aura (底座環繞地面綠光光暈)
+    const baseGlowMat = new THREE.MeshBasicMaterial({
+      map: this.sharedBaseGlowTex,
+      transparent: true,
+      opacity: 0.80,
+      depthWrite: false,
+      side: THREE.DoubleSide
+    });
+    const baseGlow = new THREE.Mesh(this.sharedBaseGlowGeo, baseGlowMat);
+    baseGlow.rotation.x = -Math.PI / 2;
+    baseGlow.position.y = 0.03;
+    baseGlow.visible = false;
+    group.add(baseGlow);
+    group.userData.baseGlow = baseGlow;
+    group.userData.baseGlowMat = baseGlowMat;
+
     // Angled Top Rear Console (斜背控制面板)
     const consoleGeo = new THREE.BoxGeometry(1.58, 0.32, 0.45);
     const consoleMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.6, roughness: 0.3 });
@@ -435,6 +485,36 @@ export class LaundryScene {
     group.add(body);
     group.userData.bodyMesh = body;
     group.userData.bodyMat = bodyMat;
+
+    // Outer Green Neon Contour Edges (環繞整個外殼的綠光輪廓線)
+    const edgeMat = new THREE.LineBasicMaterial({
+      color: 0x4ade80,
+      transparent: true,
+      opacity: 0.85,
+      depthWrite: false
+    });
+    const glowEdges = new THREE.LineSegments(this.sharedEdgeGeo, edgeMat);
+    glowEdges.position.y = 1.0;
+    glowEdges.visible = false;
+    group.add(glowEdges);
+    group.userData.glowEdges = glowEdges;
+    group.userData.edgeMat = edgeMat;
+
+    // Ground Radiant Aura (底座環繞地面綠光光暈)
+    const baseGlowMat = new THREE.MeshBasicMaterial({
+      map: this.sharedBaseGlowTex,
+      transparent: true,
+      opacity: 0.80,
+      depthWrite: false,
+      side: THREE.DoubleSide
+    });
+    const baseGlow = new THREE.Mesh(this.sharedBaseGlowGeo, baseGlowMat);
+    baseGlow.rotation.x = -Math.PI / 2;
+    baseGlow.position.y = 0.03;
+    baseGlow.visible = false;
+    group.add(baseGlow);
+    group.userData.baseGlow = baseGlow;
+    group.userData.baseGlowMat = baseGlowMat;
 
     // Rear Exhaust Pipe (後置金屬排氣口，後退至 z = -0.65，不遮擋前方倒數計時)
     const ventGeo = new THREE.CylinderGeometry(0.16, 0.16, 0.12, 16);
@@ -682,6 +762,7 @@ export class LaundryScene {
     this.activeWashers = [];
     this.activeDryers = [];
     this.steamParticles = [];
+    this.idleMachines = [];
 
     const now = Date.now();
 
@@ -690,7 +771,7 @@ export class LaundryScene {
       if (!mesh) continue;
 
       mesh.userData.device = dev;
-      const { bodyMat, haloMat, pointLight, agitator, drum, timerSprite, steamPuffs, isDryer } = mesh.userData;
+      const { bodyMat, haloMat, pointLight, agitator, drum, timerSprite, steamPuffs, isDryer, glowEdges, baseGlow } = mesh.userData;
 
       let remainingSec = 0;
       if (dev.dueTime) {
@@ -699,6 +780,8 @@ export class LaundryScene {
 
       if (!dev.connection) {
         // Offline
+        if (glowEdges) glowEdges.visible = false;
+        if (baseGlow) baseGlow.visible = false;
         bodyMat.transparent = false;
         bodyMat.opacity = 1.0;
         bodyMat.color.setHex(0x94a3b8);
@@ -717,6 +800,8 @@ export class LaundryScene {
           for (const p of steamPuffs) p.mat.opacity = 0;
         }
       } else if (dev.isRunning) {
+        if (glowEdges) glowEdges.visible = false;
+        if (baseGlow) baseGlow.visible = false;
         if (isDryer) {
           // DRYER RUNNING: VIVID HOT RED + RISING STEAM + DRUM HEATER LIGHT
           bodyMat.transparent = false;
@@ -773,20 +858,26 @@ export class LaundryScene {
           this.updateTimerSprite(mesh, remainingSec, false);
         }
       } else {
-        // IDLE: Clean White, Soft Green, NO INTERNAL FLICKERING, NO ROTATION, NO STEAM
+        // IDLE (可使用機台): 環繞外殼綠光、底座光暈、微光閃爍閃閃發亮
         bodyMat.transparent = false;
         bodyMat.opacity = 1.0;
         bodyMat.depthWrite = true;
-        bodyMat.color.setHex(0xf8fafc);
-        bodyMat.emissive.setHex(0x000000);
-        bodyMat.emissiveIntensity = 0.0;
+        bodyMat.color.setHex(0xf0fdf4); // 清爽薄荷亮白
+        bodyMat.emissive.setHex(0x10b981); // 翠綠自發光
+        bodyMat.emissiveIntensity = 0.45; // 基礎微光發光強度
 
-        haloMat.color.setHex(0x10b981);
+        haloMat.color.setHex(0x22c55e); // 明亮綠光頂部光環
         pointLight.intensity = 0;
-        pointLight.visible = false; // Turn off unused point light to dramatically lighten fragment shader!
+        pointLight.visible = false; // 嚴格關閉點光源，杜絕不必要的片元著色器計算
         timerSprite.visible = false;
 
-        // 閒置時隱藏內部所有動態零件，100% 根除旋轉視角時的 Z-fighting 閃爍假象
+        // 啟動環繞外殼綠光輪廓與地面綠色光暈
+        if (glowEdges) glowEdges.visible = true;
+        if (baseGlow) baseGlow.visible = true;
+
+        this.idleMachines.push(mesh);
+
+        // 閒置時隱藏內部所有動態零件，100% 杜絕旋轉視角時的 Z-fighting 閃爍假象
         if (mesh.userData.waterGroup) mesh.userData.waterGroup.visible = false;
         if (mesh.userData.drum) mesh.userData.drum.visible = false;
         if (mesh.userData.glassMat) mesh.userData.glassMat.opacity = 0.85;
@@ -860,21 +951,33 @@ export class LaundryScene {
       const targetMesh = intersects[0].object;
       if (this.hoveredMesh !== targetMesh) {
         if (this.hoveredMesh && !this.hoveredMesh.parent?.userData?.device?.isRunning) {
-          this.hoveredMesh.material.emissive?.setHex(0x000000);
-          this.hoveredMesh.material.emissiveIntensity = 0.0;
+          const isIdle = this.hoveredMesh.parent?.userData?.device?.connection;
+          if (isIdle) {
+            this.hoveredMesh.material.emissive?.setHex(0x10b981);
+            this.hoveredMesh.material.emissiveIntensity = 0.45;
+          } else {
+            this.hoveredMesh.material.emissive?.setHex(0x000000);
+            this.hoveredMesh.material.emissiveIntensity = 0.0;
+          }
         }
         this.hoveredMesh = targetMesh;
         if (!targetMesh.parent?.userData?.device?.isRunning) {
-          targetMesh.material.emissive?.setHex(0x0284c7);
-          targetMesh.material.emissiveIntensity = 0.4;
+          targetMesh.material.emissive?.setHex(0x38bdf8);
+          targetMesh.material.emissiveIntensity = 0.6;
         }
       }
     } else {
       this.renderer.domElement.style.cursor = 'default';
       if (this.hoveredMesh) {
         if (!this.hoveredMesh.parent?.userData?.device?.isRunning) {
-          this.hoveredMesh.material.emissive?.setHex(0x000000);
-          this.hoveredMesh.material.emissiveIntensity = 0.0;
+          const isIdle = this.hoveredMesh.parent?.userData?.device?.connection;
+          if (isIdle) {
+            this.hoveredMesh.material.emissive?.setHex(0x10b981);
+            this.hoveredMesh.material.emissiveIntensity = 0.45;
+          } else {
+            this.hoveredMesh.material.emissive?.setHex(0x000000);
+            this.hoveredMesh.material.emissiveIntensity = 0.0;
+          }
         }
         this.hoveredMesh = null;
       }
@@ -968,6 +1071,33 @@ export class LaundryScene {
       if (p.lifetime >= 1.0) {
         p.lifetime = 0;
         p.mesh.position.set(p.initX + (Math.random() - 0.5) * 0.12, 0, p.initZ + (Math.random() - 0.5) * 0.12);
+      }
+    }
+
+    // Shimmering & pulsing animation for available idle machines (閃閃發亮的環繞綠光)
+    // 極致效能：純材質屬性數學波形更新，0 額外光照計算、0 幾何體重算、0 陰影更新
+    if (this.idleMachines.length > 0) {
+      const t = time * 2.2;
+      for (let i = 0; i < this.idleMachines.length; i++) {
+        const mesh = this.idleMachines[i];
+        const offset = i * 0.42;
+        // 雙頻正弦波疊加營造自然有機的星光閃爍效果 (Multi-frequency sparkle)
+        const wave1 = Math.sin(t + offset);
+        const wave2 = Math.sin(t * 1.8 + offset * 1.7);
+        const sparkle = 0.5 + 0.35 * wave1 + 0.15 * wave2; // 0.0 ~ 1.0
+
+        // 1. 機身表面翡翠綠微光呼吸
+        if (mesh.userData.bodyMat && this.hoveredMesh !== mesh.userData.bodyMesh) {
+          mesh.userData.bodyMat.emissiveIntensity = 0.30 + sparkle * 0.45; // 0.30 ~ 0.75
+        }
+        // 2. 環繞整個外殼的綠色霓虹輪廓線閃亮
+        if (mesh.userData.edgeMat) {
+          mesh.userData.edgeMat.opacity = 0.55 + sparkle * 0.40; // 0.55 ~ 0.95
+        }
+        // 3. 底座環繞地面綠色光暈呼吸擴散
+        if (mesh.userData.baseGlowMat) {
+          mesh.userData.baseGlowMat.opacity = 0.45 + sparkle * 0.45; // 0.45 ~ 0.90
+        }
       }
     }
 
