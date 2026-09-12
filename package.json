@@ -1,0 +1,10 @@
+﻿{
+  "name": "umc-3d-washer-monitor",
+  "version": "1.0.0",
+  "private": true,
+  "description": "聯苑宿舍二期 24H 3D 洗衣機/烘衣機監控分析平台",
+  "scripts": {
+    "build": "cd frontend && npm install && npm run build",
+    "crawl": "node backend/collector.js && node backend/export_data.js"
+  }
+}
