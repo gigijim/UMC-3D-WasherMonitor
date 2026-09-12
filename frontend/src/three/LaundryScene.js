@@ -9,7 +9,7 @@ export class LaundryScene {
     this.activeWashers = []; // running washer vortexes to rotate
     this.activeDryers = []; // running dryer drums to rotate
     this.steamParticles = []; // steam puffs for running dryers
-    this.idleMachines = []; // available idle machines to shimmer with green ambient glow
+    this.availableIndicators = []; // available idle machine spotlights & bouncing FREE badges
     this.floorGroups = new Map();
     this.hoveredMesh = null;
 
@@ -71,24 +71,45 @@ export class LaundryScene {
     this.mouse = new THREE.Vector2(-999, -999);
     this.lastFrameTime = performance.now();
 
-    // Shared reusable geometry for outer neon contour edge lines (ZERO extra geometry alloc per machine)
-    const boxGeo = new THREE.BoxGeometry(1.63, 2.03, 1.63);
-    this.sharedEdgeGeo = new THREE.EdgesGeometry(boxGeo);
+    // --- Shared High-Performance Spotlight & FREE Badge Resources (Generated Once, Shared Across 24 Machines) ---
+    // 1. Volumetric spotlight cone geometry (top radius 0.16, bottom radius 1.15, height 3.0, open-ended)
+    this.sharedSpotConeGeo = new THREE.CylinderGeometry(0.16, 1.15, 3.0, 24, 1, true);
 
-    // Shared reusable ground radial aura texture (128x128 canvas, generated once)
-    const baseGlowCanvas = document.createElement('canvas');
-    baseGlowCanvas.width = 128;
-    baseGlowCanvas.height = 128;
-    const bCtx = baseGlowCanvas.getContext('2d');
-    const radGrad = bCtx.createRadialGradient(64, 64, 15, 64, 64, 62);
-    radGrad.addColorStop(0, 'rgba(74, 222, 128, 0.85)'); // Radiant emerald green
-    radGrad.addColorStop(0.45, 'rgba(34, 197, 94, 0.45)');
-    radGrad.addColorStop(0.8, 'rgba(16, 185, 129, 0.15)');
-    radGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-    bCtx.fillStyle = radGrad;
-    bCtx.fillRect(0, 0, 128, 128);
-    this.sharedBaseGlowTex = new THREE.CanvasTexture(baseGlowCanvas);
-    this.sharedBaseGlowGeo = new THREE.PlaneGeometry(2.4, 2.4);
+    // 2. Ceiling spotlight fixture lens geometry
+    this.sharedSpotLensGeo = new THREE.CircleGeometry(0.20, 16);
+
+    // 3. Machine top light puddle geometry
+    this.sharedSpotPuddleGeo = new THREE.CircleGeometry(0.80, 24);
+
+    // 4. Volumetric spotlight beam gradient texture (Smooth vertical fade from apex to machine top)
+    const spotCanvas = document.createElement('canvas');
+    spotCanvas.width = 64;
+    spotCanvas.height = 256;
+    const sCtx = spotCanvas.getContext('2d');
+    const grad = sCtx.createLinearGradient(0, 0, 0, 256);
+    grad.addColorStop(0.0, 'rgba(74, 222, 128, 0.08)');
+    grad.addColorStop(0.15, 'rgba(74, 222, 128, 0.55)');
+    grad.addColorStop(0.70, 'rgba(34, 197, 94, 0.28)');
+    grad.addColorStop(1.0, 'rgba(16, 185, 129, 0.0)');
+    sCtx.fillStyle = grad;
+    sCtx.fillRect(0, 0, 64, 256);
+    this.sharedSpotBeamTex = new THREE.CanvasTexture(spotCanvas);
+
+    // 5. Machine top light puddle radial gradient texture
+    const pCanvas = document.createElement('canvas');
+    pCanvas.width = 128;
+    pCanvas.height = 128;
+    const pCtx = pCanvas.getContext('2d');
+    const pGrad = pCtx.createRadialGradient(64, 64, 5, 64, 64, 60);
+    pGrad.addColorStop(0.0, 'rgba(74, 222, 128, 0.85)');
+    pGrad.addColorStop(0.5, 'rgba(34, 197, 94, 0.35)');
+    pGrad.addColorStop(1.0, 'rgba(16, 185, 129, 0.0)');
+    pCtx.fillStyle = pGrad;
+    pCtx.fillRect(0, 0, 128, 128);
+    this.sharedSpotPuddleTex = new THREE.CanvasTexture(pCanvas);
+
+    // 6. "FREE ⬇" Badge Canvas Texture
+    this.sharedFreeBadgeTex = this.createFreeBadgeTexture();
   }
 
   buildEnvironment() {
@@ -280,6 +301,136 @@ export class LaundryScene {
     return new THREE.CanvasTexture(canvas);
   }
 
+  createFreeBadgeTexture() {
+    const canvas = document.createElement('canvas');
+    canvas.width = 256;
+    canvas.height = 256;
+    const ctx = canvas.getContext('2d');
+
+    // 1. Rounded container pill with dark glossy background & glowing neon green border
+    ctx.shadowColor = '#22c55e';
+    ctx.shadowBlur = 18;
+
+    const x = 30, y = 22, w = 196, h = 90, r = 24;
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+
+    ctx.fillStyle = 'rgba(5, 36, 20, 0.95)';
+    ctx.fill();
+
+    ctx.strokeStyle = '#4ade80';
+    ctx.lineWidth = 6;
+    ctx.stroke();
+
+    // 2. Bold radiant green text "FREE"
+    ctx.shadowColor = '#4ade80';
+    ctx.shadowBlur = 14;
+    ctx.fillStyle = '#4ade80';
+    ctx.font = '900 56px Arial, -apple-system, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('FREE', 128, 68);
+
+    // 3. Dynamic Downward Arrow (⬇)
+    ctx.shadowColor = '#22c55e';
+    ctx.shadowBlur = 18;
+    ctx.fillStyle = '#22c55e';
+
+    // Arrow stem
+    ctx.beginPath();
+    ctx.rect(114, 122, 28, 44);
+    ctx.fill();
+
+    // Arrow head (pointing down)
+    ctx.beginPath();
+    ctx.moveTo(80, 162);
+    ctx.lineTo(176, 162);
+    ctx.lineTo(128, 224);
+    ctx.closePath();
+    ctx.fill();
+
+    // Pure white core highlight for maximum contrast
+    ctx.shadowBlur = 0;
+    ctx.fillStyle = '#ffffff';
+    ctx.beginPath();
+    ctx.moveTo(98, 166);
+    ctx.lineTo(158, 166);
+    ctx.lineTo(128, 210);
+    ctx.closePath();
+    ctx.fill();
+
+    return new THREE.CanvasTexture(canvas);
+  }
+
+  attachFreeSpotlight(group) {
+    const spotGroup = new THREE.Group();
+    spotGroup.visible = false;
+
+    // 1. Volumetric Spotlight Beam Cone (Descending from ceiling at y=5.1 down to y=2.1)
+    const coneMat = new THREE.MeshBasicMaterial({
+      map: this.sharedSpotBeamTex,
+      color: 0x4ade80,
+      transparent: true,
+      opacity: 0.55,
+      blending: THREE.AdditiveBlending,
+      side: THREE.DoubleSide,
+      depthWrite: false
+    });
+    const cone = new THREE.Mesh(this.sharedSpotConeGeo, coneMat);
+    cone.position.set(0, 3.6, 0); // Centered at y=3.6, height 3.0 -> covers y=2.1 to y=5.1
+    spotGroup.add(cone);
+
+    // 2. Ceiling Spotlight Fixture Lens Disk (at y=5.1)
+    const lensMat = new THREE.MeshBasicMaterial({ color: 0x86efac });
+    const lens = new THREE.Mesh(this.sharedSpotLensGeo, lensMat);
+    lens.rotation.x = Math.PI / 2;
+    lens.position.set(0, 5.1, 0);
+    spotGroup.add(lens);
+
+    // 3. Machine Top Spotlight Light Puddle (at y=2.06)
+    const puddleMat = new THREE.MeshBasicMaterial({
+      map: this.sharedSpotPuddleTex,
+      transparent: true,
+      opacity: 0.85,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false
+    });
+    const puddle = new THREE.Mesh(this.sharedSpotPuddleGeo, puddleMat);
+    puddle.rotation.x = -Math.PI / 2;
+    puddle.position.set(0, 2.06, 0);
+    spotGroup.add(puddle);
+
+    // 4. "FREE ⬇" Bouncing Billboard Sprite (floats directly above the machine)
+    const spriteMat = new THREE.SpriteMaterial({
+      map: this.sharedFreeBadgeTex,
+      transparent: true,
+      depthTest: false
+    });
+    const freeSprite = new THREE.Sprite(spriteMat);
+    freeSprite.position.set(0, 3.4, 0.35);
+    freeSprite.scale.set(1.9, 1.9, 1.0);
+    freeSprite.renderOrder = 9998;
+    spotGroup.add(freeSprite);
+
+    group.add(spotGroup);
+
+    group.userData.freeSpotlight = {
+      group: spotGroup,
+      coneMat,
+      freeSprite,
+      baseY: 3.4
+    };
+  }
+
   // 1. TOP-LOADING WASHER (直立式洗衣機 - 上掀蓋、波輪水流盤、斜背控制台)
   createTopLoadWasher(device, labelShort) {
     const group = new THREE.Group();
@@ -306,35 +457,8 @@ export class LaundryScene {
     group.userData.bodyMesh = body;
     group.userData.bodyMat = bodyMat;
 
-    // Outer Green Neon Contour Edges (環繞整個外殼的綠光輪廓線)
-    const edgeMat = new THREE.LineBasicMaterial({
-      color: 0x4ade80,
-      transparent: true,
-      opacity: 0.85,
-      depthWrite: false
-    });
-    const glowEdges = new THREE.LineSegments(this.sharedEdgeGeo, edgeMat);
-    glowEdges.position.y = 1.0;
-    glowEdges.visible = false;
-    group.add(glowEdges);
-    group.userData.glowEdges = glowEdges;
-    group.userData.edgeMat = edgeMat;
-
-    // Ground Radiant Aura (底座環繞地面綠光光暈)
-    const baseGlowMat = new THREE.MeshBasicMaterial({
-      map: this.sharedBaseGlowTex,
-      transparent: true,
-      opacity: 0.80,
-      depthWrite: false,
-      side: THREE.DoubleSide
-    });
-    const baseGlow = new THREE.Mesh(this.sharedBaseGlowGeo, baseGlowMat);
-    baseGlow.rotation.x = -Math.PI / 2;
-    baseGlow.position.y = 0.03;
-    baseGlow.visible = false;
-    group.add(baseGlow);
-    group.userData.baseGlow = baseGlow;
-    group.userData.baseGlowMat = baseGlowMat;
+    // Spotlight & Bouncing "FREE ⬇" Indicator (閒置可用時啟用)
+    this.attachFreeSpotlight(group);
 
     // Angled Top Rear Console (斜背控制面板)
     const consoleGeo = new THREE.BoxGeometry(1.58, 0.32, 0.45);
@@ -486,35 +610,8 @@ export class LaundryScene {
     group.userData.bodyMesh = body;
     group.userData.bodyMat = bodyMat;
 
-    // Outer Green Neon Contour Edges (環繞整個外殼的綠光輪廓線)
-    const edgeMat = new THREE.LineBasicMaterial({
-      color: 0x4ade80,
-      transparent: true,
-      opacity: 0.85,
-      depthWrite: false
-    });
-    const glowEdges = new THREE.LineSegments(this.sharedEdgeGeo, edgeMat);
-    glowEdges.position.y = 1.0;
-    glowEdges.visible = false;
-    group.add(glowEdges);
-    group.userData.glowEdges = glowEdges;
-    group.userData.edgeMat = edgeMat;
-
-    // Ground Radiant Aura (底座環繞地面綠光光暈)
-    const baseGlowMat = new THREE.MeshBasicMaterial({
-      map: this.sharedBaseGlowTex,
-      transparent: true,
-      opacity: 0.80,
-      depthWrite: false,
-      side: THREE.DoubleSide
-    });
-    const baseGlow = new THREE.Mesh(this.sharedBaseGlowGeo, baseGlowMat);
-    baseGlow.rotation.x = -Math.PI / 2;
-    baseGlow.position.y = 0.03;
-    baseGlow.visible = false;
-    group.add(baseGlow);
-    group.userData.baseGlow = baseGlow;
-    group.userData.baseGlowMat = baseGlowMat;
+    // Spotlight & Bouncing "FREE ⬇" Indicator (閒置可用時啟用)
+    this.attachFreeSpotlight(group);
 
     // Rear Exhaust Pipe (後置金屬排氣口，後退至 z = -0.65，不遮擋前方倒數計時)
     const ventGeo = new THREE.CylinderGeometry(0.16, 0.16, 0.12, 16);
@@ -762,7 +859,7 @@ export class LaundryScene {
     this.activeWashers = [];
     this.activeDryers = [];
     this.steamParticles = [];
-    this.idleMachines = [];
+    this.availableIndicators = [];
 
     const now = Date.now();
 
@@ -771,7 +868,7 @@ export class LaundryScene {
       if (!mesh) continue;
 
       mesh.userData.device = dev;
-      const { bodyMat, haloMat, pointLight, agitator, drum, timerSprite, steamPuffs, isDryer, glowEdges, baseGlow } = mesh.userData;
+      const { bodyMat, haloMat, pointLight, agitator, drum, timerSprite, steamPuffs, isDryer, freeSpotlight } = mesh.userData;
 
       let remainingSec = 0;
       if (dev.dueTime) {
@@ -780,8 +877,7 @@ export class LaundryScene {
 
       if (!dev.connection) {
         // Offline
-        if (glowEdges) glowEdges.visible = false;
-        if (baseGlow) baseGlow.visible = false;
+        if (freeSpotlight) freeSpotlight.group.visible = false;
         bodyMat.transparent = false;
         bodyMat.opacity = 1.0;
         bodyMat.color.setHex(0x94a3b8);
@@ -800,8 +896,7 @@ export class LaundryScene {
           for (const p of steamPuffs) p.mat.opacity = 0;
         }
       } else if (dev.isRunning) {
-        if (glowEdges) glowEdges.visible = false;
-        if (baseGlow) baseGlow.visible = false;
+        if (freeSpotlight) freeSpotlight.group.visible = false;
         if (isDryer) {
           // DRYER RUNNING: VIVID HOT RED + RISING STEAM + DRUM HEATER LIGHT
           bodyMat.transparent = false;
@@ -858,24 +953,27 @@ export class LaundryScene {
           this.updateTimerSprite(mesh, remainingSec, false);
         }
       } else {
-        // IDLE (可使用機台): 環繞外殼綠光、底座光暈、微光閃爍閃閃發亮
+        // IDLE (可使用機台): 乾淨白底機身、開啟聚光燈與跳動的 FREE ⬇ 標籤
         bodyMat.transparent = false;
         bodyMat.opacity = 1.0;
         bodyMat.depthWrite = true;
-        bodyMat.color.setHex(0xf0fdf4); // 清爽薄荷亮白
-        bodyMat.emissive.setHex(0x10b981); // 翠綠自發光
-        bodyMat.emissiveIntensity = 0.45; // 基礎微光發光強度
+        bodyMat.color.setHex(0xf8fafc);
+        bodyMat.emissive.setHex(0x000000);
+        bodyMat.emissiveIntensity = 0.0;
 
-        haloMat.color.setHex(0x22c55e); // 明亮綠光頂部光環
+        haloMat.color.setHex(0x10b981);
         pointLight.intensity = 0;
-        pointLight.visible = false; // 嚴格關閉點光源，杜絕不必要的片元著色器計算
+        pointLight.visible = false;
         timerSprite.visible = false;
 
-        // 啟動環繞外殼綠光輪廓與地面綠色光暈
-        if (glowEdges) glowEdges.visible = true;
-        if (baseGlow) baseGlow.visible = true;
-
-        this.idleMachines.push(mesh);
+        if (freeSpotlight) {
+          freeSpotlight.group.visible = true;
+          this.availableIndicators.push({
+            freeSpotlight,
+            hwid: dev.hwid,
+            offset: this.availableIndicators.length * 0.38
+          });
+        }
 
         // 閒置時隱藏內部所有動態零件，100% 杜絕旋轉視角時的 Z-fighting 閃爍假象
         if (mesh.userData.waterGroup) mesh.userData.waterGroup.visible = false;
@@ -951,33 +1049,21 @@ export class LaundryScene {
       const targetMesh = intersects[0].object;
       if (this.hoveredMesh !== targetMesh) {
         if (this.hoveredMesh && !this.hoveredMesh.parent?.userData?.device?.isRunning) {
-          const isIdle = this.hoveredMesh.parent?.userData?.device?.connection;
-          if (isIdle) {
-            this.hoveredMesh.material.emissive?.setHex(0x10b981);
-            this.hoveredMesh.material.emissiveIntensity = 0.45;
-          } else {
-            this.hoveredMesh.material.emissive?.setHex(0x000000);
-            this.hoveredMesh.material.emissiveIntensity = 0.0;
-          }
+          this.hoveredMesh.material.emissive?.setHex(0x000000);
+          this.hoveredMesh.material.emissiveIntensity = 0.0;
         }
         this.hoveredMesh = targetMesh;
         if (!targetMesh.parent?.userData?.device?.isRunning) {
-          targetMesh.material.emissive?.setHex(0x38bdf8);
-          targetMesh.material.emissiveIntensity = 0.6;
+          targetMesh.material.emissive?.setHex(0x0284c7);
+          targetMesh.material.emissiveIntensity = 0.4;
         }
       }
     } else {
       this.renderer.domElement.style.cursor = 'default';
       if (this.hoveredMesh) {
         if (!this.hoveredMesh.parent?.userData?.device?.isRunning) {
-          const isIdle = this.hoveredMesh.parent?.userData?.device?.connection;
-          if (isIdle) {
-            this.hoveredMesh.material.emissive?.setHex(0x10b981);
-            this.hoveredMesh.material.emissiveIntensity = 0.45;
-          } else {
-            this.hoveredMesh.material.emissive?.setHex(0x000000);
-            this.hoveredMesh.material.emissiveIntensity = 0.0;
-          }
+          this.hoveredMesh.material.emissive?.setHex(0x000000);
+          this.hoveredMesh.material.emissiveIntensity = 0.0;
         }
         this.hoveredMesh = null;
       }
@@ -1074,30 +1160,13 @@ export class LaundryScene {
       }
     }
 
-    // Shimmering & pulsing animation for available idle machines (閃閃發亮的環繞綠光)
-    // 極致效能：純材質屬性數學波形更新，0 額外光照計算、0 幾何體重算、0 陰影更新
-    if (this.idleMachines.length > 0) {
-      const t = time * 2.2;
-      for (let i = 0; i < this.idleMachines.length; i++) {
-        const mesh = this.idleMachines[i];
-        const offset = i * 0.42;
-        // 雙頻正弦波疊加營造自然有機的星光閃爍效果 (Multi-frequency sparkle)
-        const wave1 = Math.sin(t + offset);
-        const wave2 = Math.sin(t * 1.8 + offset * 1.7);
-        const sparkle = 0.5 + 0.35 * wave1 + 0.15 * wave2; // 0.0 ~ 1.0
-
-        // 1. 機身表面翡翠綠微光呼吸
-        if (mesh.userData.bodyMat && this.hoveredMesh !== mesh.userData.bodyMesh) {
-          mesh.userData.bodyMat.emissiveIntensity = 0.30 + sparkle * 0.45; // 0.30 ~ 0.75
-        }
-        // 2. 環繞整個外殼的綠色霓虹輪廓線閃亮
-        if (mesh.userData.edgeMat) {
-          mesh.userData.edgeMat.opacity = 0.55 + sparkle * 0.40; // 0.55 ~ 0.95
-        }
-        // 3. 底座環繞地面綠色光暈呼吸擴散
-        if (mesh.userData.baseGlowMat) {
-          mesh.userData.baseGlowMat.opacity = 0.45 + sparkle * 0.45; // 0.45 ~ 0.90
-        }
+    // Hopping & bouncing animation for available idle machines (FREE 綠色字樣 + 向下箭頭在機台上方跳動 + 聚光燈微光)
+    // 極致效能：僅對 Sprite Y 座標與錐體透明度進行微秒級數學賦值，0 額外光源運算、0 陰影更新
+    if (this.availableIndicators.length > 0) {
+      for (const ind of this.availableIndicators) {
+        const bounce = Math.abs(Math.sin(time * 3.4 + ind.offset)) * 0.42;
+        ind.freeSpotlight.freeSprite.position.y = ind.freeSpotlight.baseY + bounce;
+        ind.freeSpotlight.coneMat.opacity = 0.40 + (bounce / 0.42) * 0.28;
       }
     }
 
