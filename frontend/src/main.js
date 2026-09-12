@@ -7,6 +7,20 @@ let historyData = null;
 let selectedDevice = null;
 let timerInterval = null;
 let isDemoMode = false; // 預設 100% 真實即時 IoT 數據
+let demoStartTime = null;
+let autoRefreshRemaining = 30;
+
+function resetRefreshCountdown() {
+  autoRefreshRemaining = 30;
+  updateRefreshCountdownUI();
+}
+
+function updateRefreshCountdownUI() {
+  const cdDesktop = document.getElementById('refresh-countdown');
+  const cdMobile = document.getElementById('m-refresh-countdown');
+  if (cdDesktop) cdDesktop.textContent = `${autoRefreshRemaining}s`;
+  if (cdMobile) cdMobile.textContent = `自動刷新: ${autoRefreshRemaining}s`;
+}
 
 async function fetchRealtime() {
   let data = null;
@@ -48,19 +62,49 @@ async function fetchRealtime() {
       }
     }
 
-    // 2. 僅在手動點擊「示範動畫」模式時，才開啟示範機台
+    // 2. 模擬測試模式：啟用過半機台運轉 (15台 / 24台 = 62.5% > 50%，時間不一)
     if (isDemoMode) {
-      const simWasher = data.devices.find((d) => d.floor === '4F' && d.type === 'washer');
-      if (simWasher) {
-        simWasher.isRunning = true;
-        simWasher.dueTime = new Date(Date.now() + 1200 * 1000).toISOString();
-        simWasher.remainingSec = 1200;
-      }
-      const simDryer = data.devices.find((d) => d.floor === '6F' && d.type === 'dryer');
-      if (simDryer) {
-        simDryer.isRunning = true;
-        simDryer.dueTime = new Date(Date.now() + 1500 * 1000).toISOString();
-        simDryer.remainingSec = 1500;
+      if (!demoStartTime) demoStartTime = now;
+      const elapsedSec = Math.floor((now - demoStartTime) / 1000);
+
+      const demoConfigs = [
+        // 2F (4台運轉)
+        { floor: '2F', type: 'washer', num: 1, durationSec: 28 * 60 + 15 }, // 洗1: 28分15秒
+        { floor: '2F', type: 'washer', num: 3, durationSec: 12 * 60 + 40 }, // 洗3: 12分40秒
+        { floor: '2F', type: 'dryer',  num: 1, durationSec: 45 * 60 + 30 }, // 烘1: 45分30秒
+        { floor: '2F', type: 'dryer',  num: 2, durationSec: 19 * 60 + 15 }, // 烘2: 19分15秒
+
+        // 4F (4台運轉)
+        { floor: '4F', type: 'washer', num: 1, durationSec: 35 * 60 + 20 }, // 洗1: 35分20秒
+        { floor: '4F', type: 'washer', num: 2, durationSec: 8 * 60 + 10 },  // 洗2: 8分10秒
+        { floor: '4F', type: 'washer', num: 4, durationSec: 22 * 60 + 30 }, // 洗4: 22分30秒
+        { floor: '4F', type: 'dryer',  num: 2, durationSec: 54 * 60 + 45 }, // 烘2: 54分45秒
+
+        // 6F (4台運轉)
+        { floor: '6F', type: 'washer', num: 2, durationSec: 18 * 60 + 50 }, // 洗2: 18分50秒
+        { floor: '6F', type: 'washer', num: 3, durationSec: 5 * 60 + 15 },  // 洗3: 5分15秒
+        { floor: '6F', type: 'washer', num: 4, durationSec: 39 * 60 + 40 }, // 洗4: 39分40秒
+        { floor: '6F', type: 'dryer',  num: 1, durationSec: 33 * 60 + 20 }, // 烘1: 33分20秒
+
+        // 8F (3台運轉)
+        { floor: '8F', type: 'washer', num: 1, durationSec: 31 * 60 + 10 }, // 洗1: 31分10秒
+        { floor: '8F', type: 'washer', num: 4, durationSec: 14 * 60 + 25 }, // 洗4: 14分25秒
+        { floor: '8F', type: 'dryer',  num: 1, durationSec: 62 * 60 + 15 }, // 烘1: 62分15秒
+      ];
+
+      for (const cfg of demoConfigs) {
+        const dev = data.devices.find((d) =>
+          d.floor === cfg.floor &&
+          d.type === cfg.type &&
+          (d.num === cfg.num || d.description.includes(`${cfg.num}號`))
+        );
+        if (dev) {
+          const rem = Math.max(0, cfg.durationSec - elapsedSec);
+          dev.connection = true;
+          dev.isRunning = rem > 0;
+          dev.remainingSec = rem;
+          dev.dueTime = new Date(demoStartTime + cfg.durationSec * 1000).toISOString();
+        }
       }
     }
 
@@ -326,6 +370,7 @@ function renderListView(devices) {
 }
 
 async function refreshAll() {
+  resetRefreshCountdown();
   const btn = document.getElementById('btn-refresh');
   btn?.classList.add('animate-spin');
 
@@ -362,12 +407,17 @@ async function initApp() {
   historyData = await fetchHistory();
   await refreshAll();
 
-  // Periodic poll every 30 seconds for live UI
-  setInterval(refreshAll, 30000);
-
-  // Timer interval for real-time second ticking & instant idle transitions
+  // Timer interval for real-time second ticking & auto-refresh countdown
   if (timerInterval) clearInterval(timerInterval);
   timerInterval = setInterval(() => {
+    // 1. 頁面自動刷新倒數提示 (每 30 秒自動向雲端同步一次最新數據)
+    autoRefreshRemaining--;
+    if (autoRefreshRemaining <= 0) {
+      refreshAll();
+      return;
+    }
+    updateRefreshCountdownUI();
+
     const now = Date.now();
     let stateChanged = false;
 
@@ -451,15 +501,17 @@ async function initApp() {
   // Bind UI Controls
   document.getElementById('btn-refresh')?.addEventListener('click', refreshAll);
 
-  // Toggle Demo Mode (可手動開啟 1洗1烘 模擬運轉示範，或切換回真實 IoT 監控)
+  // Toggle Demo Mode (可手動開啟過半機台模擬測試，或隨時恢復真實 IoT 監控)
   const btnDemo = document.getElementById('btn-toggle-demo');
   btnDemo?.addEventListener('click', async () => {
     isDemoMode = !isDemoMode;
+    demoStartTime = isDemoMode ? Date.now() : null;
     btnDemo.classList.toggle('bg-amber-600', isDemoMode);
     btnDemo.classList.toggle('text-white', isDemoMode);
     btnDemo.classList.toggle('border-amber-400', isDemoMode);
     const demoLabel = document.getElementById('demo-btn-text');
-    if (demoLabel) demoLabel.textContent = isDemoMode ? '真實數據' : '示範動畫';
+    if (demoLabel) demoLabel.textContent = isDemoMode ? '恢復真實' : '模擬測試';
+    btnDemo.title = isDemoMode ? '點擊結束模擬測試，恢復即時真實數據' : '切換真實即時數據 / 模擬測試 (過半機台運轉)';
     await refreshAll();
   });
 
