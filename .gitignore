@@ -1,0 +1,16 @@
+﻿# Dependencies
+node_modules/
+frontend/node_modules/
+backend/node_modules/
+
+# Build outputs
+dist/
+frontend/dist/
+.vercel/
+
+# Environment and local configs
+.env
+.env.local
+.DS_Store
+Thumbs.db
+*.log
