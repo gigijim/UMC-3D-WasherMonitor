@@ -9,7 +9,6 @@ export class LaundryScene {
     this.activeWashers = []; // running washer vortexes to rotate
     this.activeDryers = []; // running dryer drums to rotate
     this.steamParticles = []; // steam puffs for running dryers
-    this.availableIndicators = []; // available idle machine spotlights & bouncing FREE badges
     this.floorGroups = new Map();
     this.hoveredMesh = null;
 
@@ -57,14 +56,17 @@ export class LaundryScene {
     this.renderer.toneMappingExposure = 1.15;
     this.container.appendChild(this.renderer.domElement);
 
-    // Controls
+    // Controls (Unrestricted zoom range & free inspection)
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.controls.enableDamping = true;
     this.controls.dampingFactor = 0.05;
     this.controls.target.copy(this.targetLookAt);
     this.controls.maxPolarAngle = Math.PI / 2 - 0.02;
-    this.controls.minDistance = 6;
-    this.controls.maxDistance = 65;
+    this.controls.minDistance = 0.5; // 允許極近距離自由縮放檢視機台細節
+    this.controls.maxDistance = 280; // 允許自由直接縮小至全域大視野，絕不被鎖定在特定區間
+    this.controls.enablePan = true;
+    this.controls.screenSpacePanning = true;
+    this.controls.panSpeed = 1.2;
 
     // Raycaster
     this.raycaster = new THREE.Raycaster();
@@ -859,7 +861,6 @@ export class LaundryScene {
     this.activeWashers = [];
     this.activeDryers = [];
     this.steamParticles = [];
-    this.availableIndicators = [];
 
     const now = Date.now();
 
@@ -968,11 +969,8 @@ export class LaundryScene {
 
         if (freeSpotlight) {
           freeSpotlight.group.visible = true;
-          this.availableIndicators.push({
-            freeSpotlight,
-            hwid: dev.hwid,
-            offset: this.availableIndicators.length * 0.38
-          });
+          freeSpotlight.freeSprite.position.y = freeSpotlight.baseY;
+          freeSpotlight.coneMat.opacity = 0.50;
         }
 
         // 閒置時隱藏內部所有動態零件，100% 杜絕旋轉視角時的 Z-fighting 閃爍假象
@@ -1009,7 +1007,21 @@ export class LaundryScene {
       }
     };
 
-    const onClick = (e) => {
+    let pointerDownPos = { x: 0, y: 0, time: 0 };
+
+    const onPointerDown = (e) => {
+      pointerDownPos = { x: e.clientX, y: e.clientY, time: performance.now() };
+    };
+
+    const onPointerUp = (e) => {
+      // 區分「點擊」與「旋轉/縮放拖曳」：移動超過 7px 或按住超過 350ms 視為視角操作，不觸發機台選取
+      const dx = e.clientX - pointerDownPos.x;
+      const dy = e.clientY - pointerDownPos.y;
+      const dist = Math.hypot(dx, dy);
+      const dt = performance.now() - pointerDownPos.time;
+
+      if (dist > 7 || dt > 350) return;
+
       const rect = this.renderer.domElement.getBoundingClientRect();
       const clickX = ((e.clientX - rect.left) / rect.width) * 2 - 1;
       const clickY = -((e.clientY - rect.top) / rect.height) * 2 + 1;
@@ -1031,9 +1043,20 @@ export class LaundryScene {
       }
     };
 
+    // 使用者任何滾輪、手勢觸控或拖曳操作，立即解除鏡頭自動過渡鎖定，賦予 100% 自由檢視操作權
+    const releaseCameraLock = () => {
+      this.isAnimatingCamera = false;
+    };
+
+    this.controls.addEventListener('start', releaseCameraLock);
+    this.renderer.domElement.addEventListener('wheel', releaseCameraLock, { passive: true });
+    this.renderer.domElement.addEventListener('touchstart', releaseCameraLock, { passive: true });
+    this.renderer.domElement.addEventListener('touchmove', releaseCameraLock, { passive: true });
+
     window.addEventListener('resize', () => this.onResize());
     this.renderer.domElement.addEventListener('pointermove', onPointerMove);
-    this.renderer.domElement.addEventListener('pointerdown', onClick);
+    this.renderer.domElement.addEventListener('pointerdown', onPointerDown);
+    this.renderer.domElement.addEventListener('pointerup', onPointerUp);
   }
 
   checkHover() {
@@ -1160,25 +1183,17 @@ export class LaundryScene {
       }
     }
 
-    // Hopping & bouncing animation for available idle machines (FREE 綠色字樣 + 向下箭頭在機台上方跳動 + 聚光燈微光)
-    // 極致效能：僅對 Sprite Y 座標與錐體透明度進行微秒級數學賦值，0 額外光源運算、0 陰影更新
-    if (this.availableIndicators.length > 0) {
-      for (const ind of this.availableIndicators) {
-        const bounce = Math.abs(Math.sin(time * 3.4 + ind.offset)) * 0.42;
-        ind.freeSpotlight.freeSprite.position.y = ind.freeSpotlight.baseY + bounce;
-        ind.freeSpotlight.coneMat.opacity = 0.40 + (bounce / 0.42) * 0.28;
-      }
-    }
-
-    // Camera animation tweening
+    // Camera animation tweening (平滑轉場至機台或樓層，使用者一旦滾輪或觸控則立即中斷交由使用者自由操作)
     if (this.isAnimatingCamera) {
-      this.camera.position.lerp(this.targetCameraPos, 0.06);
-      this.controls.target.lerp(this.targetLookAt, 0.06);
+      this.camera.position.lerp(this.targetCameraPos, 0.08);
+      this.controls.target.lerp(this.targetLookAt, 0.08);
 
       if (
-        this.camera.position.distanceTo(this.targetCameraPos) < 0.05 &&
-        this.controls.target.distanceTo(this.targetLookAt) < 0.05
+        this.camera.position.distanceTo(this.targetCameraPos) < 0.06 &&
+        this.controls.target.distanceTo(this.targetLookAt) < 0.06
       ) {
+        this.camera.position.copy(this.targetCameraPos);
+        this.controls.target.copy(this.targetLookAt);
         this.isAnimatingCamera = false;
       }
     }
