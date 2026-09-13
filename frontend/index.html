@@ -209,7 +209,7 @@
   <button id="btn-version-desktop" title="點擊查看歷史版本更新紀錄與版權資訊" class="hidden sm:flex absolute bottom-3 right-4 z-10 pointer-events-auto select-none text-[11px] font-mono text-slate-400/80 hover:text-cyan-300 bg-slate-950/60 hover:bg-slate-900/90 px-2.5 py-1 rounded-lg border border-slate-800/60 hover:border-slate-700/80 transition-all items-center gap-1.5 cursor-pointer backdrop-blur-xs">
     <span>Copyright © 2026 UMC_IT-Jimmy</span>
     <span class="text-slate-600">·</span>
-    <span class="text-cyan-400 font-semibold">v2.3.0</span>
+    <span class="text-cyan-400 font-semibold">v2.4.0</span>
     <span class="w-3.5 h-3.5 rounded-full bg-slate-800 border border-slate-700 text-[9px] flex items-center justify-center text-cyan-300 font-serif font-bold">i</span>
   </button>
 
@@ -357,7 +357,7 @@
         <div class="bg-slate-950/70 p-3.5 rounded-2xl border border-slate-800 space-y-2">
           <div class="flex justify-between items-center text-[11px]">
             <span class="text-slate-400">系統版本</span>
-            <span class="font-mono text-cyan-300 font-bold">v2.3.0 (Release 2026.09.13)</span>
+            <span class="font-mono text-cyan-300 font-bold">v2.4.0 (Release 2026.09.13)</span>
           </div>
           <div class="flex justify-between items-center text-[11px]">
             <span class="text-slate-400">架構引擎</span>
@@ -379,13 +379,28 @@
             <span>歷史版本修改紀錄</span>
           </h4>
           <div class="space-y-3">
-            <!-- v2.3.0 -->
+            <!-- v2.4.0 -->
             <div class="border-l-2 border-cyan-400 pl-3 py-0.5 space-y-1">
               <div class="flex items-center justify-between">
-                <span class="font-mono font-bold text-cyan-300 text-xs">v2.3.0</span>
-                <span class="text-[10px] text-slate-500 font-mono">2026-09-13 18:50</span>
+                <span class="font-mono font-bold text-cyan-300 text-xs">v2.4.0</span>
+                <span class="text-[10px] text-slate-500 font-mono">2026-09-13 19:50</span>
               </div>
               <ul class="text-[11px] text-slate-300 space-y-1 list-disc list-inside">
+                <li>數據分析分類順序升級：由左至右依序為「by全棟 ➔ by樓層 ➔ by機台」，預設進入即為全棟總覽</li>
+                <li>熱度矩陣物理分母重構：支援「洗烘合併 / 洗衣機 / 烘衣機」切換，樓層洗4/烘2/合6，全棟洗16/烘8/合24</li>
+                <li>夜間安寧生活公約合規：熱度圖標註 00:00~08:00 禁洗時段（違規偷用以 ⚠️ 標記），離峰推薦嚴格限定於 08:00~24:00 合法營運時段</li>
+                <li>單機使用畫像重構：取代分母為1的熱度矩陣，提供同類熱門度天梯排行、平均單次時長、尖峰時段Top3、最佳空閒推薦與24H被佔用機率曲線</li>
+                <li>冷門機台智慧推薦強化：自動嚴格過濾離線與故障機台，避免誤推斷線機台</li>
+              </ul>
+            </div>
+
+            <!-- v2.3.0 -->
+            <div class="border-l-2 border-slate-700 pl-3 py-0.5 space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="font-mono font-bold text-slate-400 text-xs">v2.3.0</span>
+                <span class="text-[10px] text-slate-500 font-mono">2026-09-13 18:50</span>
+              </div>
+              <ul class="text-[11px] text-slate-400 space-y-1 list-disc list-inside">
                 <li>串接 cron-job.org 外部 Webhook，徹底解決 GitHub Actions 尖峰排程延遲問題</li>
                 <li>全面校準數據分析熱度圖時區為台灣時間（Asia/Taipei UTC+8），消除 8 小時時差</li>
                 <li>數據分析頂部新增「cron-job.org 定時自動爬蟲數據更新」與「雲端爬蟲更新次數」</li>

@@ -10,7 +10,12 @@ function getTaipeiDayAndHour(isoStringOrDate) {
   };
 }
 
-function calculateHeatmapAndHourly(events) {
+/**
+ * Calculate weekly heatmap and hourly averages based on physical machine capacity denominator.
+ * @param {Array} events - List of usage events
+ * @param {number} capacityCount - Number of machines in this scope (e.g. 4 for floor washer, 2 for dryer, 16 for building washer)
+ */
+function calculateHeatmapAndHourly(events, capacityCount = 1) {
   const heatGrid = Array.from({ length: 7 }, () => Array(24).fill(0));
   const dayLabels = ['週日', '週一', '週二', '週三', '週四', '週五', '週六'];
 
@@ -19,19 +24,25 @@ function calculateHeatmapAndHourly(events) {
     heatGrid[day][hour] += ev.duration_min;
   }
 
-  let maxCell = 1;
-  for (let d = 0; d < 7; d++) {
-    for (let h = 0; h < 24; h++) {
-      if (heatGrid[d][h] > maxCell) maxCell = heatGrid[d][h];
-    }
+  // Determine observed weeks span
+  let observedWeeks = 1;
+  if (events.length > 0) {
+    const timestamps = events.map((e) => new Date(e.start_time).getTime());
+    const minTime = Math.min(...timestamps);
+    const maxTime = Math.max(...timestamps);
+    const spanDays = Math.max(1, (maxTime - minTime) / (1000 * 60 * 60 * 24));
+    observedWeeks = Math.max(1, Math.ceil(spanDays / 7));
   }
+
+  // True physical capacity denominator per 1-hour slot: (capacityCount * 60 min * observedWeeks)
+  const slotCapacityMinutes = Math.max(60, capacityCount * 60 * observedWeeks);
 
   const normalizedHeatmap = [];
   for (let d = 0; d < 7; d++) {
     const row = [];
     for (let h = 0; h < 24; h++) {
       const val = heatGrid[d][h];
-      const rate = Math.min(100, Math.round((val / maxCell) * 100));
+      const rate = Math.min(100, Math.round((val / slotCapacityMinutes) * 100));
       row.push(rate);
     }
     normalizedHeatmap.push({
@@ -50,15 +61,20 @@ function calculateHeatmapAndHourly(events) {
     hourlyAverages[h] = Math.round(sum / 7);
   }
 
-  const hourSlots = hourlyAverages.map((rate, h) => ({
-    hour: h,
-    label: `${String(h).padStart(2, '0')}:00 ~ ${String((h + 1) % 24).padStart(2, '0')}:00`,
-    rate
-  })).sort((a, b) => a.rate - b.rate);
-
-  const bestTimeWindows = hourSlots.slice(0, 4);
+  // 宿舍生活公約規範：僅在合法營運時段 08:00 ~ 24:00 運算推薦最佳離峰時段（嚴格排除 00:00 ~ 08:00 夜間安寧區間）
+  const legalHourSlots = [];
+  for (let h = 8; h < 24; h++) {
+    legalHourSlots.push({
+      hour: h,
+      label: `${String(h).padStart(2, '0')}:00 ~ ${String((h + 1) % 24).padStart(2, '0')}:00`,
+      rate: hourlyAverages[h]
+    });
+  }
+  legalHourSlots.sort((a, b) => a.rate - b.rate);
+  const bestTimeWindows = legalHourSlots.slice(0, 4);
 
   return {
+    capacityCount,
     heatmap: normalizedHeatmap,
     hourlyAverages,
     bestTimeWindows
@@ -84,13 +100,43 @@ function analyzeHistory(db) {
   `);
   const machineStats = machinesStmt.all();
 
+  // 1.1 Query latest online/offline connection state to protect coldest recommendations
+  let connectionMap = {};
+  try {
+    const latestConnections = db.prepare(`
+      SELECT hwid, connection FROM device_snapshots 
+      WHERE timestamp = (SELECT MAX(timestamp) FROM device_snapshots)
+    `).all();
+    connectionMap = Object.fromEntries(latestConnections.map((c) => [c.hwid, c.connection === 1]));
+  } catch (err) {
+    // fallback
+  }
+
+  for (const m of machineStats) {
+    m.isOnline = connectionMap[m.hwid] !== false;
+  }
+
   // 2. All events
   const events = db.prepare(`SELECT hwid, start_time, duration_min, machine_type, floor, estimated_cost FROM usage_events`).all();
+  const washEvents = events.filter((e) => e.machine_type === 'washer');
+  const dryEvents = events.filter((e) => e.machine_type === 'dryer');
 
-  // 3. Overall building analytics
-  const overallAnalysis = calculateHeatmapAndHourly(events);
+  // 3. Overall building analytics (分母：洗16台、烘8台、全棟24台)
+  const overallWash = calculateHeatmapAndHourly(washEvents, 16);
+  const overallDry = calculateHeatmapAndHourly(dryEvents, 8);
+  const overallCombined = calculateHeatmapAndHourly(events, 24);
 
-  // 4. By Floor analytics (2F, 4F, 6F, 8F)
+  const overallAnalysis = {
+    wash: overallWash,
+    dry: overallDry,
+    combined: overallCombined,
+    // Default compatibility
+    heatmap: overallCombined.heatmap,
+    hourlyAverages: overallCombined.hourlyAverages,
+    bestTimeWindows: overallCombined.bestTimeWindows
+  };
+
+  // 4. By Floor analytics (2F, 4F, 6F, 8F - 各層分母：洗4台、烘2台、合6台)
   const floorList = ['2F', '4F', '6F', '8F'];
   const byFloor = {};
   const floorMap = {
@@ -115,7 +161,12 @@ function analyzeHistory(db) {
 
   for (const f of floorList) {
     const fEvents = events.filter((e) => e.floor === f);
-    const fAnalysis = calculateHeatmapAndHourly(fEvents);
+    const fWashEvents = fEvents.filter((e) => e.machine_type === 'washer');
+    const fDryEvents = fEvents.filter((e) => e.machine_type === 'dryer');
+
+    const fWashAnalysis = calculateHeatmapAndHourly(fWashEvents, 4);
+    const fDryAnalysis = calculateHeatmapAndHourly(fDryEvents, 2);
+    const fCombinedAnalysis = calculateHeatmapAndHourly(fEvents, 6);
     const fMachines = machineStats.filter((m) => m.floor === f);
 
     byFloor[f] = {
@@ -126,32 +177,64 @@ function analyzeHistory(db) {
       washerCycles: floorMap[f].washerCycles,
       dryerCycles: floorMap[f].dryerCycles,
       machines: fMachines,
-      ...fAnalysis
+      wash: fWashAnalysis,
+      dry: fDryAnalysis,
+      combined: fCombinedAnalysis,
+      // Default compatibility
+      ...fCombinedAnalysis
     };
   }
 
   // 5. By Machine individual analytics (all 24 machines)
   const byMachine = {};
+  const washersOnly = machineStats.filter((m) => m.machine_type === 'washer').sort((a, b) => b.total_cycles - a.total_cycles);
+  const dryersOnly = machineStats.filter((m) => m.machine_type === 'dryer').sort((a, b) => b.total_cycles - a.total_cycles);
+
   for (const m of machineStats) {
     const mEvents = events.filter((e) => e.hwid === m.hwid);
-    const mAnalysis = calculateHeatmapAndHourly(mEvents);
+    const mAnalysis = calculateHeatmapAndHourly(mEvents, 1);
+
+    // Calculate ranking within its equipment peer group
+    const peerList = m.machine_type === 'washer' ? washersOnly : dryersOnly;
+    const rankInType = peerList.findIndex((p) => p.hwid === m.hwid) + 1;
+    const totalInType = peerList.length;
+
+    // Average session duration
+    const avgDurationMin = m.total_cycles > 0 ? Math.round(m.total_duration_min / m.total_cycles) : (m.machine_type === 'dryer' ? 40 : 40);
+
+    // Identify top 3 peak hours for this machine (in legal hours 08:00 ~ 24:00)
+    const peakSlots = Array.from({ length: 16 }, (_, i) => {
+      const h = i + 8;
+      return {
+        hour: h,
+        rate: mAnalysis.hourlyAverages[h] || 0,
+        label: `${String(h).padStart(2, '0')}:00 ~ ${String((h + 1) % 24).padStart(2, '0')}:00`
+      };
+    }).sort((a, b) => b.rate - a.rate).slice(0, 3);
+
     byMachine[m.hwid] = {
       hwid: m.hwid,
       description: m.description,
       floor: m.floor,
       type: m.machine_type,
       num: m.machine_num,
+      isOnline: m.isOnline,
       totalCycles: m.total_cycles,
       totalDurationMin: m.total_duration_min,
       totalCost: m.total_cost_ntd,
+      avgDurationMin,
+      rankInType,
+      totalInType,
+      peakSlots,
       ...mAnalysis
     };
   }
 
-  // 6. Ranking: Top 5 Busiest & Top 5 Coldest
-  const sortedByUsage = [...machineStats].sort((a, b) => b.total_cycles - a.total_cycles);
-  const busiestMachines = sortedByUsage.slice(0, 5);
-  const coldestMachines = [...sortedByUsage].reverse().slice(0, 5);
+  // 6. Ranking: Top 5 Busiest & Top 5 Coldest (嚴格過濾離線機台，防止將故障機台推薦為冷門好選擇)
+  const onlineMachines = machineStats.filter((m) => m.isOnline);
+  const sortedOnlineByUsage = [...onlineMachines].sort((a, b) => b.total_cycles - a.total_cycles);
+  const busiestMachines = sortedOnlineByUsage.slice(0, 5);
+  const coldestMachines = [...sortedOnlineByUsage].reverse().slice(0, 5);
 
   // 7. Crawl updates count
   const countRow = db.prepare(`SELECT value FROM system_config WHERE key = 'crawl_count'`).get();
@@ -170,9 +253,9 @@ function analyzeHistory(db) {
     busiestMachines,
     coldestMachines,
     // Backwards compatibility for existing keys
-    heatmap: overallAnalysis.heatmap,
-    hourlyAverages: overallAnalysis.hourlyAverages,
-    bestTimeWindows: overallAnalysis.bestTimeWindows
+    heatmap: overallCombined.heatmap,
+    hourlyAverages: overallCombined.hourlyAverages,
+    bestTimeWindows: overallCombined.bestTimeWindows
   };
 }
 

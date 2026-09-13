@@ -4,10 +4,12 @@ Chart.register(...registerables);
 let mainChartInstance = null;
 let secondaryChartInstance = null;
 
-// Active state
-let currentScope = 'floor'; // 'floor' | 'machine' | 'overall'
-let selectedFloor = '2F'; // Default '2F'
+// Active UI States
+let currentScope = 'overall'; // 'overall' | 'floor' | 'machine' (default 'overall' as requested)
+let selectedFloor = '2F';     // '2F' | '4F' | '6F' | '8F'
 let selectedHwid = null;
+let equipmentType = 'combined'; // 'combined' | 'wash' | 'dry'
+let activeData = null;
 
 function formatSyncTime(isoStr) {
   if (!isoStr) return '最新';
@@ -29,6 +31,7 @@ function formatSyncTime(isoStr) {
 }
 
 export function renderAnalytics(data, containerEl, options = {}) {
+  activeData = data;
   if (!data) {
     containerEl.innerHTML = '<div class="p-8 text-center text-slate-400">目前尚無足夠的歷史數據。</div>';
     return;
@@ -44,18 +47,18 @@ export function renderAnalytics(data, containerEl, options = {}) {
     selectedFloor = options.floor;
   }
 
-  // Set default machine if not set
+  // Ensure selectedHwid has a valid default
   if (!selectedHwid && data.machineStats && data.machineStats.length > 0) {
     selectedHwid = data.machineStats[0].hwid;
   }
 
-  // Render Skeleton UI
   const syncTimeStr = formatSyncTime(data.generatedAt);
   const crawlCount = data.crawlCount || 1;
   const totalEvents = data.totalEvents || 0;
 
+  // Render Base Layout Skeleton
   containerEl.innerHTML = `
-    <!-- DB Sync Info Banner -->
+    <!-- Top Sync & Cloud Cron Status Banner -->
     <div class="mb-3 p-2.5 sm:px-3.5 sm:py-2.5 rounded-xl bg-slate-950/70 border border-slate-800/80 flex flex-col md:flex-row md:items-center justify-between gap-2 text-xs text-slate-400">
       <div class="flex items-center gap-1.5 shrink-0">
         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -70,41 +73,39 @@ export function renderAnalytics(data, containerEl, options = {}) {
       </div>
     </div>
 
-    <!-- Scope Selector Tabs -->
+    <!-- Primary Scope Selector Tabs: by全棟 -> by樓層 -> by機台 -->
     <div class="mb-4 flex flex-wrap items-center justify-between gap-2.5 border-b border-slate-800 pb-3">
       <div class="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800 text-xs sm:text-sm">
+        <button id="scope-overall-btn" class="scope-btn px-3 py-1.5 rounded-lg font-medium transition-all ${currentScope === 'overall' ? 'bg-cyan-600 text-white shadow' : 'text-slate-400 hover:text-white'}">
+          🌐 by 全棟
+        </button>
         <button id="scope-floor-btn" class="scope-btn px-3 py-1.5 rounded-lg font-medium transition-all ${currentScope === 'floor' ? 'bg-cyan-600 text-white shadow' : 'text-slate-400 hover:text-white'}">
-          🏢 樓層
+          🏢 by 樓層
         </button>
         <button id="scope-machine-btn" class="scope-btn px-3 py-1.5 rounded-lg font-medium transition-all ${currentScope === 'machine' ? 'bg-cyan-600 text-white shadow' : 'text-slate-400 hover:text-white'}">
-          🧺 機台
-        </button>
-        <button id="scope-overall-btn" class="scope-btn px-3 py-1.5 rounded-lg font-medium transition-all ${currentScope === 'overall' ? 'bg-cyan-600 text-white shadow' : 'text-slate-400 hover:text-white'}">
-          🌐 全棟
+          🧺 by 機台
         </button>
       </div>
 
-      <!-- Sub Filter Controls Container -->
-      <div id="sub-filter-container" class="flex items-center gap-2">
-        <!-- Injected based on scope -->
-      </div>
+      <!-- Secondary Sub-Filter Container (Floors, Machines, Equipment Types) -->
+      <div id="sub-filter-container" class="flex flex-wrap items-center gap-2"></div>
     </div>
 
-    <!-- Dynamic Content Area -->
+    <!-- Dynamic Analytics Content Body -->
     <div id="analytics-dynamic-body"></div>
   `;
 
-  // Bind Scope Tabs
+  // Bind Main Scope Switchers
+  document.getElementById('scope-overall-btn').addEventListener('click', () => {
+    currentScope = 'overall';
+    updateView(data);
+  });
   document.getElementById('scope-floor-btn').addEventListener('click', () => {
     currentScope = 'floor';
     updateView(data);
   });
   document.getElementById('scope-machine-btn').addEventListener('click', () => {
     currentScope = 'machine';
-    updateView(data);
-  });
-  document.getElementById('scope-overall-btn').addEventListener('click', () => {
-    currentScope = 'overall';
     updateView(data);
   });
 
@@ -116,27 +117,67 @@ function updateView(data) {
   document.querySelectorAll('.scope-btn').forEach((btn) => {
     btn.className = 'scope-btn px-3.5 py-1.5 rounded-lg font-medium transition-all text-slate-400 hover:text-white';
   });
-  if (currentScope === 'floor') {
-    document.getElementById('scope-floor-btn').className = 'scope-btn px-3.5 py-1.5 rounded-lg font-medium transition-all bg-cyan-600 text-white shadow';
-  } else if (currentScope === 'machine') {
-    document.getElementById('scope-machine-btn').className = 'scope-btn px-3.5 py-1.5 rounded-lg font-medium transition-all bg-cyan-600 text-white shadow';
-  } else {
+
+  if (currentScope === 'overall') {
     document.getElementById('scope-overall-btn').className = 'scope-btn px-3.5 py-1.5 rounded-lg font-medium transition-all bg-cyan-600 text-white shadow';
+  } else if (currentScope === 'floor') {
+    document.getElementById('scope-floor-btn').className = 'scope-btn px-3.5 py-1.5 rounded-lg font-medium transition-all bg-cyan-600 text-white shadow';
+  } else {
+    document.getElementById('scope-machine-btn').className = 'scope-btn px-3.5 py-1.5 rounded-lg font-medium transition-all bg-cyan-600 text-white shadow';
   }
 
   const subFilter = document.getElementById('sub-filter-container');
   const body = document.getElementById('analytics-dynamic-body');
 
-  if (currentScope === 'floor') {
-    // Floor Pills
+  if (currentScope === 'overall') {
+    // Equipment Type Switcher for Whole Building
     subFilter.innerHTML = `
-      <div class="flex items-center gap-1 bg-slate-800/80 p-1 rounded-lg text-xs">
-        <span class="text-slate-400 px-2">樓層:</span>
+      <div class="flex items-center gap-1 bg-slate-900/90 border border-slate-800 p-1 rounded-lg text-xs">
+        <span class="text-slate-400 pl-1.5 pr-1 hidden sm:inline">分母篩選:</span>
+        <button data-eq="combined" class="eq-btn px-2.5 py-1 rounded font-medium transition-colors ${equipmentType === 'combined' ? 'bg-cyan-500 text-white' : 'text-slate-400 hover:text-white'}">
+          📊 全棟合併 (24台)
+        </button>
+        <button data-eq="wash" class="eq-btn px-2.5 py-1 rounded font-medium transition-colors ${equipmentType === 'wash' ? 'bg-sky-500 text-white' : 'text-slate-400 hover:text-white'}">
+          🧺 洗衣機 (16台)
+        </button>
+        <button data-eq="dry" class="eq-btn px-2.5 py-1 rounded font-medium transition-colors ${equipmentType === 'dry' ? 'bg-amber-500 text-white' : 'text-slate-400 hover:text-white'}">
+          💨 烘衣機 (8台)
+        </button>
+      </div>
+    `;
+
+    subFilter.querySelectorAll('.eq-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        equipmentType = btn.dataset.eq;
+        updateView(data);
+      });
+    });
+
+    renderOverallView(data, body);
+  } else if (currentScope === 'floor') {
+    // Floor Pills + Floor Equipment Switcher
+    subFilter.innerHTML = `
+      <!-- Floor Selection -->
+      <div class="flex items-center gap-1 bg-slate-900/90 border border-slate-800 p-1 rounded-lg text-xs">
+        <span class="text-slate-400 pl-1.5 pr-1">樓層:</span>
         ${['2F', '4F', '6F', '8F'].map((f) => `
-          <button data-target-floor="${f}" class="floor-tab-btn px-3 py-1 rounded font-medium transition-colors ${selectedFloor === f ? 'bg-cyan-500 text-white' : 'text-slate-300 hover:text-white'}">
+          <button data-target-floor="${f}" class="floor-tab-btn px-2.5 py-1 rounded font-medium transition-colors ${selectedFloor === f ? 'bg-cyan-500 text-white' : 'text-slate-400 hover:text-white'}">
             ${f}
           </button>
         `).join('')}
+      </div>
+
+      <!-- Equipment Type in this floor -->
+      <div class="flex items-center gap-1 bg-slate-900/90 border border-slate-800 p-1 rounded-lg text-xs">
+        <button data-eq="combined" class="eq-btn px-2.5 py-1 rounded font-medium transition-colors ${equipmentType === 'combined' ? 'bg-cyan-500 text-white' : 'text-slate-400 hover:text-white'}">
+          📊 合併 (6台)
+        </button>
+        <button data-eq="wash" class="eq-btn px-2.5 py-1 rounded font-medium transition-colors ${equipmentType === 'wash' ? 'bg-sky-500 text-white' : 'text-slate-400 hover:text-white'}">
+          🧺 洗衣機 (4台)
+        </button>
+        <button data-eq="dry" class="eq-btn px-2.5 py-1 rounded font-medium transition-colors ${equipmentType === 'dry' ? 'bg-amber-500 text-white' : 'text-slate-400 hover:text-white'}">
+          💨 烘衣機 (2台)
+        </button>
       </div>
     `;
 
@@ -147,17 +188,24 @@ function updateView(data) {
       });
     });
 
+    subFilter.querySelectorAll('.eq-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        equipmentType = btn.dataset.eq;
+        updateView(data);
+      });
+    });
+
     renderFloorView(data, selectedFloor, body);
-  } else if (currentScope === 'machine') {
-    // Machine Dropdown
+  } else {
+    // Machine Dropdown Selector
     const machineList = data.machineStats || [];
     subFilter.innerHTML = `
       <div class="flex items-center gap-2 text-xs">
         <span class="text-slate-400">選擇機台:</span>
-        <select id="machine-select" class="bg-slate-800 border border-slate-700 text-slate-200 px-3 py-1.5 rounded-lg font-medium focus:outline-none focus:border-cyan-500">
+        <select id="machine-select" class="bg-slate-900 border border-slate-700 text-slate-200 px-3 py-1.5 rounded-lg font-medium focus:outline-none focus:border-cyan-500">
           ${machineList.map((m) => `
             <option value="${m.hwid}" ${selectedHwid === m.hwid ? 'selected' : ''}>
-              ${m.description} (${m.machine_type === 'washer' ? '洗衣' : '烘衣'}) · ${m.total_cycles}次
+              ${m.floor} · ${m.description} (${m.machine_type === 'washer' ? '洗衣' : '烘衣'}) · ${m.total_cycles}次
             </option>
           `).join('')}
         </select>
@@ -170,266 +218,85 @@ function updateView(data) {
     });
 
     renderMachineView(data, selectedHwid, body);
-  } else {
-    // Overall view
-    subFilter.innerHTML = `<span class="text-xs text-slate-400">全棟 24 台彙整統計</span>`;
-    renderOverallView(data, body);
   }
 }
 
-// 1. Render Floor View (Default)
-function renderFloorView(data, floor, body) {
-  const fData = data.byFloor?.[floor];
-  if (!fData) {
-    body.innerHTML = '<div class="p-8 text-center text-slate-400">尚無該樓層數據。</div>';
-    return;
-  }
-
-  body.innerHTML = `
-    <!-- Floor Overview Cards -->
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-4">
-      <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
-        <div class="text-[11px] text-slate-400">${floor} 累計運轉</div>
-        <div class="text-base sm:text-lg font-bold font-mono text-cyan-400 mt-0.5">${fData.totalCycles} 次</div>
-      </div>
-      <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
-        <div class="text-[11px] text-slate-400">洗衣機次數</div>
-        <div class="text-base sm:text-lg font-bold font-mono text-sky-400 mt-0.5">${fData.washerCycles} 次</div>
-      </div>
-      <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
-        <div class="text-[11px] text-slate-400">烘衣機次數</div>
-        <div class="text-base sm:text-lg font-bold font-mono text-amber-400 mt-0.5">${fData.dryerCycles} 次</div>
-      </div>
-      <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
-        <div class="text-[11px] text-slate-400">${floor} 累計投幣</div>
-        <div class="text-base sm:text-lg font-bold font-mono text-emerald-400 mt-0.5">NT$ ${fData.cost}</div>
-      </div>
-    </div>
-
-    <!-- Recommendation Banner -->
-    <div class="mb-4 p-3 rounded-xl bg-gradient-to-r from-cyan-950/70 to-blue-950/70 border border-cyan-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
-      <div>
-        <div class="text-xs font-semibold text-cyan-300 flex items-center gap-1.5">
-          <span>💡</span> ${floor} 最佳離峰時段
-        </div>
-        <div class="text-xs text-slate-200 mt-0.5">
-          空閒推薦：<span class="text-amber-400 font-bold font-mono">${fData.bestTimeWindows?.[0]?.label || '05:00 ~ 07:00'}</span>（空閒率 ${(100 - (fData.bestTimeWindows?.[0]?.rate || 0)).toFixed(0)}%）
-        </div>
-      </div>
-      <div class="flex gap-1.5 flex-wrap text-[11px] font-mono">
-        ${(fData.bestTimeWindows || []).slice(0, 3).map((w, idx) => `
-          <div class="px-2 py-1 rounded-lg bg-slate-900/80 border border-slate-700/80 text-slate-300">
-            <span class="text-cyan-400 font-bold">#${idx + 1}</span> ${w.label}
-          </div>
-        `).join('')}
-      </div>
-    </div>
-
-    <!-- Heatmap -->
-    ${renderHeatmapHtml(`${floor} 每週熱度矩陣`, fData.heatmap)}
-
-    <!-- Charts Grid: Floor Machine Comparison & Hourly Curve -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
-      <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800">
-        <h3 class="text-xs font-semibold text-white mb-2 flex items-center gap-1.5">
-          <span>🧺</span> 機台使用排行
-        </h3>
-        <div class="h-60 relative">
-          <canvas id="floorDetailChartCanvas"></canvas>
-        </div>
-      </div>
-
-      <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800">
-        <h3 class="text-xs font-semibold text-white mb-2 flex items-center gap-1.5">
-          <span>⏰</span> 24H 使用走勢
-        </h3>
-        <div class="h-60 relative">
-          <canvas id="floorHourlyChartCanvas"></canvas>
-        </div>
-      </div>
-    </div>
-  `;
-
-  // Draw Machine Comparison on this floor
-  const fMachines = fData.machines || [];
-  const canvas1 = document.getElementById('floorDetailChartCanvas');
-  if (canvas1) {
-    if (mainChartInstance) mainChartInstance.destroy();
-    mainChartInstance = new Chart(canvas1, {
-      type: 'bar',
-      data: {
-        labels: fMachines.map((m) => m.description),
-        datasets: [{
-          label: '使用次數',
-          data: fMachines.map((m) => m.total_cycles),
-          backgroundColor: fMachines.map((m) => m.machine_type === 'washer' ? 'rgba(56, 189, 248, 0.75)' : 'rgba(245, 158, 11, 0.75)'),
-          borderRadius: 4
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8', font: { size: 10 } } },
-          y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } }
-        },
-        plugins: { legend: { display: false } }
-      }
-    });
-  }
-
-  // Draw Floor Hourly Curve
-  const canvas2 = document.getElementById('floorHourlyChartCanvas');
-  if (canvas2) {
-    if (secondaryChartInstance) secondaryChartInstance.destroy();
-    secondaryChartInstance = new Chart(canvas2, {
-      type: 'line',
-      data: {
-        labels: Array.from({ length: 24 }).map((_, h) => `${h}:00`),
-        datasets: [{
-          label: '平均使用率 (%)',
-          data: fData.hourlyAverages,
-          borderColor: '#06b6d4',
-          backgroundColor: 'rgba(6, 182, 212, 0.15)',
-          fill: true,
-          tension: 0.35,
-          pointRadius: 2.5
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8', font: { size: 10 } } },
-          y: { min: 0, max: 100, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8', callback: (v) => `${v}%` } }
-        },
-        plugins: { legend: { display: false } }
-      }
-    });
-  }
-}
-
-// 2. Render Machine View
-function renderMachineView(data, hwid, body) {
-  const mData = data.byMachine?.[hwid];
-  if (!mData) {
-    body.innerHTML = '<div class="p-8 text-center text-slate-400">尚無該機台數據。</div>';
-    return;
-  }
-
-  const isDryer = mData.type === 'dryer';
-
-  body.innerHTML = `
-    <!-- Machine Overview Cards -->
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-4">
-      <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
-        <div class="text-[11px] text-slate-400">機台型號</div>
-        <div class="text-sm font-bold text-white mt-0.5 truncate">${mData.description}</div>
-      </div>
-      <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
-        <div class="text-[11px] text-slate-400">累計運轉</div>
-        <div class="text-base sm:text-lg font-bold font-mono text-cyan-400 mt-0.5">${mData.totalCycles} 次</div>
-      </div>
-      <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
-        <div class="text-[11px] text-slate-400">累計時長</div>
-        <div class="text-base sm:text-lg font-bold font-mono text-sky-400 mt-0.5">${mData.totalDurationMin} 分</div>
-      </div>
-      <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
-        <div class="text-[11px] text-slate-400">推估投幣</div>
-        <div class="text-base sm:text-lg font-bold font-mono text-emerald-400 mt-0.5">NT$ ${mData.totalCost}</div>
-      </div>
-    </div>
-
-    <!-- Recommendation Banner -->
-    <div class="mb-4 p-3 rounded-xl bg-gradient-to-r from-emerald-950/70 to-cyan-950/70 border border-emerald-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
-      <div>
-        <div class="text-xs font-semibold text-emerald-300 flex items-center gap-1.5">
-          <span>✨</span> ${mData.description} 空閒推薦
-        </div>
-        <div class="text-xs text-slate-200 mt-0.5">
-          最冷門時段：<span class="text-amber-400 font-bold font-mono">${mData.bestTimeWindows?.[0]?.label || '06:00 ~ 08:00'}</span>（空閒率 ${(100 - (mData.bestTimeWindows?.[0]?.rate || 0)).toFixed(0)}%）
-        </div>
-      </div>
-      <div class="flex gap-1.5 flex-wrap text-[11px] font-mono">
-        ${(mData.bestTimeWindows || []).slice(0, 3).map((w, idx) => `
-          <div class="px-2 py-1 rounded-lg bg-slate-900/80 border border-slate-700/80 text-slate-300">
-            <span class="text-emerald-400 font-bold">#${idx + 1}</span> ${w.label}
-          </div>
-        `).join('')}
-      </div>
-    </div>
-
-    <!-- Heatmap for this single machine -->
-    ${renderHeatmapHtml(`${mData.description} 熱度矩陣`, mData.heatmap)}
-
-    <!-- Machine Hourly Curve -->
-    <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800 mt-4">
-      <h3 class="text-xs font-semibold text-white mb-2 flex items-center gap-1.5">
-        <span>⏰</span> 24H 使用走勢
-      </h3>
-      <div class="h-60 relative">
-        <canvas id="machineHourlyChartCanvas"></canvas>
-      </div>
-    </div>
-  `;
-
-  const canvas = document.getElementById('machineHourlyChartCanvas');
-  if (canvas) {
-    if (mainChartInstance) mainChartInstance.destroy();
-    mainChartInstance = new Chart(canvas, {
-      type: 'line',
-      data: {
-        labels: Array.from({ length: 24 }).map((_, h) => `${h}:00`),
-        datasets: [{
-          label: '使用率 (%)',
-          data: mData.hourlyAverages,
-          borderColor: isDryer ? '#f59e0b' : '#38bdf8',
-          backgroundColor: isDryer ? 'rgba(245, 158, 11, 0.15)' : 'rgba(56, 189, 248, 0.15)',
-          fill: true,
-          tension: 0.35,
-          pointRadius: 3
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } },
-          y: { min: 0, max: 100, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8', callback: (v) => `${v}%` } }
-        },
-        plugins: { legend: { display: false } }
-      }
-    });
-  }
-}
-
-// 3. Render Overall View
+// ----------------------------------------------------
+// 1. Overall View (by 全棟)
+// ----------------------------------------------------
 function renderOverallView(data, body) {
+  const overallData = data.overall?.[equipmentType] || data.overall?.combined || data;
+  const capacityCount = overallData.capacityCount || (equipmentType === 'wash' ? 16 : equipmentType === 'dry' ? 8 : 24);
+  const eqName = equipmentType === 'wash' ? '全棟洗衣機' : equipmentType === 'dry' ? '全棟烘衣機' : '全棟洗烘設備';
+
+  const totalCycles = data.machineStats
+    ? data.machineStats
+        .filter((m) => equipmentType === 'combined' || (equipmentType === 'wash' ? m.machine_type === 'washer' : m.machine_type === 'dryer'))
+        .reduce((sum, m) => sum + m.total_cycles, 0)
+    : data.totalEvents || 0;
+
+  const totalCost = data.machineStats
+    ? data.machineStats
+        .filter((m) => equipmentType === 'combined' || (equipmentType === 'wash' ? m.machine_type === 'washer' : m.machine_type === 'dryer'))
+        .reduce((sum, m) => sum + m.total_cost_ntd, 0)
+    : 0;
+
   body.innerHTML = `
-    <!-- Top Recommendation Alert -->
-    <div class="mb-4 p-3 rounded-xl bg-gradient-to-r from-cyan-950/70 to-blue-950/70 border border-cyan-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
-      <div>
-        <div class="flex items-center gap-1.5 text-xs font-semibold text-cyan-300">
-          <span class="inline-block w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-          💡 全棟智慧離峰推薦
-        </div>
-        <div class="text-xs text-slate-200 mt-0.5">
-          最冷門時段：<span class="text-amber-400 font-bold font-mono">${data.bestTimeWindows?.[0]?.label || '05:00 ~ 07:00'}</span>（空閒率 ${(100 - (data.bestTimeWindows?.[0]?.rate || 0)).toFixed(0)}%）
-        </div>
-      </div>
-      <div class="flex gap-1.5 flex-wrap text-[11px] font-mono">
-        ${(data.bestTimeWindows || []).slice(0, 3).map((w, idx) => `
-          <div class="px-2 py-1 rounded-lg bg-slate-900/80 border border-slate-700/80 text-slate-300">
-            <span class="text-cyan-400 font-bold">#${idx + 1}</span> ${w.label}
+    <!-- Top Recommendation & Quiet Hours Policy Banner -->
+    <div class="mb-4 p-3.5 rounded-xl bg-gradient-to-r from-slate-900 via-cyan-950/40 to-slate-900 border border-cyan-500/30">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+        <div>
+          <div class="flex items-center gap-2 text-xs font-bold text-cyan-300">
+            <span class="inline-block w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+            💡 全棟離峰最佳推薦 (${eqName} · 物理分母 ${capacityCount} 台)
           </div>
-        `).join('')}
+          <div class="text-xs text-slate-200 mt-1">
+            推薦時段：<span class="text-amber-400 font-bold font-mono">${overallData.bestTimeWindows?.[0]?.label || '08:00 ~ 09:00'}</span>
+            （平均佔用率 <span class="font-mono text-emerald-400 font-semibold">${overallData.bestTimeWindows?.[0]?.rate || 0}%</span>，空閒率 <span class="font-mono text-emerald-400 font-bold">${100 - (overallData.bestTimeWindows?.[0]?.rate || 0)}%</span>）
+          </div>
+          <div class="text-[11px] text-slate-400 mt-1 flex items-center gap-1.5">
+            <span>🌙</span>
+            <span>宿舍生活公約安寧時段：<strong class="text-slate-300">00:00 ~ 08:00 嚴格禁止洗烘衣</strong>（已自動自離峰推薦排除），合法洗烘時段為 <strong class="text-cyan-300">08:00 ~ 24:00</strong>。</span>
+          </div>
+        </div>
+
+        <!-- Top Legal Off-peak Windows -->
+        <div class="flex gap-1.5 flex-wrap text-xs font-mono shrink-0">
+          ${(overallData.bestTimeWindows || []).slice(0, 4).map((w, idx) => `
+            <div class="px-2.5 py-1.5 rounded-lg bg-slate-900/90 border border-slate-700/80 text-slate-200 flex items-center gap-1.5">
+              <span class="text-cyan-400 font-bold">#${idx + 1}</span>
+              <span>${w.label}</span>
+              <span class="text-[10px] px-1 rounded bg-emerald-950 text-emerald-300 border border-emerald-800">${w.rate}%佔用</span>
+            </div>
+          `).join('')}
+        </div>
       </div>
     </div>
 
-    <!-- Heatmap -->
-    ${renderHeatmapHtml('全棟每週熱度矩陣', data.heatmap)}
+    <!-- Whole Building Stat Cards -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-4">
+      <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
+        <div class="text-[11px] text-slate-400">監控設備數</div>
+        <div class="text-base sm:text-lg font-bold font-mono text-cyan-400 mt-0.5">${capacityCount} 台</div>
+      </div>
+      <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
+        <div class="text-[11px] text-slate-400">總運轉次數</div>
+        <div class="text-base sm:text-lg font-bold font-mono text-sky-400 mt-0.5">${totalCycles} 次</div>
+      </div>
+      <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
+        <div class="text-[11px] text-slate-400">熱度計算依據</div>
+        <div class="text-xs sm:text-sm font-bold font-mono text-amber-300 mt-0.5">近 30 天數據</div>
+      </div>
+      <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
+        <div class="text-[11px] text-slate-400">推估投幣營收</div>
+        <div class="text-base sm:text-lg font-bold font-mono text-emerald-400 mt-0.5">NT$ ${totalCost}</div>
+      </div>
+    </div>
 
-    <!-- Charts Row -->
+    <!-- Heatmap Table with Physical Denominator & Night Violation Markers -->
+    ${renderHeatmapHtml(`${eqName} 每週熱度矩陣 (分母: ${capacityCount} 台)`, overallData.heatmap)}
+
+    <!-- Charts Row: Floor Comparison & 24H Hourly Curve -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4 mb-4">
       <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800">
         <h3 class="text-xs font-semibold text-white mb-2 flex items-center gap-1.5">
@@ -442,7 +309,7 @@ function renderOverallView(data, body) {
 
       <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800">
         <h3 class="text-xs font-semibold text-white mb-2 flex items-center gap-1.5">
-          <span>⏰</span> 24H 平均使用走勢
+          <span>⏰</span> 24H 使用率走勢 (${eqName})
         </h3>
         <div class="h-60 relative">
           <canvas id="overallHourlyChartCanvas"></canvas>
@@ -450,23 +317,26 @@ function renderOverallView(data, body) {
       </div>
     </div>
 
-    <!-- Rankings: Coldest vs Busiest -->
+    <!-- Rankings: Coldest vs Busiest (Excluding Offline Machines) -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div class="bg-slate-900/80 p-3.5 rounded-xl border border-emerald-500/20">
         <div class="flex items-center justify-between mb-2">
           <h3 class="text-xs font-semibold text-emerald-400 flex items-center gap-1.5">
-            <span>❄️</span> 離峰冷門機台 (Top 5)
+            <span>❄️</span> 推薦離峰冷門機台 (Top 5)
           </h3>
-          <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-950/70 text-emerald-300 border border-emerald-800">推薦使用</span>
+          <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-950/70 text-emerald-300 border border-emerald-800">已過濾在線正常</span>
         </div>
         <div class="space-y-1.5">
           ${(data.coldestMachines || []).map((m, idx) => `
-            <div class="flex items-center justify-between p-2 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-colors text-xs border border-slate-700/50">
+            <div class="flex items-center justify-between p-2 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-colors text-xs border border-slate-700/50 cursor-pointer" onclick="window.selectMachineAnalytics && window.selectMachineAnalytics('${m.hwid}')">
               <div class="flex items-center gap-2">
                 <span class="w-4 h-4 rounded-full bg-emerald-900/70 text-emerald-300 flex items-center justify-center font-bold text-[10px]">${idx + 1}</span>
                 <div>
-                  <div class="font-medium text-white">${m.description}</div>
-                  <div class="text-[10px] text-slate-400">${m.floor} · ${m.machine_type === 'washer' ? '洗衣' : '烘衣'}</div>
+                  <div class="font-medium text-white flex items-center gap-1.5">
+                    ${m.description}
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                  </div>
+                  <div class="text-[10px] text-slate-400">${m.floor} · ${m.machine_type === 'washer' ? '洗衣機' : '烘衣機'}</div>
                 </div>
               </div>
               <div class="text-right font-mono">
@@ -481,18 +351,18 @@ function renderOverallView(data, body) {
       <div class="bg-slate-900/80 p-3.5 rounded-xl border border-red-500/20">
         <div class="flex items-center justify-between mb-2">
           <h3 class="text-xs font-semibold text-red-400 flex items-center gap-1.5">
-            <span>🔥</span> 尖峰熱門機台 (Top 5)
+            <span>🔥</span> 尖峰常滿熱門機台 (Top 5)
           </h3>
-          <span class="text-[10px] px-1.5 py-0.5 rounded bg-red-950/70 text-red-300 border border-red-800">建議避開</span>
+          <span class="text-[10px] px-1.5 py-0.5 rounded bg-red-950/70 text-red-300 border border-red-800">尖峰建議避開</span>
         </div>
         <div class="space-y-1.5">
           ${(data.busiestMachines || []).map((m, idx) => `
-            <div class="flex items-center justify-between p-2 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-colors text-xs border border-slate-700/50">
+            <div class="flex items-center justify-between p-2 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-colors text-xs border border-slate-700/50 cursor-pointer" onclick="window.selectMachineAnalytics && window.selectMachineAnalytics('${m.hwid}')">
               <div class="flex items-center gap-2">
                 <span class="w-4 h-4 rounded-full bg-red-900/70 text-red-300 flex items-center justify-center font-bold text-[10px]">${idx + 1}</span>
                 <div>
                   <div class="font-medium text-white">${m.description}</div>
-                  <div class="text-[10px] text-slate-400">${m.floor} · ${m.machine_type === 'washer' ? '洗衣' : '烘衣'}</div>
+                  <div class="text-[10px] text-slate-400">${m.floor} · ${m.machine_type === 'washer' ? '洗衣機' : '烘衣機'}</div>
                 </div>
               </div>
               <div class="text-right font-mono">
@@ -506,7 +376,7 @@ function renderOverallView(data, body) {
     </div>
   `;
 
-  // Draw Overall Floor Chart
+  // Draw Overall Floor Chart (Washer vs Dryer)
   const canvas1 = document.getElementById('overallFloorChartCanvas');
   if (canvas1 && data.floorComparison) {
     if (mainChartInstance) mainChartInstance.destroy();
@@ -545,19 +415,19 @@ function renderOverallView(data, body) {
     });
   }
 
-  // Draw Overall Hourly Chart
+  // Draw Hourly Curve for Selected Equipment Type
   const canvas2 = document.getElementById('overallHourlyChartCanvas');
-  if (canvas2 && data.hourlyAverages) {
+  if (canvas2 && overallData.hourlyAverages) {
     if (secondaryChartInstance) secondaryChartInstance.destroy();
     secondaryChartInstance = new Chart(canvas2, {
       type: 'line',
       data: {
         labels: Array.from({ length: 24 }).map((_, h) => `${h}:00`),
         datasets: [{
-          label: '平均使用率 (%)',
-          data: data.hourlyAverages,
-          borderColor: '#06b6d4',
-          backgroundColor: 'rgba(6, 182, 212, 0.15)',
+          label: `${eqName} 平均使用率 (%)`,
+          data: overallData.hourlyAverages,
+          borderColor: equipmentType === 'dry' ? '#f59e0b' : '#06b6d4',
+          backgroundColor: equipmentType === 'dry' ? 'rgba(245, 158, 11, 0.15)' : 'rgba(6, 182, 212, 0.15)',
           fill: true,
           tension: 0.35,
           pointRadius: 3
@@ -567,7 +437,7 @@ function renderOverallView(data, body) {
         responsive: true,
         maintainAspectRatio: false,
         scales: {
-          x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } },
+          x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8', font: { size: 10 } } },
           y: { min: 0, max: 100, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8', callback: (v) => `${v}%` } }
         },
         plugins: { legend: { display: false } }
@@ -576,45 +446,405 @@ function renderOverallView(data, body) {
   }
 }
 
-// Helper: render Heatmap table
+// ----------------------------------------------------
+// 2. Floor View (by 樓層)
+// ----------------------------------------------------
+function renderFloorView(data, floor, body) {
+  const floorRaw = data.byFloor?.[floor];
+  if (!floorRaw) {
+    body.innerHTML = '<div class="p-8 text-center text-slate-400">尚無該樓層數據。</div>';
+    return;
+  }
+
+  // Select equipment-specific floor data or fallback to combined
+  const fData = floorRaw[equipmentType] || floorRaw.combined || floorRaw;
+  const capacityCount = fData.capacityCount || (equipmentType === 'wash' ? 4 : equipmentType === 'dry' ? 2 : 6);
+  const eqName = equipmentType === 'wash' ? '洗衣機' : equipmentType === 'dry' ? '烘衣機' : '洗烘合併';
+
+  body.innerHTML = `
+    <!-- Floor Overview Cards -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-4">
+      <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
+        <div class="text-[11px] text-slate-400">${floor} 累計運轉</div>
+        <div class="text-base sm:text-lg font-bold font-mono text-cyan-400 mt-0.5">${floorRaw.totalCycles} 次</div>
+      </div>
+      <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
+        <div class="text-[11px] text-slate-400">洗衣機 (4台)</div>
+        <div class="text-base sm:text-lg font-bold font-mono text-sky-400 mt-0.5">${floorRaw.washerCycles} 次</div>
+      </div>
+      <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
+        <div class="text-[11px] text-slate-400">烘衣機 (2台)</div>
+        <div class="text-base sm:text-lg font-bold font-mono text-amber-400 mt-0.5">${floorRaw.dryerCycles} 次</div>
+      </div>
+      <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
+        <div class="text-[11px] text-slate-400">${floor} 累計投幣</div>
+        <div class="text-base sm:text-lg font-bold font-mono text-emerald-400 mt-0.5">NT$ ${floorRaw.cost}</div>
+      </div>
+    </div>
+
+    <!-- Recommendation Banner -->
+    <div class="mb-4 p-3.5 rounded-xl bg-gradient-to-r from-slate-900 via-cyan-950/40 to-slate-900 border border-cyan-500/30">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+        <div>
+          <div class="text-xs font-bold text-cyan-300 flex items-center gap-1.5">
+            <span>💡</span> ${floor} ${eqName} 最佳離峰推薦 (物理分母: ${capacityCount} 台)
+          </div>
+          <div class="text-xs text-slate-200 mt-1">
+            最佳時段：<span class="text-amber-400 font-bold font-mono">${fData.bestTimeWindows?.[0]?.label || '08:00 ~ 09:00'}</span>
+            （平均佔用率 <span class="font-mono text-emerald-400 font-semibold">${fData.bestTimeWindows?.[0]?.rate || 0}%</span>，空閒率 <span class="font-mono text-emerald-400 font-bold">${100 - (fData.bestTimeWindows?.[0]?.rate || 0)}%</span>）
+          </div>
+          <div class="text-[11px] text-slate-400 mt-1 flex items-center gap-1.5">
+            <span>🌙</span> 00:00 ~ 08:00 為夜間安寧時段嚴格禁止洗烘（已排除於推薦外）。
+          </div>
+        </div>
+        <div class="flex gap-1.5 flex-wrap text-xs font-mono shrink-0">
+          ${(fData.bestTimeWindows || []).slice(0, 3).map((w, idx) => `
+            <div class="px-2.5 py-1.5 rounded-lg bg-slate-900/80 border border-slate-700/80 text-slate-200 flex items-center gap-1">
+              <span class="text-cyan-400 font-bold">#${idx + 1}</span>
+              <span>${w.label}</span>
+              <span class="text-[10px] px-1 rounded bg-emerald-950 text-emerald-300 border border-emerald-800">${w.rate}%</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+
+    <!-- Heatmap -->
+    ${renderHeatmapHtml(`${floor} ${eqName} 每週熱度矩陣 (分母: ${capacityCount} 台)`, fData.heatmap)}
+
+    <!-- Charts Grid: Floor Machine Comparison & Hourly Curve -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
+      <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800">
+        <h3 class="text-xs font-semibold text-white mb-2 flex items-center gap-1.5">
+          <span>🧺</span> ${floor} 機台使用排行
+        </h3>
+        <div class="h-60 relative">
+          <canvas id="floorDetailChartCanvas"></canvas>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800">
+        <h3 class="text-xs font-semibold text-white mb-2 flex items-center gap-1.5">
+          <span>⏰</span> 24H 使用走勢 (${floor} ${eqName})
+        </h3>
+        <div class="h-60 relative">
+          <canvas id="floorHourlyChartCanvas"></canvas>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Draw Machine Comparison on this floor
+  const fMachines = floorRaw.machines || [];
+  const filteredMachines = equipmentType === 'combined'
+    ? fMachines
+    : fMachines.filter((m) => equipmentType === 'wash' ? m.machine_type === 'washer' : m.machine_type === 'dryer');
+
+  const canvas1 = document.getElementById('floorDetailChartCanvas');
+  if (canvas1) {
+    if (mainChartInstance) mainChartInstance.destroy();
+    mainChartInstance = new Chart(canvas1, {
+      type: 'bar',
+      data: {
+        labels: filteredMachines.map((m) => m.description),
+        datasets: [{
+          label: '使用次數',
+          data: filteredMachines.map((m) => m.total_cycles),
+          backgroundColor: filteredMachines.map((m) => m.machine_type === 'washer' ? 'rgba(56, 189, 248, 0.75)' : 'rgba(245, 158, 11, 0.75)'),
+          borderColor: filteredMachines.map((m) => m.machine_type === 'washer' ? '#38bdf8' : '#f59e0b'),
+          borderWidth: 1,
+          borderRadius: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8', font: { size: 10 } } },
+          y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } }
+        },
+        plugins: { legend: { display: false } }
+      }
+    });
+  }
+
+  // Draw Floor Hourly Curve
+  const canvas2 = document.getElementById('floorHourlyChartCanvas');
+  if (canvas2 && fData.hourlyAverages) {
+    if (secondaryChartInstance) secondaryChartInstance.destroy();
+    secondaryChartInstance = new Chart(canvas2, {
+      type: 'line',
+      data: {
+        labels: Array.from({ length: 24 }).map((_, h) => `${h}:00`),
+        datasets: [{
+          label: '平均使用率 (%)',
+          data: fData.hourlyAverages,
+          borderColor: equipmentType === 'dry' ? '#f59e0b' : '#06b6d4',
+          backgroundColor: equipmentType === 'dry' ? 'rgba(245, 158, 11, 0.15)' : 'rgba(6, 182, 212, 0.15)',
+          fill: true,
+          tension: 0.35,
+          pointRadius: 2.5
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8', font: { size: 10 } } },
+          y: { min: 0, max: 100, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8', callback: (v) => `${v}%` } }
+        },
+        plugins: { legend: { display: false } }
+      }
+    });
+  }
+}
+
+// ----------------------------------------------------
+// 3. Machine View (by 機台) - Behavioral Profile
+// ----------------------------------------------------
+function renderMachineView(data, hwid, body) {
+  const mData = data.byMachine?.[hwid];
+  if (!mData) {
+    body.innerHTML = '<div class="p-8 text-center text-slate-400">尚無該機台數據。</div>';
+    return;
+  }
+
+  const isDryer = mData.type === 'dryer';
+  const typeText = isDryer ? '烘衣機' : '洗衣機';
+  const rank = mData.rankInType || 1;
+  const totalInType = mData.totalInType || (isDryer ? 8 : 16);
+  const rankPercent = Math.round(((totalInType - rank + 1) / totalInType) * 100);
+
+  // Machine status badge
+  const isOnline = mData.isOnline !== false;
+
+  body.innerHTML = `
+    <!-- Machine Header Card & Peer Ranking -->
+    <div class="mb-4 p-4 rounded-xl bg-gradient-to-r from-slate-900 via-slate-850 to-slate-900 border border-slate-700/80 flex flex-col md:flex-row md:items-center justify-between gap-3">
+      <div>
+        <div class="flex items-center gap-2">
+          <h2 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+            <span>${isDryer ? '💨' : '🧺'}</span> ${mData.floor} ${mData.description}
+          </h2>
+          <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold ${isOnline ? 'bg-emerald-950 text-emerald-400 border border-emerald-800' : 'bg-rose-950 text-rose-400 border border-rose-800'}">
+            ${isOnline ? '● 正常在線' : '○ 離線'}
+          </span>
+          <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-slate-800 text-slate-300 border border-slate-700">
+            ${typeText}
+          </span>
+        </div>
+        <div class="text-xs text-slate-300 mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
+          <div>同類熱門度天梯：在全棟 <strong class="text-amber-400">${totalInType} 台${typeText}</strong> 中排名第 <strong class="text-cyan-400 font-mono text-sm">#${rank}</strong> 名 (前 ${100 - rankPercent + 1}%)</div>
+          <span class="text-slate-600 hidden sm:inline">·</span>
+          <div>單次平均運轉：<strong class="text-sky-300 font-mono">${mData.avgDurationMin} 分鐘</strong></div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 shrink-0">
+        <div class="p-2.5 rounded-lg bg-slate-950/80 border border-slate-800 text-right">
+          <div class="text-[10px] text-slate-400">推估投幣總額</div>
+          <div class="text-sm sm:text-base font-bold font-mono text-emerald-400">NT$ ${mData.totalCost}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Machine Metric Cards -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-4">
+      <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
+        <div class="text-[11px] text-slate-400">累計運轉次數</div>
+        <div class="text-base sm:text-lg font-bold font-mono text-cyan-400 mt-0.5">${mData.totalCycles} 次</div>
+      </div>
+      <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
+        <div class="text-[11px] text-slate-400">累計使用總時長</div>
+        <div class="text-base sm:text-lg font-bold font-mono text-sky-400 mt-0.5">${mData.totalDurationMin} 分</div>
+      </div>
+      <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
+        <div class="text-[11px] text-slate-400">平均每日運轉</div>
+        <div class="text-base sm:text-lg font-bold font-mono text-amber-400 mt-0.5">${(mData.totalCycles / 30).toFixed(1)} 次/天</div>
+      </div>
+      <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
+        <div class="text-[11px] text-slate-400">使用率評級</div>
+        <div class="text-base sm:text-lg font-bold font-mono ${rank <= 3 ? 'text-rose-400' : rank >= totalInType - 2 ? 'text-emerald-400' : 'text-slate-200'} mt-0.5">
+          ${rank <= 3 ? '🔥 極熱門' : rank >= totalInType - 2 ? '❄️ 推薦冷門' : '⚖️ 均衡常客'}
+        </div>
+      </div>
+    </div>
+
+    <!-- Behavioral Profile: Peak vs Off-Peak Slots (Strict Legal Hours 08:00~24:00) -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+      <!-- Off-Peak Recommended -->
+      <div class="p-3.5 rounded-xl bg-gradient-to-br from-emerald-950/40 via-slate-900 to-slate-900 border border-emerald-500/30">
+        <div class="flex items-center justify-between mb-2">
+          <div class="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
+            <span>✨</span> 合法離峰空閒推薦 (08:00 ~ 24:00)
+          </div>
+          <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800">隨到隨洗</span>
+        </div>
+        <div class="space-y-1.5">
+          ${(mData.bestTimeWindows || []).slice(0, 3).map((w, idx) => `
+            <div class="flex items-center justify-between p-2 rounded-lg bg-slate-800/40 border border-slate-700/40 text-xs font-mono">
+              <div class="flex items-center gap-2">
+                <span class="w-4 h-4 rounded-full bg-emerald-900/80 text-emerald-300 flex items-center justify-center font-bold text-[10px]">#${idx + 1}</span>
+                <span class="text-slate-200 font-medium">${w.label}</span>
+              </div>
+              <div class="text-right">
+                <span class="text-emerald-400 font-semibold">${100 - w.rate}% 空閒率</span>
+                <span class="text-[10px] text-slate-500 ml-1">(${w.rate}% 佔用)</span>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      <!-- Peak Hours to Avoid -->
+      <div class="p-3.5 rounded-xl bg-gradient-to-br from-rose-950/40 via-slate-900 to-slate-900 border border-rose-500/30">
+        <div class="flex items-center justify-between mb-2">
+          <div class="text-xs font-bold text-rose-400 flex items-center gap-1.5">
+            <span>🔥</span> 常態尖峰常滿時段 (08:00 ~ 24:00)
+          </div>
+          <span class="text-[10px] px-1.5 py-0.5 rounded bg-rose-950 text-rose-300 border border-rose-800">容易排隊</span>
+        </div>
+        <div class="space-y-1.5">
+          ${(mData.peakSlots || []).slice(0, 3).map((w, idx) => `
+            <div class="flex items-center justify-between p-2 rounded-lg bg-slate-800/40 border border-slate-700/40 text-xs font-mono">
+              <div class="flex items-center gap-2">
+                <span class="w-4 h-4 rounded-full bg-rose-900/80 text-rose-300 flex items-center justify-center font-bold text-[10px]">#${idx + 1}</span>
+                <span class="text-slate-200 font-medium">${w.label}</span>
+              </div>
+              <div class="text-right">
+                <span class="text-rose-400 font-semibold">${w.rate}% 佔用機率</span>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+
+    <!-- Machine 24H Occupancy Curve (Denomination = 1 machine, showing hourly occupancy probability) -->
+    <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+        <h3 class="text-xs font-semibold text-white flex items-center gap-1.5">
+          <span>⏰</span> 24H 被佔用機率走勢圖
+        </h3>
+        <div class="text-[11px] text-slate-400 flex items-center gap-2">
+          <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-rose-500/80"></span> 00~08 夜間安寧禁洗</span>
+          <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full ${isDryer ? 'bg-amber-400' : 'bg-cyan-400'}"></span> 08~24 正常洗烘</span>
+        </div>
+      </div>
+      <div class="h-64 relative">
+        <canvas id="machineHourlyChartCanvas"></canvas>
+      </div>
+    </div>
+  `;
+
+  const canvas = document.getElementById('machineHourlyChartCanvas');
+  if (canvas && mData.hourlyAverages) {
+    if (mainChartInstance) mainChartInstance.destroy();
+    mainChartInstance = new Chart(canvas, {
+      type: 'line',
+      data: {
+        labels: Array.from({ length: 24 }).map((_, h) => `${h}:00`),
+        datasets: [{
+          label: `${mData.description} 被佔用機率 (%)`,
+          data: mData.hourlyAverages,
+          borderColor: isDryer ? '#f59e0b' : '#38bdf8',
+          backgroundColor: isDryer ? 'rgba(245, 158, 11, 0.15)' : 'rgba(56, 189, 248, 0.15)',
+          fill: true,
+          tension: 0.35,
+          pointRadius: 3.5,
+          pointHoverRadius: 6
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } },
+          y: { min: 0, max: 100, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8', callback: (v) => `${v}%` } }
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              title: (items) => {
+                const h = parseInt(items[0].label, 10);
+                const nextH = (h + 1) % 24;
+                const isNight = h < 8;
+                return `${String(h).padStart(2, '0')}:00 ~ ${String(nextH).padStart(2, '0')}:00 ${isNight ? '🌙 [夜間安寧禁洗]' : '☀️ [正常營運]'}`;
+              },
+              label: (item) => `佔用機率: ${item.parsed.y}%`
+            }
+          }
+        }
+      }
+    });
+  }
+}
+
+// ----------------------------------------------------
+// Heatmap Table Helper with Physical Denominator & Quiet Hours
+// ----------------------------------------------------
 function renderHeatmapHtml(title, heatmapRows) {
-  if (!heatmapRows) return '';
+  if (!heatmapRows || heatmapRows.length === 0) return '';
   return `
     <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800">
-      <div class="flex items-center justify-between mb-2.5">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2.5">
         <h3 class="text-xs font-semibold text-white flex items-center gap-1.5">
           <span>🔥</span> ${title}
         </h3>
-        <div class="flex items-center gap-1 text-[10px] text-slate-400">
+        <div class="flex flex-wrap items-center gap-1.5 text-[10px] text-slate-400">
+          <span class="text-slate-500 font-mono">🌙 00-08 安寧(違規⚠️)</span>
+          <span class="text-slate-600">|</span>
           <span>空閒</span>
           <span class="w-2.5 h-2.5 rounded bg-slate-800 inline-block"></span>
           <span class="w-2.5 h-2.5 rounded bg-blue-700/60 inline-block"></span>
           <span class="w-2.5 h-2.5 rounded bg-amber-600/70 inline-block"></span>
           <span class="w-2.5 h-2.5 rounded bg-red-600/90 inline-block"></span>
-          <span>尖峰</span>
+          <span>尖峰常滿</span>
         </div>
       </div>
       <div class="overflow-x-auto pb-1.5">
-        <div class="min-w-[720px]">
+        <div class="min-w-[760px]">
           <!-- Hours Header -->
           <div class="grid grid-cols-[60px_repeat(24,1fr)] text-[10px] text-slate-400 text-center mb-1 font-mono">
             <div></div>
-            ${Array.from({ length: 24 }).map((_, h) => `<div>${h}</div>`).join('')}
+            ${Array.from({ length: 24 }).map((_, h) => {
+              const isNight = h < 8;
+              return `<div class="${isNight ? 'text-amber-500/80 font-bold bg-amber-950/20 rounded' : ''}" title="${isNight ? '🌙 00:00~08:00 生活公約夜間安寧禁洗時段' : '☀️ 正常洗烘時段'}">${h}${isNight ? '🌙' : ''}</div>`;
+            }).join('')}
           </div>
           <!-- Days Rows -->
           ${heatmapRows.map((row) => `
             <div class="grid grid-cols-[60px_repeat(24,1fr)] gap-1 mb-1 items-center">
               <div class="text-xs text-slate-300 font-medium pl-1">${row.dayName}</div>
-              ${row.hours.map((rate) => {
+              ${row.hours.map((rate, h) => {
+                const isNight = h < 8;
                 let colorClass = 'bg-slate-800/60 text-slate-500';
-                if (rate > 75) colorClass = 'bg-red-600/90 text-white font-bold';
-                else if (rate > 50) colorClass = 'bg-amber-500/80 text-white';
-                else if (rate > 25) colorClass = 'bg-blue-600/70 text-slate-200';
-                else if (rate > 5) colorClass = 'bg-blue-900/50 text-slate-400';
+                let extraTag = '';
+
+                if (isNight) {
+                  // Quiet hours violation check
+                  if (rate > 0) {
+                    colorClass = 'bg-rose-950/80 border border-rose-600/60 text-rose-300 font-bold';
+                    extraTag = '⚠️';
+                  } else {
+                    colorClass = 'bg-slate-950/50 text-slate-600 border border-slate-800/40';
+                  }
+                } else {
+                  if (rate > 75) colorClass = 'bg-red-600/90 text-white font-bold shadow-sm';
+                  else if (rate > 50) colorClass = 'bg-amber-500/80 text-white font-medium';
+                  else if (rate > 25) colorClass = 'bg-blue-600/70 text-slate-200';
+                  else if (rate > 5) colorClass = 'bg-blue-900/50 text-slate-400';
+                }
+
+                const titleText = isNight
+                  ? `${row.dayName} ${h}:00 ~ ${h + 1}:00 🌙 夜間安寧禁洗時段${rate > 0 ? ` (⚠️ ${rate}% 違規偷用)` : ' (無使用)'}`
+                  : `${row.dayName} ${h}:00 ~ ${h + 1}:00 ☀️ 使用率 ${rate}%`;
+
                 return `
-                  <div title="${row.dayName} ${rate}% 使用率" 
+                  <div title="${titleText}" 
                        class="h-7 rounded flex items-center justify-center text-[9px] font-mono transition-transform hover:scale-110 cursor-pointer ${colorClass}">
-                    ${rate > 0 ? rate : ''}
+                    ${rate > 0 ? `${rate}${extraTag}` : ''}
                   </div>
                 `;
               }).join('')}
@@ -624,4 +854,15 @@ function renderHeatmapHtml(title, heatmapRows) {
       </div>
     </div>
   `;
+}
+
+// Global click helper for ranking cards to select machine
+if (typeof window !== 'undefined') {
+  window.selectMachineAnalytics = function(hwid) {
+    currentScope = 'machine';
+    selectedHwid = hwid;
+    if (activeData) {
+      updateView(activeData);
+    }
+  };
 }
