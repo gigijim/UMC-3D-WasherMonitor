@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-09-13T00:23:21.646Z",
-  "totalEvents": 0,
+  "generatedAt": "2026-09-13T02:59:10.283Z",
+  "totalEvents": 7,
   "floorComparison": [
     {
       "floor": "2F",
-      "cycles": 0,
-      "durationMin": 0,
-      "cost": 0,
-      "washerCycles": 0,
+      "cycles": 2,
+      "durationMin": 80,
+      "cost": 40,
+      "washerCycles": 2,
       "dryerCycles": 0
     },
     {
@@ -20,19 +20,19 @@
     },
     {
       "floor": "6F",
-      "cycles": 0,
-      "durationMin": 0,
-      "cost": 0,
-      "washerCycles": 0,
+      "cycles": 2,
+      "durationMin": 80,
+      "cost": 40,
+      "washerCycles": 2,
       "dryerCycles": 0
     },
     {
       "floor": "8F",
-      "cycles": 0,
-      "durationMin": 0,
-      "cost": 0,
-      "washerCycles": 0,
-      "dryerCycles": 0
+      "cycles": 3,
+      "durationMin": 120,
+      "cost": 60,
+      "washerCycles": 1,
+      "dryerCycles": 2
     }
   ],
   "overall": {
@@ -43,7 +43,7 @@
         "hours": [
           0,
           0,
-          0,
+          100,
           0,
           0,
           0,
@@ -251,7 +251,7 @@
     "hourlyAverages": [
       0,
       0,
-      0,
+      14,
       0,
       0,
       0,
@@ -286,13 +286,13 @@
         "rate": 0
       },
       {
-        "hour": 2,
-        "label": "02:00 ~ 03:00",
+        "hour": 3,
+        "label": "03:00 ~ 04:00",
         "rate": 0
       },
       {
-        "hour": 3,
-        "label": "03:00 ~ 04:00",
+        "hour": 4,
+        "label": "04:00 ~ 05:00",
         "rate": 0
       }
     ]
@@ -300,10 +300,10 @@
   "byFloor": {
     "2F": {
       "floor": "2F",
-      "totalCycles": 0,
-      "durationMin": 0,
-      "cost": 0,
-      "washerCycles": 0,
+      "totalCycles": 2,
+      "durationMin": 80,
+      "cost": 40,
+      "washerCycles": 2,
       "dryerCycles": 0,
       "machines": [
         {
@@ -322,9 +322,9 @@
           "floor": "2F",
           "machine_type": "washer",
           "machine_num": 2,
-          "total_cycles": 0,
-          "total_duration_min": 0,
-          "total_cost_ntd": 0
+          "total_cycles": 1,
+          "total_duration_min": 40,
+          "total_cost_ntd": 20
         },
         {
           "hwid": "97F2A5F8",
@@ -342,9 +342,9 @@
           "floor": "2F",
           "machine_type": "washer",
           "machine_num": 4,
-          "total_cycles": 0,
-          "total_duration_min": 0,
-          "total_cost_ntd": 0
+          "total_cycles": 1,
+          "total_duration_min": 40,
+          "total_cost_ntd": 20
         },
         {
           "hwid": "E0F5956E",
@@ -374,7 +374,7 @@
           "hours": [
             0,
             0,
-            0,
+            100,
             0,
             0,
             0,
@@ -582,7 +582,7 @@
       "hourlyAverages": [
         0,
         0,
-        0,
+        14,
         0,
         0,
         0,
@@ -617,13 +617,13 @@
           "rate": 0
         },
         {
-          "hour": 2,
-          "label": "02:00 ~ 03:00",
+          "hour": 3,
+          "label": "03:00 ~ 04:00",
           "rate": 0
         },
         {
-          "hour": 3,
-          "label": "03:00 ~ 04:00",
+          "hour": 4,
+          "label": "04:00 ~ 05:00",
           "rate": 0
         }
       ]
@@ -960,10 +960,10 @@
     },
     "6F": {
       "floor": "6F",
-      "totalCycles": 0,
-      "durationMin": 0,
-      "cost": 0,
-      "washerCycles": 0,
+      "totalCycles": 2,
+      "durationMin": 80,
+      "cost": 40,
+      "washerCycles": 2,
       "dryerCycles": 0,
       "machines": [
         {
@@ -992,9 +992,9 @@
           "floor": "6F",
           "machine_type": "washer",
           "machine_num": 3,
-          "total_cycles": 0,
-          "total_duration_min": 0,
-          "total_cost_ntd": 0
+          "total_cycles": 1,
+          "total_duration_min": 40,
+          "total_cost_ntd": 20
         },
         {
           "hwid": "53069C9F",
@@ -1002,9 +1002,9 @@
           "floor": "6F",
           "machine_type": "washer",
           "machine_num": 4,
-          "total_cycles": 0,
-          "total_duration_min": 0,
-          "total_cost_ntd": 0
+          "total_cycles": 1,
+          "total_duration_min": 40,
+          "total_cost_ntd": 20
         },
         {
           "hwid": "DA450862",
@@ -1034,7 +1034,7 @@
           "hours": [
             0,
             0,
-            0,
+            100,
             0,
             0,
             0,
@@ -1242,7 +1242,7 @@
       "hourlyAverages": [
         0,
         0,
-        0,
+        14,
         0,
         0,
         0,
@@ -1277,24 +1277,24 @@
           "rate": 0
         },
         {
-          "hour": 2,
-          "label": "02:00 ~ 03:00",
+          "hour": 3,
+          "label": "03:00 ~ 04:00",
           "rate": 0
         },
         {
-          "hour": 3,
-          "label": "03:00 ~ 04:00",
+          "hour": 4,
+          "label": "04:00 ~ 05:00",
           "rate": 0
         }
       ]
     },
     "8F": {
       "floor": "8F",
-      "totalCycles": 0,
-      "durationMin": 0,
-      "cost": 0,
-      "washerCycles": 0,
-      "dryerCycles": 0,
+      "totalCycles": 3,
+      "durationMin": 120,
+      "cost": 60,
+      "washerCycles": 1,
+      "dryerCycles": 2,
       "machines": [
         {
           "hwid": "CA0FCD25",
@@ -1322,9 +1322,9 @@
           "floor": "8F",
           "machine_type": "washer",
           "machine_num": 3,
-          "total_cycles": 0,
-          "total_duration_min": 0,
-          "total_cost_ntd": 0
+          "total_cycles": 1,
+          "total_duration_min": 40,
+          "total_cost_ntd": 20
         },
         {
           "hwid": "BA6539AA",
@@ -1342,9 +1342,9 @@
           "floor": "8F",
           "machine_type": "dryer",
           "machine_num": 1,
-          "total_cycles": 0,
-          "total_duration_min": 0,
-          "total_cost_ntd": 0
+          "total_cycles": 1,
+          "total_duration_min": 40,
+          "total_cost_ntd": 20
         },
         {
           "hwid": "CD62093C",
@@ -1352,9 +1352,9 @@
           "floor": "8F",
           "machine_type": "dryer",
           "machine_num": 2,
-          "total_cycles": 0,
-          "total_duration_min": 0,
-          "total_cost_ntd": 0
+          "total_cycles": 1,
+          "total_duration_min": 40,
+          "total_cost_ntd": 20
         }
       ],
       "heatmap": [
@@ -1364,7 +1364,7 @@
           "hours": [
             0,
             0,
-            0,
+            100,
             0,
             0,
             0,
@@ -1572,7 +1572,7 @@
       "hourlyAverages": [
         0,
         0,
-        0,
+        14,
         0,
         0,
         0,
@@ -1607,13 +1607,13 @@
           "rate": 0
         },
         {
-          "hour": 2,
-          "label": "02:00 ~ 03:00",
+          "hour": 3,
+          "label": "03:00 ~ 04:00",
           "rate": 0
         },
         {
-          "hour": 3,
-          "label": "03:00 ~ 04:00",
+          "hour": 4,
+          "label": "04:00 ~ 05:00",
           "rate": 0
         }
       ]
@@ -1896,9 +1896,9 @@
       "floor": "2F",
       "type": "washer",
       "num": 2,
-      "totalCycles": 0,
-      "totalDurationMin": 0,
-      "totalCost": 0,
+      "totalCycles": 1,
+      "totalDurationMin": 40,
+      "totalCost": 20,
       "heatmap": [
         {
           "dayIndex": 0,
@@ -1906,7 +1906,7 @@
           "hours": [
             0,
             0,
-            0,
+            100,
             0,
             0,
             0,
@@ -2114,7 +2114,7 @@
       "hourlyAverages": [
         0,
         0,
-        0,
+        14,
         0,
         0,
         0,
@@ -2149,13 +2149,13 @@
           "rate": 0
         },
         {
-          "hour": 2,
-          "label": "02:00 ~ 03:00",
+          "hour": 3,
+          "label": "03:00 ~ 04:00",
           "rate": 0
         },
         {
-          "hour": 3,
-          "label": "03:00 ~ 04:00",
+          "hour": 4,
+          "label": "04:00 ~ 05:00",
           "rate": 0
         }
       ]
@@ -2436,9 +2436,9 @@
       "floor": "2F",
       "type": "washer",
       "num": 4,
-      "totalCycles": 0,
-      "totalDurationMin": 0,
-      "totalCost": 0,
+      "totalCycles": 1,
+      "totalDurationMin": 40,
+      "totalCost": 20,
       "heatmap": [
         {
           "dayIndex": 0,
@@ -2446,7 +2446,7 @@
           "hours": [
             0,
             0,
-            0,
+            100,
             0,
             0,
             0,
@@ -2654,7 +2654,7 @@
       "hourlyAverages": [
         0,
         0,
-        0,
+        14,
         0,
         0,
         0,
@@ -2689,13 +2689,13 @@
           "rate": 0
         },
         {
-          "hour": 2,
-          "label": "02:00 ~ 03:00",
+          "hour": 3,
+          "label": "03:00 ~ 04:00",
           "rate": 0
         },
         {
-          "hour": 3,
-          "label": "03:00 ~ 04:00",
+          "hour": 4,
+          "label": "04:00 ~ 05:00",
           "rate": 0
         }
       ]
@@ -5406,9 +5406,9 @@
       "floor": "6F",
       "type": "washer",
       "num": 3,
-      "totalCycles": 0,
-      "totalDurationMin": 0,
-      "totalCost": 0,
+      "totalCycles": 1,
+      "totalDurationMin": 40,
+      "totalCost": 20,
       "heatmap": [
         {
           "dayIndex": 0,
@@ -5416,7 +5416,7 @@
           "hours": [
             0,
             0,
-            0,
+            100,
             0,
             0,
             0,
@@ -5624,7 +5624,7 @@
       "hourlyAverages": [
         0,
         0,
-        0,
+        14,
         0,
         0,
         0,
@@ -5659,13 +5659,13 @@
           "rate": 0
         },
         {
-          "hour": 2,
-          "label": "02:00 ~ 03:00",
+          "hour": 3,
+          "label": "03:00 ~ 04:00",
           "rate": 0
         },
         {
-          "hour": 3,
-          "label": "03:00 ~ 04:00",
+          "hour": 4,
+          "label": "04:00 ~ 05:00",
           "rate": 0
         }
       ]
@@ -5676,9 +5676,9 @@
       "floor": "6F",
       "type": "washer",
       "num": 4,
-      "totalCycles": 0,
-      "totalDurationMin": 0,
-      "totalCost": 0,
+      "totalCycles": 1,
+      "totalDurationMin": 40,
+      "totalCost": 20,
       "heatmap": [
         {
           "dayIndex": 0,
@@ -5686,7 +5686,7 @@
           "hours": [
             0,
             0,
-            0,
+            100,
             0,
             0,
             0,
@@ -5894,7 +5894,7 @@
       "hourlyAverages": [
         0,
         0,
-        0,
+        14,
         0,
         0,
         0,
@@ -5929,13 +5929,13 @@
           "rate": 0
         },
         {
-          "hour": 2,
-          "label": "02:00 ~ 03:00",
+          "hour": 3,
+          "label": "03:00 ~ 04:00",
           "rate": 0
         },
         {
-          "hour": 3,
-          "label": "03:00 ~ 04:00",
+          "hour": 4,
+          "label": "04:00 ~ 05:00",
           "rate": 0
         }
       ]
@@ -7026,9 +7026,9 @@
       "floor": "8F",
       "type": "washer",
       "num": 3,
-      "totalCycles": 0,
-      "totalDurationMin": 0,
-      "totalCost": 0,
+      "totalCycles": 1,
+      "totalDurationMin": 40,
+      "totalCost": 20,
       "heatmap": [
         {
           "dayIndex": 0,
@@ -7036,7 +7036,7 @@
           "hours": [
             0,
             0,
-            0,
+            100,
             0,
             0,
             0,
@@ -7244,7 +7244,7 @@
       "hourlyAverages": [
         0,
         0,
-        0,
+        14,
         0,
         0,
         0,
@@ -7279,13 +7279,13 @@
           "rate": 0
         },
         {
-          "hour": 2,
-          "label": "02:00 ~ 03:00",
+          "hour": 3,
+          "label": "03:00 ~ 04:00",
           "rate": 0
         },
         {
-          "hour": 3,
-          "label": "03:00 ~ 04:00",
+          "hour": 4,
+          "label": "04:00 ~ 05:00",
           "rate": 0
         }
       ]
@@ -7566,9 +7566,9 @@
       "floor": "8F",
       "type": "dryer",
       "num": 1,
-      "totalCycles": 0,
-      "totalDurationMin": 0,
-      "totalCost": 0,
+      "totalCycles": 1,
+      "totalDurationMin": 40,
+      "totalCost": 20,
       "heatmap": [
         {
           "dayIndex": 0,
@@ -7576,7 +7576,7 @@
           "hours": [
             0,
             0,
-            0,
+            100,
             0,
             0,
             0,
@@ -7784,7 +7784,7 @@
       "hourlyAverages": [
         0,
         0,
-        0,
+        14,
         0,
         0,
         0,
@@ -7819,13 +7819,13 @@
           "rate": 0
         },
         {
-          "hour": 2,
-          "label": "02:00 ~ 03:00",
+          "hour": 3,
+          "label": "03:00 ~ 04:00",
           "rate": 0
         },
         {
-          "hour": 3,
-          "label": "03:00 ~ 04:00",
+          "hour": 4,
+          "label": "04:00 ~ 05:00",
           "rate": 0
         }
       ]
@@ -7836,9 +7836,9 @@
       "floor": "8F",
       "type": "dryer",
       "num": 2,
-      "totalCycles": 0,
-      "totalDurationMin": 0,
-      "totalCost": 0,
+      "totalCycles": 1,
+      "totalDurationMin": 40,
+      "totalCost": 20,
       "heatmap": [
         {
           "dayIndex": 0,
@@ -7846,7 +7846,7 @@
           "hours": [
             0,
             0,
-            0,
+            100,
             0,
             0,
             0,
@@ -8054,7 +8054,7 @@
       "hourlyAverages": [
         0,
         0,
-        0,
+        14,
         0,
         0,
         0,
@@ -8089,13 +8089,13 @@
           "rate": 0
         },
         {
-          "hour": 2,
-          "label": "02:00 ~ 03:00",
+          "hour": 3,
+          "label": "03:00 ~ 04:00",
           "rate": 0
         },
         {
-          "hour": 3,
-          "label": "03:00 ~ 04:00",
+          "hour": 4,
+          "label": "04:00 ~ 05:00",
           "rate": 0
         }
       ]
@@ -8118,9 +8118,9 @@
       "floor": "2F",
       "machine_type": "washer",
       "machine_num": 2,
-      "total_cycles": 0,
-      "total_duration_min": 0,
-      "total_cost_ntd": 0
+      "total_cycles": 1,
+      "total_duration_min": 40,
+      "total_cost_ntd": 20
     },
     {
       "hwid": "97F2A5F8",
@@ -8138,9 +8138,9 @@
       "floor": "2F",
       "machine_type": "washer",
       "machine_num": 4,
-      "total_cycles": 0,
-      "total_duration_min": 0,
-      "total_cost_ntd": 0
+      "total_cycles": 1,
+      "total_duration_min": 40,
+      "total_cost_ntd": 20
     },
     {
       "hwid": "E0F5956E",
@@ -8248,9 +8248,9 @@
       "floor": "6F",
       "machine_type": "washer",
       "machine_num": 3,
-      "total_cycles": 0,
-      "total_duration_min": 0,
-      "total_cost_ntd": 0
+      "total_cycles": 1,
+      "total_duration_min": 40,
+      "total_cost_ntd": 20
     },
     {
       "hwid": "53069C9F",
@@ -8258,9 +8258,9 @@
       "floor": "6F",
       "machine_type": "washer",
       "machine_num": 4,
-      "total_cycles": 0,
-      "total_duration_min": 0,
-      "total_cost_ntd": 0
+      "total_cycles": 1,
+      "total_duration_min": 40,
+      "total_cost_ntd": 20
     },
     {
       "hwid": "DA450862",
@@ -8308,9 +8308,9 @@
       "floor": "8F",
       "machine_type": "washer",
       "machine_num": 3,
-      "total_cycles": 0,
-      "total_duration_min": 0,
-      "total_cost_ntd": 0
+      "total_cycles": 1,
+      "total_duration_min": 40,
+      "total_cost_ntd": 20
     },
     {
       "hwid": "BA6539AA",
@@ -8328,9 +8328,9 @@
       "floor": "8F",
       "machine_type": "dryer",
       "machine_num": 1,
-      "total_cycles": 0,
-      "total_duration_min": 0,
-      "total_cost_ntd": 0
+      "total_cycles": 1,
+      "total_duration_min": 40,
+      "total_cost_ntd": 20
     },
     {
       "hwid": "CD62093C",
@@ -8338,41 +8338,21 @@
       "floor": "8F",
       "machine_type": "dryer",
       "machine_num": 2,
-      "total_cycles": 0,
-      "total_duration_min": 0,
-      "total_cost_ntd": 0
+      "total_cycles": 1,
+      "total_duration_min": 40,
+      "total_cost_ntd": 20
     }
   ],
   "busiestMachines": [
-    {
-      "hwid": "7E9100CD",
-      "description": "2F洗衣機1號",
-      "floor": "2F",
-      "machine_type": "washer",
-      "machine_num": 1,
-      "total_cycles": 0,
-      "total_duration_min": 0,
-      "total_cost_ntd": 0
-    },
     {
       "hwid": "0996305B",
       "description": "2F洗衣機2號",
       "floor": "2F",
       "machine_type": "washer",
       "machine_num": 2,
-      "total_cycles": 0,
-      "total_duration_min": 0,
-      "total_cost_ntd": 0
-    },
-    {
-      "hwid": "97F2A5F8",
-      "description": "2F洗衣機3號",
-      "floor": "2F",
-      "machine_type": "washer",
-      "machine_num": 3,
-      "total_cycles": 0,
-      "total_duration_min": 0,
-      "total_cost_ntd": 0
+      "total_cycles": 1,
+      "total_duration_min": 40,
+      "total_cost_ntd": 20
     },
     {
       "hwid": "A399B0C6",
@@ -8380,51 +8360,29 @@
       "floor": "2F",
       "machine_type": "washer",
       "machine_num": 4,
-      "total_cycles": 0,
-      "total_duration_min": 0,
-      "total_cost_ntd": 0
+      "total_cycles": 1,
+      "total_duration_min": 40,
+      "total_cost_ntd": 20
     },
     {
-      "hwid": "E0F5956E",
-      "description": "2F烘乾機1號",
-      "floor": "2F",
-      "machine_type": "dryer",
-      "machine_num": 1,
-      "total_cycles": 0,
-      "total_duration_min": 0,
-      "total_cost_ntd": 0
-    }
-  ],
-  "coldestMachines": [
-    {
-      "hwid": "CD62093C",
-      "description": "8F烘乾機2號",
-      "floor": "8F",
-      "machine_type": "dryer",
-      "machine_num": 2,
-      "total_cycles": 0,
-      "total_duration_min": 0,
-      "total_cost_ntd": 0
+      "hwid": "AD4238F4",
+      "description": "6F洗衣機3號",
+      "floor": "6F",
+      "machine_type": "washer",
+      "machine_num": 3,
+      "total_cycles": 1,
+      "total_duration_min": 40,
+      "total_cost_ntd": 20
     },
     {
-      "hwid": "546B5886",
-      "description": "8F烘乾機1號",
-      "floor": "8F",
-      "machine_type": "dryer",
-      "machine_num": 1,
-      "total_cycles": 0,
-      "total_duration_min": 0,
-      "total_cost_ntd": 0
-    },
-    {
-      "hwid": "BA6539AA",
-      "description": "8F洗衣機4號",
-      "floor": "8F",
+      "hwid": "53069C9F",
+      "description": "6F洗衣機4號",
+      "floor": "6F",
       "machine_type": "washer",
       "machine_num": 4,
-      "total_cycles": 0,
-      "total_duration_min": 0,
-      "total_cost_ntd": 0
+      "total_cycles": 1,
+      "total_duration_min": 40,
+      "total_cost_ntd": 20
     },
     {
       "hwid": "236C6810",
@@ -8432,6 +8390,18 @@
       "floor": "8F",
       "machine_type": "washer",
       "machine_num": 3,
+      "total_cycles": 1,
+      "total_duration_min": 40,
+      "total_cost_ntd": 20
+    }
+  ],
+  "coldestMachines": [
+    {
+      "hwid": "BA6539AA",
+      "description": "8F洗衣機4號",
+      "floor": "8F",
+      "machine_type": "washer",
+      "machine_num": 4,
       "total_cycles": 0,
       "total_duration_min": 0,
       "total_cost_ntd": 0
@@ -8445,6 +8415,36 @@
       "total_cycles": 0,
       "total_duration_min": 0,
       "total_cost_ntd": 0
+    },
+    {
+      "hwid": "CA0FCD25",
+      "description": "8F洗衣機1號",
+      "floor": "8F",
+      "machine_type": "washer",
+      "machine_num": 1,
+      "total_cycles": 0,
+      "total_duration_min": 0,
+      "total_cost_ntd": 0
+    },
+    {
+      "hwid": "2401AC09",
+      "description": "6F烘乾機2號",
+      "floor": "6F",
+      "machine_type": "dryer",
+      "machine_num": 2,
+      "total_cycles": 0,
+      "total_duration_min": 0,
+      "total_cost_ntd": 0
+    },
+    {
+      "hwid": "DA450862",
+      "description": "6F烘乾機1號",
+      "floor": "6F",
+      "machine_type": "dryer",
+      "machine_num": 1,
+      "total_cycles": 0,
+      "total_duration_min": 0,
+      "total_cost_ntd": 0
     }
   ],
   "heatmap": [
@@ -8454,7 +8454,7 @@
       "hours": [
         0,
         0,
-        0,
+        100,
         0,
         0,
         0,
@@ -8662,7 +8662,7 @@
   "hourlyAverages": [
     0,
     0,
-    0,
+    14,
     0,
     0,
     0,
@@ -8697,13 +8697,13 @@
       "rate": 0
     },
     {
-      "hour": 2,
-      "label": "02:00 ~ 03:00",
+      "hour": 3,
+      "label": "03:00 ~ 04:00",
       "rate": 0
     },
     {
-      "hour": 3,
-      "label": "03:00 ~ 04:00",
+      "hour": 4,
+      "label": "04:00 ~ 05:00",
       "rate": 0
     }
   ]
