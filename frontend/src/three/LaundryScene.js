@@ -21,11 +21,21 @@ export class LaundryScene {
 
     this.currentFocusFloor = 'all';
 
+    // 視角動態巡航與圖釘固定機制 (預設開啟用質感緩慢正面150度弧形巡航)
+    this.isAutoOrbiting = true;
+    this.isPinned = false;
+    this.isUserInteracting = false;
+    this.orbitStartTime = performance.now();
+
     // 根據當前螢幕尺寸比例精確計算全棟 3D 鏡頭最佳角度與放大比例（重心下移，更加一目了然）
     const initialAspect = (this.container?.clientWidth || window.innerWidth) / (this.container?.clientHeight || window.innerHeight);
     const initialCam = this.computeAllFloorsCamera(initialAspect);
-    this.targetCameraPos = initialCam.cameraPos;
-    this.targetLookAt = initialCam.lookAt;
+    this.targetCameraPos = initialCam.cameraPos.clone();
+    this.targetLookAt = initialCam.lookAt.clone();
+    this.orbitLookAt = initialCam.lookAt.clone();
+    this.orbitCamY = initialCam.cameraPos.y;
+    this.orbitRadius = Math.hypot(initialCam.cameraPos.x - initialCam.lookAt.x, initialCam.cameraPos.z - initialCam.lookAt.z);
+    this.orbitBaseAngle = Math.atan2(initialCam.cameraPos.x - initialCam.lookAt.x, initialCam.cameraPos.z - initialCam.lookAt.z);
     this.isAnimatingCamera = true;
 
     this.init();
@@ -1047,14 +1057,42 @@ export class LaundryScene {
     };
 
     // 使用者任何滾輪、手勢觸控或拖曳操作，立即解除鏡頭自動過渡鎖定，賦予 100% 自由檢視操作權
+    let wheelTimeout = null;
     const releaseCameraLock = () => {
       this.isAnimatingCamera = false;
+      this.isUserInteracting = true;
+    };
+
+    const onControlsEnd = () => {
+      this.isUserInteracting = false;
+      if (this.currentFocusFloor === 'all' && !this.isPinned) {
+        // 放開手勢後，若尚未釘選固定，以當前視角為基準平滑銜接慢速弧形巡航
+        this.orbitBaseAngle = Math.atan2(
+          this.camera.position.x - this.controls.target.x,
+          this.camera.position.z - this.controls.target.z
+        );
+        this.orbitRadius = Math.hypot(
+          this.camera.position.x - this.controls.target.x,
+          this.camera.position.z - this.controls.target.z
+        );
+        this.orbitCamY = this.camera.position.y;
+        this.orbitLookAt.copy(this.controls.target);
+        this.orbitStartTime = performance.now();
+      }
     };
 
     this.controls.addEventListener('start', releaseCameraLock);
-    this.renderer.domElement.addEventListener('wheel', releaseCameraLock, { passive: true });
+    this.controls.addEventListener('end', onControlsEnd);
+
+    this.renderer.domElement.addEventListener('wheel', () => {
+      releaseCameraLock();
+      clearTimeout(wheelTimeout);
+      wheelTimeout = setTimeout(onControlsEnd, 300);
+    }, { passive: true });
+
     this.renderer.domElement.addEventListener('touchstart', releaseCameraLock, { passive: true });
     this.renderer.domElement.addEventListener('touchmove', releaseCameraLock, { passive: true });
+    this.renderer.domElement.addEventListener('touchend', onControlsEnd, { passive: true });
 
     window.addEventListener('resize', () => this.onResize());
     this.renderer.domElement.addEventListener('pointermove', onPointerMove);
@@ -1116,58 +1154,87 @@ export class LaundryScene {
 
   // 根據當前螢幕長寬比動態計算「全部」全棟 3D 視角：放大畫面，重心下移，機台更清晰一目了然
   computeAllFloorsCamera(aspect) {
-    // 樓層總高 (2F~8F) 約 22.5，加上 8F 機頂聚光燈與看板約達 y=27.6，基底 y=-0.2
-    // 視覺中心設定在 y=13.7，讓全棟大樓垂直置中偏下，完美填補原本過多的底部黑色地坪空白
-    let lookAtY = 13.7;
-    let distX, distY, distZ;
+    let lookAt;
+    let cameraPos;
 
-    if (aspect >= 1.5) {
-      // 寬螢幕 / 電腦桌面 (16:9, 16:10, 21:9 超寬螢幕): 畫面放大約 20%~30%，重心下移
-      distX = 15.5;
-      distY = 24.5;
-      distZ = 37.0;
-      lookAtY = 13.7;
-    } else if (aspect >= 1.2) {
-      // 一般筆電 / 視窗窄化 (e.g. 1440x900, 1280x800)
-      distX = 16.5;
-      distY = 26.0;
-      distZ = 40.0;
-      lookAtY = 13.5;
+    if (aspect >= 1.2) {
+      // 電腦寬螢幕 (16:9, 16:10, 21:9 超寬螢幕)
+      // 視覺中心設定在 y=12.5（全棟垂直幾何中心），相機高度 14.8（微俯瞰視角）
+      // 確保 8F 頂部看板下方留有充裕安全邊距，絕不遮擋頂部 Header，
+      // 同時 2F 底部留白適中，徹底解決原本底部 2F 留太多、8F 被切到的問題
+      lookAt = new THREE.Vector3(0, 12.5, 0);
+      cameraPos = new THREE.Vector3(13.0, 14.8, 41.5);
     } else if (aspect >= 0.95) {
       // 平板電腦 / 方正螢幕 (e.g. iPad 4:3)
-      distX = 18.5;
-      distY = 28.5;
-      distZ = 45.0;
-      lookAtY = 13.2;
+      lookAt = new THREE.Vector3(0, 12.5, 0);
+      cameraPos = new THREE.Vector3(14.0, 17.5, 45.0);
     } else {
-      // 直式手機螢幕 (aspect < 0.95, 9:16 ~ 9:20): 受限於窄螢幕寬度，保持適度安全邊界
-      distX = 22.0;
-      distY = 32.0;
-      distZ = 55.0;
-      lookAtY = 12.8;
+      // 直式手機螢幕 (aspect < 0.95, 9:16 ~ 9:20 直長比例)
+      // 精準比照使用者截圖角度：由正面偏左前斜角俯瞰 (front-left diagonal oblique)
+      // 左側清晰陳列「8F/6F/4F/2F 聯苑二期」樓層標示，機台沿對角線向右後方延伸
+      // 完美貼合手機長螢幕，重心居中且上下邊距均勻對稱
+      lookAt = new THREE.Vector3(-0.5, 12.5, -0.5);
+      cameraPos = new THREE.Vector3(-20.5, 22.0, 32.5);
     }
 
     return {
-      cameraPos: new THREE.Vector3(distX, distY, distZ),
-      lookAt: new THREE.Vector3(0, lookAtY, 0)
+      cameraPos,
+      lookAt
     };
   }
 
   setFloorFocus(floorName) {
     this.currentFocusFloor = floorName;
+    const aspect = this.camera?.aspect || (window.innerWidth / window.innerHeight);
+    const isMobile = aspect < 1.0;
+
     if (floorName === 'all') {
-      const aspect = this.camera?.aspect || (window.innerWidth / window.innerHeight);
       const { cameraPos, lookAt } = this.computeAllFloorsCamera(aspect);
       this.targetLookAt.copy(lookAt);
       this.targetCameraPos.copy(cameraPos);
+      this.orbitLookAt.copy(lookAt);
+      this.orbitCamY = cameraPos.y;
+      this.orbitRadius = Math.hypot(cameraPos.x - lookAt.x, cameraPos.z - lookAt.z);
+      this.orbitBaseAngle = Math.atan2(cameraPos.x - lookAt.x, cameraPos.z - lookAt.z);
+      this.orbitStartTime = performance.now();
     } else {
       const config = this.floorConfig.find((f) => f.name === floorName);
       if (config) {
-        this.targetLookAt.set(0, config.y + 1.2, 0);
-        this.targetCameraPos.set(7.5, config.y + 3.2, 17.5);
+        if (isMobile) {
+          // 手機直式比例：選取 2, 4, 6, 8 樓層時，改用更斜的角度（與截圖角度一致），視角中心移至選取樓層
+          this.targetLookAt.set(-0.5, config.y + 1.2, -0.5);
+          this.targetCameraPos.set(-16.5, config.y + 7.5, 21.5);
+        } else {
+          // 電腦桌面寬螢幕：原本舒適的微俯瞰角度
+          this.targetLookAt.set(0, config.y + 1.2, 0);
+          this.targetCameraPos.set(7.5, config.y + 3.2, 17.5);
+        }
       }
     }
     this.isAnimatingCamera = true;
+  }
+
+  togglePinView(pinned) {
+    if (typeof pinned === 'boolean') {
+      this.isPinned = pinned;
+    } else {
+      this.isPinned = !this.isPinned;
+    }
+    if (!this.isPinned) {
+      // 重新恢復巡航時，以當前視角作為中心基底角平滑擺動
+      this.orbitBaseAngle = Math.atan2(
+        this.camera.position.x - this.controls.target.x,
+        this.camera.position.z - this.controls.target.z
+      );
+      this.orbitRadius = Math.hypot(
+        this.camera.position.x - this.controls.target.x,
+        this.camera.position.z - this.controls.target.z
+      );
+      this.orbitCamY = this.camera.position.y;
+      this.orbitLookAt.copy(this.controls.target);
+      this.orbitStartTime = performance.now();
+    }
+    return this.isPinned;
   }
 
   onResize() {
@@ -1182,6 +1249,10 @@ export class LaundryScene {
       const { cameraPos, lookAt } = this.computeAllFloorsCamera(this.camera.aspect);
       this.targetCameraPos.copy(cameraPos);
       this.targetLookAt.copy(lookAt);
+      this.orbitLookAt.copy(lookAt);
+      this.orbitCamY = cameraPos.y;
+      this.orbitRadius = Math.hypot(cameraPos.x - lookAt.x, cameraPos.z - lookAt.z);
+      this.orbitBaseAngle = Math.atan2(cameraPos.x - lookAt.x, cameraPos.z - lookAt.z);
       this.isAnimatingCamera = true;
     }
   }
@@ -1240,6 +1311,23 @@ export class LaundryScene {
         this.controls.target.copy(this.targetLookAt);
         this.isAnimatingCamera = false;
       }
+    } else if (
+      this.currentFocusFloor === 'all' &&
+      !this.isPinned &&
+      !this.isUserInteracting
+    ) {
+      // 全棟「全部」視野時，在正面 150 度範圍內進行極慢、高質感的鐘擺式弧形微動巡航
+      const t = (performance.now() - this.orbitStartTime) * 0.00021; // ~30秒週期
+      const sway = Math.sin(t) * 0.38; // 最大左右擺動約 ±21.8度，絕不超過正面150度
+      const angle = this.orbitBaseAngle + sway;
+
+      const targetX = this.orbitLookAt.x + this.orbitRadius * Math.sin(angle);
+      const targetZ = this.orbitLookAt.z + this.orbitRadius * Math.cos(angle);
+
+      this.camera.position.x += (targetX - this.camera.position.x) * 0.04;
+      this.camera.position.z += (targetZ - this.camera.position.z) * 0.04;
+      this.camera.position.y += (this.orbitCamY - this.camera.position.y) * 0.04;
+      this.controls.target.lerp(this.orbitLookAt, 0.04);
     }
 
     this.controls.update();
