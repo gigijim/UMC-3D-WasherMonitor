@@ -150,6 +150,94 @@ function updateSummaryBadges(data) {
   }
 }
 
+export function formatLastUsedTime(timestamp) {
+  if (!timestamp) {
+    return {
+      text: '尚無歷史紀錄',
+      shortText: '無紀錄',
+      relativeText: '',
+      tag: '⚪ 暫無紀錄',
+      tagClass: 'bg-slate-800 text-slate-400 border-slate-700'
+    };
+  }
+
+  const target = new Date(timestamp);
+  if (isNaN(target.getTime())) {
+    return {
+      text: '尚無歷史紀錄',
+      shortText: '無紀錄',
+      relativeText: '',
+      tag: '⚪ 暫無紀錄',
+      tagClass: 'bg-slate-800 text-slate-400 border-slate-700'
+    };
+  }
+
+  const now = new Date();
+  const diffMs = Math.max(0, now.getTime() - target.getTime());
+  const diffMin = Math.floor(diffMs / (1000 * 60));
+
+  // Determine Taiwan Date String (UTC+8)
+  const getTaipeiDate = (d) => new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Taipei' }).format(d);
+  const isToday = getTaipeiDate(target) === getTaipeiDate(now);
+  const yesterday = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+  const isYesterday = getTaipeiDate(target) === getTaipeiDate(yesterday);
+
+  const timeFormatter = new Intl.DateTimeFormat('zh-TW', {
+    timeZone: 'Asia/Taipei',
+    hour12: true,
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+  const timeStr = timeFormatter.format(target);
+
+  let datePrefix = '';
+  if (isToday) {
+    datePrefix = '今天 ';
+  } else if (isYesterday) {
+    datePrefix = '昨天 ';
+  } else {
+    datePrefix = `${target.getMonth() + 1}月${target.getDate()}日 `;
+  }
+
+  let relativeText = '';
+  let tag = '✨ 隨時可用';
+  let tagClass = 'bg-emerald-950/80 text-emerald-300 border-emerald-800';
+
+  if (diffMin < 1) {
+    relativeText = '剛剛';
+    tag = '⚠️ 剛剛洗完';
+    tagClass = 'bg-amber-950/80 text-amber-300 border-amber-700 animate-pulse';
+  } else if (diffMin < 60) {
+    relativeText = `${diffMin}分鐘前`;
+    if (diffMin <= 15) {
+      tag = '⚠️ 剛洗完 (留意衣物)';
+      tagClass = 'bg-amber-950/80 text-amber-300 border-amber-700';
+    } else {
+      tag = '✨ 閒置可投幣';
+      tagClass = 'bg-emerald-950/80 text-emerald-300 border-emerald-800';
+    }
+  } else if (diffMin < 1440) {
+    const diffHours = Math.floor(diffMin / 60);
+    const remMin = diffMin % 60;
+    relativeText = `${diffHours}小時${remMin > 0 ? `${remMin}分` : ''}前`;
+    tag = '✨ 閒置可投幣';
+    tagClass = 'bg-emerald-950/80 text-emerald-300 border-emerald-800';
+  } else {
+    const diffDays = Math.floor(diffMin / 1440);
+    relativeText = `${diffDays}天前`;
+    tag = '❄️ 冷門機台';
+    tagClass = 'bg-cyan-950/80 text-cyan-300 border-cyan-800';
+  }
+
+  return {
+    text: `${datePrefix}${timeStr} (${relativeText})`,
+    shortText: `${datePrefix}${timeStr}`,
+    relativeText,
+    tag,
+    tagClass
+  };
+}
+
 function showMachineDetail(device) {
   selectedDevice = device;
   const card = document.getElementById('machine-detail-card');
@@ -169,6 +257,8 @@ function showMachineDetail(device) {
   const monthCyclesText = document.getElementById('card-month-cycles');
   const totalCostText = document.getElementById('card-total-cost');
   const adviceText = document.getElementById('card-advice');
+  const lastUsedTimeEl = document.getElementById('card-last-used-time');
+  const lastUsedTagEl = document.getElementById('card-last-used-tag');
 
   // Calculate dynamic stats combining historical DB records WITH live active running machines
   const isRunning = Boolean(device.isRunning);
@@ -237,8 +327,26 @@ function showMachineDetail(device) {
     if (totalCostText) totalCostText.textContent = isRunning ? `NT$ ${costPerCycle}` : 'NT$ --';
   }
 
+  // Calculate latest finished timestamp across IoT real-time dueTime and historical records
+  const stat = historyData?.machineStats?.find((m) => m.hwid === device.hwid);
+  let latestFinishedMs = 0;
+
+  if (device.dueTime) {
+    const dMs = new Date(device.dueTime).getTime();
+    if (!isNaN(dMs) && dMs <= Date.now()) {
+      latestFinishedMs = Math.max(latestFinishedMs, dMs);
+    }
+  }
+
+  if (stat?.last_used_time) {
+    const sMs = new Date(stat.last_used_time).getTime();
+    if (!isNaN(sMs)) {
+      latestFinishedMs = Math.max(latestFinishedMs, sMs);
+    }
+  }
+
   if (!device.connection) {
-    statusBox.className = 'p-3 rounded-xl mb-4 flex items-center justify-between bg-slate-800/80 border border-slate-700';
+    statusBox.className = 'p-3 rounded-xl mb-3 flex items-center justify-between bg-slate-800/80 border border-slate-700';
     statusDot.className = 'w-3 h-3 rounded-full bg-slate-500';
     statusText.className = 'font-semibold text-slate-300 text-sm';
     statusText.textContent = '離線 / 未知';
@@ -246,15 +354,28 @@ function showMachineDetail(device) {
     timerText.textContent = '設備未連線';
     dueTimeText.textContent = '無';
     adviceText.textContent = '⚠️ 提示：此機台目前處於離線狀態，可能正在維護或尚未開機。';
+
+    if (lastUsedTimeEl) {
+      if (latestFinishedMs > 0) {
+        const info = formatLastUsedTime(latestFinishedMs);
+        lastUsedTimeEl.textContent = info.text;
+      } else {
+        lastUsedTimeEl.textContent = '暫無紀錄 (設備離線)';
+      }
+    }
+    if (lastUsedTagEl) {
+      lastUsedTagEl.textContent = '⚪ 設備離線';
+      lastUsedTagEl.className = 'text-[10px] font-medium px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700';
+    }
   } else if (device.isRunning) {
     if (isDryer) {
-      statusBox.className = 'p-3 rounded-xl mb-4 flex items-center justify-between bg-red-950/70 border-2 border-red-500/80 shadow-[0_0_20px_rgba(239,68,68,0.35)]';
+      statusBox.className = 'p-3 rounded-xl mb-3 flex items-center justify-between bg-red-950/70 border-2 border-red-500/80 shadow-[0_0_20px_rgba(239,68,68,0.35)]';
       statusDot.className = 'w-3 h-3 rounded-full bg-red-500 animate-ping';
       statusText.className = 'font-bold text-red-300 text-sm';
       statusText.textContent = '🔥 烘乾中...';
       adviceText.textContent = '⏳ 提示：烘乾機運轉中，請注意高溫，本次運轉結束後將自動彙整入歷史規律庫。';
     } else {
-      statusBox.className = 'p-3 rounded-xl mb-4 flex items-center justify-between bg-yellow-950/70 border-2 border-yellow-400/80 shadow-[0_0_20px_rgba(250,204,21,0.35)]';
+      statusBox.className = 'p-3 rounded-xl mb-3 flex items-center justify-between bg-yellow-950/70 border-2 border-yellow-400/80 shadow-[0_0_20px_rgba(250,204,21,0.35)]';
       statusDot.className = 'w-3 h-3 rounded-full bg-yellow-400 animate-ping';
       statusText.className = 'font-bold text-yellow-300 text-sm';
       statusText.textContent = '⚡ 洗衣中...';
@@ -274,15 +395,46 @@ function showMachineDetail(device) {
       const due = new Date(device.dueTime);
       dueTimeText.textContent = `${due.getHours().toString().padStart(2, '0')}:${due.getMinutes().toString().padStart(2, '0')}:${due.getSeconds().toString().padStart(2, '0')}`;
     }
+
+    if (lastUsedTimeEl) {
+      lastUsedTimeEl.innerHTML = `<span class="text-amber-300 font-bold">🔥 本次運轉中</span> <span class="text-slate-400 font-normal text-[11px]">(進行中)</span>`;
+    }
+    if (lastUsedTagEl) {
+      lastUsedTagEl.textContent = isDryer ? '🔥 烘乾中' : '⚡ 洗衣中';
+      lastUsedTagEl.className = `text-[10px] font-bold px-2 py-0.5 rounded-full ${isDryer ? 'bg-red-950/90 text-red-300 border border-red-700' : 'bg-yellow-950/90 text-yellow-300 border border-yellow-700'}`;
+    }
   } else {
-    statusBox.className = 'p-3 rounded-xl mb-4 flex items-center justify-between bg-emerald-950/50 border border-emerald-500/30';
+    // Idle machine
+    statusBox.className = 'p-3 rounded-xl mb-3 flex items-center justify-between bg-emerald-950/50 border border-emerald-500/30';
     statusDot.className = 'w-3 h-3 rounded-full bg-emerald-400 animate-pulse';
     statusText.className = 'font-semibold text-emerald-300 text-sm';
     statusText.textContent = '可使用';
     timerText.className = 'text-xs font-mono text-slate-300';
     timerText.textContent = '隨時可投幣使用';
     dueTimeText.textContent = '隨時可用';
-    adviceText.textContent = '✅ 提示：此機台目前閒置無人使用，可直接前往投幣使用！';
+
+    if (latestFinishedMs > 0) {
+      const info = formatLastUsedTime(latestFinishedMs);
+      const diffMin = Math.floor((Date.now() - latestFinishedMs) / 60000);
+      if (lastUsedTimeEl) lastUsedTimeEl.textContent = info.text;
+      if (lastUsedTagEl) {
+        lastUsedTagEl.textContent = info.tag;
+        lastUsedTagEl.className = `text-[10px] font-medium px-2 py-0.5 rounded-full ${info.tagClass}`;
+      }
+
+      if (diffMin <= 15) {
+        adviceText.innerHTML = `⚠️ <strong class="text-amber-300">提示</strong>：此機台約 <strong class="text-amber-300 font-mono">${diffMin > 0 ? `${diffMin} 分鐘前` : '剛剛'}</strong> 剛運轉完畢，滾筒內可能尚有宿友未及時取出的衣物，投幣前請先確認滾筒已清空。`;
+      } else {
+        adviceText.textContent = '✅ 提示：此機台目前閒置無人使用，滾筒應已清空，可直接前往投幣使用！';
+      }
+    } else {
+      if (lastUsedTimeEl) lastUsedTimeEl.textContent = '尚無近期紀錄 (隨時可用)';
+      if (lastUsedTagEl) {
+        lastUsedTagEl.textContent = '✨ 隨時可投幣';
+        lastUsedTagEl.className = 'text-[10px] font-medium px-2 py-0.5 rounded-full bg-emerald-950/80 text-emerald-300 border border-emerald-800';
+      }
+      adviceText.textContent = '✅ 提示：此機台目前閒置無人使用，可直接前往投幣使用！';
+    }
   }
 
   card.classList.remove('hidden');
@@ -371,6 +523,18 @@ function renderListView(devices) {
             const remMin = Math.floor(remSec / 60);
             const remSecMod = remSec % 60;
 
+            const stat = historyData?.machineStats?.find((m) => m.hwid === d.hwid);
+            let latestFinishedMs = 0;
+            if (d.dueTime) {
+              const dMs = new Date(d.dueTime).getTime();
+              if (!isNaN(dMs) && dMs <= Date.now()) latestFinishedMs = Math.max(latestFinishedMs, dMs);
+            }
+            if (stat?.last_used_time) {
+              const sMs = new Date(stat.last_used_time).getTime();
+              if (!isNaN(sMs)) latestFinishedMs = Math.max(latestFinishedMs, sMs);
+            }
+            const lastUsedInfo = formatLastUsedTime(latestFinishedMs);
+
             return `
               <div data-hwid="${d.hwid}" class="list-item-card p-3 rounded-xl border ${cardBg} flex flex-col justify-between cursor-pointer hover:scale-[1.02] transition-all shadow-md min-h-[105px]">
                 <div class="flex items-center justify-between mb-2">
@@ -400,7 +564,9 @@ function renderListView(devices) {
                       <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                       可使用
                     </div>
-                    <div class="text-xs font-medium text-slate-400 mt-1 whitespace-nowrap">隨時可投幣</div>
+                    <div class="text-[11px] font-mono text-slate-400 mt-1 truncate" title="最後使用時間：${lastUsedInfo.text}">
+                      ${latestFinishedMs > 0 ? `上次: ${lastUsedInfo.relativeText || lastUsedInfo.shortText}` : '隨時可投幣'}
+                    </div>
                   `}
                 </div>
               </div>

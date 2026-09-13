@@ -92,7 +92,8 @@ function analyzeHistory(db) {
       d.machine_num,
       COUNT(e.id) as total_cycles,
       COALESCE(SUM(e.duration_min), 0) as total_duration_min,
-      COALESCE(SUM(e.estimated_cost), 0) as total_cost_ntd
+      COALESCE(SUM(e.estimated_cost), 0) as total_cost_ntd,
+      MAX(e.end_time) as last_used_time
     FROM devices d
     LEFT JOIN usage_events e ON d.hwid = e.hwid
     GROUP BY d.hwid
@@ -222,6 +223,7 @@ function analyzeHistory(db) {
       totalCycles: m.total_cycles,
       totalDurationMin: m.total_duration_min,
       totalCost: m.total_cost_ntd,
+      lastUsedTime: m.last_used_time || null,
       avgDurationMin,
       rankInType,
       totalInType,
