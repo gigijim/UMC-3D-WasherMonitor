@@ -743,7 +743,7 @@ function renderFloorView(data, floor, body) {
       data: {
         labels: Array.from({ length: 24 }).map((_, h) => `${h}:00`),
         datasets: [{
-          label: '平均使用率 (%)',
+          label: `${floor} ${eqName} 該時段使用率 (%)`,
           data: fData.hourlyAverages,
           borderColor: equipmentType === 'dry' ? '#f59e0b' : '#06b6d4',
           backgroundColor: equipmentType === 'dry' ? 'rgba(245, 158, 11, 0.15)' : 'rgba(6, 182, 212, 0.15)',
@@ -904,7 +904,7 @@ function renderMachineView(data, hwid, body) {
     <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
         <h3 class="text-xs font-semibold text-white flex items-center gap-1.5">
-          <span>⏰</span> 24H 被佔用機率走勢圖
+          <span>⏰</span> 24H 佔用率走勢圖
         </h3>
         <div class="text-[11px] text-slate-400 flex items-center gap-2">
           <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-rose-500/80"></span> 00~08 夜間安寧禁洗</span>
@@ -925,7 +925,7 @@ function renderMachineView(data, hwid, body) {
       data: {
         labels: Array.from({ length: 24 }).map((_, h) => `${h}:00`),
         datasets: [{
-          label: `${mData.description} 被佔用機率 (%)`,
+          label: `${mData.description} 該時段佔用率 (%)`,
           data: mData.hourlyAverages,
           borderColor: isDryer ? '#f59e0b' : '#38bdf8',
           backgroundColor: isDryer ? 'rgba(245, 158, 11, 0.15)' : 'rgba(56, 189, 248, 0.15)',
