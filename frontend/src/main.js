@@ -484,6 +484,11 @@ async function initApp() {
   // Initialize 3D scene
   scene = new LaundryScene(container, (device) => {
     showMachineDetail(device);
+    const btnPin = document.getElementById('btn-pin-view');
+    if (btnPin) {
+      btnPin.classList.add('hidden');
+      btnPin.style.display = 'none';
+    }
   });
 
   // Load initial data
@@ -565,8 +570,33 @@ async function initApp() {
     }
   }, 1000);
 
-  // Bind Floor Buttons
+  // Bind Floor Buttons & Pin View Toggle
   const floorButtons = document.querySelectorAll('.floor-btn');
+  const btnPin = document.getElementById('btn-pin-view');
+  const pinIcon = document.getElementById('pin-icon');
+  const pinText = document.getElementById('pin-text');
+
+  const updatePinButtonUI = (isPinned) => {
+    if (!btnPin) return;
+    if (isPinned) {
+      btnPin.className = 'px-2 py-1 rounded-lg text-xs flex items-center gap-1 transition-all bg-amber-950/70 text-amber-300 border border-amber-500/40 hover:bg-amber-900/60 shadow-inner';
+      btnPin.title = '目前為固定視角，點擊開啟動態巡航';
+      if (pinIcon) pinIcon.textContent = '📌';
+      if (pinText) pinText.textContent = '固定視角';
+    } else {
+      btnPin.className = 'px-2 py-1 rounded-lg text-xs flex items-center gap-1 transition-all bg-slate-800/80 text-cyan-300 border border-cyan-500/30 hover:bg-slate-700';
+      btnPin.title = '目前為動態巡航中，點擊固定視角';
+      if (pinIcon) pinIcon.textContent = '📍';
+      if (pinText) pinText.textContent = '動態巡航';
+    }
+  };
+
+  btnPin?.addEventListener('click', () => {
+    if (!scene) return;
+    const isPinned = scene.togglePinView();
+    updatePinButtonUI(isPinned);
+  });
+
   floorButtons.forEach((btn) => {
     btn.addEventListener('click', () => {
       floorButtons.forEach((b) => {
@@ -578,6 +608,17 @@ async function initApp() {
 
       const floor = btn.dataset.floor;
       scene.setFloorFocus(floor);
+
+      if (btnPin) {
+        if (floor === 'all') {
+          btnPin.classList.remove('hidden');
+          btnPin.style.display = 'flex';
+          updatePinButtonUI(scene.isPinned);
+        } else {
+          btnPin.classList.add('hidden');
+          btnPin.style.display = 'none';
+        }
+      }
     });
   });
 
@@ -601,6 +642,10 @@ async function initApp() {
   document.getElementById('card-close-btn')?.addEventListener('click', () => {
     document.getElementById('machine-detail-card')?.classList.add('hidden');
     selectedDevice = null;
+    if (btnPin && scene?.currentFocusFloor === 'all') {
+      btnPin.classList.remove('hidden');
+      btnPin.style.display = 'flex';
+    }
   });
 
   // View Detailed Report for Selected Machine
