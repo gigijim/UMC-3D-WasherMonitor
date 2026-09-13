@@ -170,36 +170,71 @@ function showMachineDetail(device) {
   const totalCostText = document.getElementById('card-total-cost');
   const adviceText = document.getElementById('card-advice');
 
-  // Find history stats for this machine & calculate overall ranking
+  // Calculate dynamic stats combining historical DB records WITH live active running machines
+  const isRunning = Boolean(device.isRunning);
+  const costPerCycle = isDryer ? 10 : 20;
+
   if (historyData?.machineStats && historyData.machineStats.length > 0) {
-    const sortedStats = [...historyData.machineStats].sort((a, b) => {
-      if (b.total_cycles !== a.total_cycles) return b.total_cycles - a.total_cycles;
+    // Map with live running status so running machines immediately get credit for active session
+    const liveStats = historyData.machineStats.map((m) => {
+      const liveDev = realtimeData?.devices?.find((d) => d.hwid === m.hwid);
+      const currentlyRunning = liveDev?.isRunning ? 1 : 0;
+      return {
+        ...m,
+        effective_cycles: m.total_cycles + currentlyRunning,
+        currentlyRunning: Boolean(currentlyRunning)
+      };
+    });
+
+    // Sort by effective cycles DESC, then duration DESC
+    liveStats.sort((a, b) => {
+      if (b.effective_cycles !== a.effective_cycles) return b.effective_cycles - a.effective_cycles;
       return b.total_duration_min - a.total_duration_min;
     });
 
     const stat = historyData.machineStats.find((m) => m.hwid === device.hwid);
-    const rankIndex = sortedStats.findIndex((m) => m.hwid === device.hwid);
-    const totalCount = sortedStats.length;
+    const rankIndex = liveStats.findIndex((m) => m.hwid === device.hwid);
+    const totalCount = liveStats.length;
 
-    if (stat) {
-      if (stat.total_cycles > 0 && rankIndex !== -1) {
-        const medal = rankIndex === 0 ? '🥇' : rankIndex === 1 ? '🥈' : rankIndex === 2 ? '🥉' : '🏅';
-        if (rankText) rankText.innerHTML = `${medal} <span class="text-amber-300 font-bold">第 ${rankIndex + 1} 名</span> <span class="text-slate-400 text-[10px]">/ ${totalCount}台</span>`;
+    const histCycles = stat ? stat.total_cycles : 0;
+    const histDuration = stat ? stat.total_duration_min : 0;
+    const totalCyclesWithActive = histCycles + (isRunning ? 1 : 0);
+
+    // 1. Total Cycles Display (若當前運轉中，明確標註包含本次進行中，杜絕 0 次疑惑)
+    if (isRunning) {
+      if (histCycles > 0) {
+        monthCyclesText.innerHTML = `<span class="text-white font-bold">${histCycles} 次</span> <span class="text-amber-300 text-[10px] font-medium">(+1 本次運轉中)</span>`;
       } else {
-        if (rankText) rankText.innerHTML = `<span class="text-slate-400 text-[11px]">暫無使用紀錄</span>`;
+        monthCyclesText.innerHTML = `<span class="text-amber-300 font-bold">1 次</span> <span class="text-slate-400 text-[10px] font-normal">(本次運轉中)</span>`;
       }
-      if (monthCyclesText) monthCyclesText.textContent = `${stat.total_cycles} 次 (${stat.total_duration_min} 分)`;
-      const costPerCycle = isDryer ? 10 : 20;
-      if (totalCostText) totalCostText.textContent = `NT$ ${stat.total_cycles * costPerCycle}`;
     } else {
-      if (rankText) rankText.textContent = '暫無紀錄';
-      if (monthCyclesText) monthCyclesText.textContent = '0 次 (0 分)';
-      if (totalCostText) totalCostText.textContent = 'NT$ 0';
+      if (histCycles > 0) {
+        monthCyclesText.textContent = `${histCycles} 次 (${histDuration} 分)`;
+      } else {
+        monthCyclesText.textContent = '0 次 (0 分)';
+      }
+    }
+
+    // 2. Total Cost Display
+    const totalCost = totalCyclesWithActive * costPerCycle;
+    if (isRunning) {
+      totalCostText.innerHTML = `<span class="text-emerald-300 font-bold">NT$ ${totalCost}</span> <span class="text-slate-400 text-[10px]">(含本次)</span>`;
+    } else {
+      totalCostText.textContent = `NT$ ${totalCost}`;
+    }
+
+    // 3. Ranking Display (運轉中機台立即享有排位計算，附帶運轉中角標)
+    if (totalCyclesWithActive > 0 && rankIndex !== -1) {
+      const medal = rankIndex === 0 ? '🥇' : rankIndex === 1 ? '🥈' : rankIndex === 2 ? '🥉' : '🏅';
+      const runningTag = isRunning ? ' <span class="text-amber-400 text-[10px] font-normal">(運轉中)</span>' : '';
+      rankText.innerHTML = `${medal} <span class="text-amber-300 font-bold">第 ${rankIndex + 1} 名</span> <span class="text-slate-400 text-[10px]">/ ${totalCount}台</span>${runningTag}`;
+    } else {
+      rankText.innerHTML = `<span class="text-slate-400 text-[11px]">暫無使用紀錄</span>`;
     }
   } else {
-    if (rankText) rankText.textContent = '--';
-    if (monthCyclesText) monthCyclesText.textContent = '-- 次';
-    if (totalCostText) totalCostText.textContent = 'NT$ --';
+    if (rankText) rankText.textContent = isRunning ? '運轉中' : '--';
+    if (monthCyclesText) monthCyclesText.textContent = isRunning ? '1 次 (本次運轉中)' : '-- 次';
+    if (totalCostText) totalCostText.textContent = isRunning ? `NT$ ${costPerCycle}` : 'NT$ --';
   }
 
   if (!device.connection) {
@@ -217,13 +252,13 @@ function showMachineDetail(device) {
       statusDot.className = 'w-3 h-3 rounded-full bg-red-500 animate-ping';
       statusText.className = 'font-bold text-red-300 text-sm';
       statusText.textContent = '🔥 烘乾中...';
-      adviceText.textContent = '⏳ 提示：烘乾機運轉中，請注意高溫，建議在結束前 3 分鐘前往準備取衣。';
+      adviceText.textContent = '⏳ 提示：烘乾機運轉中，請注意高溫，本次運轉結束後將自動彙整入歷史規律庫。';
     } else {
       statusBox.className = 'p-3 rounded-xl mb-4 flex items-center justify-between bg-yellow-950/70 border-2 border-yellow-400/80 shadow-[0_0_20px_rgba(250,204,21,0.35)]';
       statusDot.className = 'w-3 h-3 rounded-full bg-yellow-400 animate-ping';
       statusText.className = 'font-bold text-yellow-300 text-sm';
       statusText.textContent = '⚡ 洗衣中...';
-      adviceText.textContent = '⏳ 提示：洗衣機運轉中，預計將於上述時間釋出，建議可在結束前 5 分鐘前往等待。';
+      adviceText.textContent = '⏳ 提示：洗衣機運轉中，預計將於上述時間釋出，本次運轉結束後將自動彙整入歷史規律庫。';
     }
 
     const formatRemaining = () => {
