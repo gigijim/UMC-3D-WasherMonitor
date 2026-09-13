@@ -1,4 +1,4 @@
-const { getDb, initDb, upsertDevice, parseDeviceInfo, calculateCost } = require('./db');
+const { getDb, initDb, upsertDevice, parseDeviceInfo, calculateCost, getTrackingStartTime } = require('./db');
 const fs = require('node:fs');
 const path = require('node:path');
 
@@ -67,11 +67,13 @@ async function collectOnce(options = { exportRealtime: true }) {
 
   const realtimeList = [];
 
-  const getRecentSnapshotStmt = db.prepare(`
-    SELECT is_running, due_time, timestamp 
-    FROM device_snapshots 
-    WHERE hwid = ? 
-    ORDER BY id DESC LIMIT 1
+  const trackingStartTime = getTrackingStartTime(db);
+  const trackingStartMs = new Date(trackingStartTime).getTime();
+
+  const checkEventStmt = db.prepare(`
+    SELECT id FROM usage_events 
+    WHERE hwid = ? AND end_time = ? 
+    LIMIT 1
   `);
 
   const insertSnapshotStmt = db.prepare(`
@@ -86,6 +88,7 @@ async function collectOnce(options = { exportRealtime: true }) {
 
   for (const device of devices) {
     upsertDevice(db, device);
+    const { floor, machine_type, machine_num } = parseDeviceInfo(device.description);
 
     const connection = device.connection ? 1 : 0;
     const dueTime = device.modelStatus?.operationStatus?.dueTime || null;
@@ -108,44 +111,44 @@ async function collectOnce(options = { exportRealtime: true }) {
       idleCount++;
     }
 
-    // Check state transition for event detection
-    const lastSnap = getRecentSnapshotStmt.get(device.hwid);
-    const { floor, machine_type, machine_num } = parseDeviceInfo(device.description);
+    // 關鍵優化：基於 IoT 設備 dueTime 戳記的自我修復式精準事件偵測
+    // 只要是在追蹤啟動時間之後發生的全新使用週期（無論爬蟲當下機台正在運轉，或是已在爬蟲間隔中剛好洗完），
+    // 只要 usage_events 資料庫尚未記錄該次 (hwid, end_time)，即 100% 準確補入，絕不遺漏任何一次洗衣/烘衣！
+    if (dueTime) {
+      const dueMs = new Date(dueTime).getTime();
+      if (dueMs > trackingStartMs) {
+        const existingEvent = checkEventStmt.get(device.hwid, dueTime);
+        if (!existingEvent) {
+          let durationMin = 40;
+          if (machine_type === 'dryer') {
+            if (isRunning && remainingSec > 0) {
+              const mins = Math.round(remainingSec / 60);
+              if (mins <= 20) durationMin = 20;
+              else if (mins <= 40) durationMin = 40;
+              else if (mins <= 60) durationMin = 60;
+              else if (mins <= 80) durationMin = 80;
+              else durationMin = 99;
+            } else {
+              durationMin = 40; // 烘衣機標準預設運轉 40 分鐘
+            }
+          }
 
-    if (isRunning) {
-      // If previously idle, or dueTime changed/extended forward by more than 5 minutes
-      const prevDueTime = lastSnap?.due_time;
-      const prevRunning = lastSnap?.is_running || 0;
+          const startTime = new Date(dueMs - durationMin * 60 * 1000).toISOString();
+          const cost = calculateCost(machine_type, durationMin);
 
-      const isNewCycle = !prevRunning || (prevDueTime && dueTime && new Date(dueTime).getTime() - new Date(prevDueTime).getTime() > 5 * 60 * 1000);
-
-      if (isNewCycle) {
-        let durationMin = 40;
-        if (machine_type === 'dryer') {
-          // calculate remaining duration from dueTime
-          const mins = Math.round(remainingSec / 60);
-          if (mins <= 20) durationMin = 20;
-          else if (mins <= 40) durationMin = 40;
-          else if (mins <= 60) durationMin = 60;
-          else if (mins <= 80) durationMin = 80;
-          else durationMin = 99;
+          insertEventStmt.run(
+            device.hwid,
+            floor,
+            machine_type,
+            machine_num,
+            startTime,
+            dueTime,
+            durationMin,
+            cost,
+            nowIso
+          );
+          newEventsCount++;
         }
-
-        const startTime = new Date(new Date(dueTime).getTime() - durationMin * 60 * 1000).toISOString();
-        const cost = calculateCost(machine_type, durationMin);
-
-        insertEventStmt.run(
-          device.hwid,
-          floor,
-          machine_type,
-          machine_num,
-          startTime,
-          dueTime,
-          durationMin,
-          cost,
-          nowIso
-        );
-        newEventsCount++;
       }
     }
 

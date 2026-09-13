@@ -1,4 +1,4 @@
-const { getDb, initDb } = require('./db');
+const { getDb, initDb, setTrackingStartTime } = require('./db');
 const { collectOnce } = require('./collector');
 const { exportData } = require('./export_data');
 
@@ -6,6 +6,7 @@ console.log('[Reset] 正在清空歷史資料庫，準備開始純真實數據�
 const db = getDb();
 db.exec('DELETE FROM usage_events;');
 db.exec('DELETE FROM device_snapshots;');
+setTrackingStartTime(db, new Date().toISOString());
 db.close();
 
 console.log('[Reset] 資料庫已清空。正在立即執行一次真實現場狀態抓取...');
