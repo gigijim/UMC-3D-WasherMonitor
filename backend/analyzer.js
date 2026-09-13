@@ -52,13 +52,19 @@ function calculateHeatmapAndHourly(events, capacityCount = 1) {
     });
   }
 
+  // 24H 使用走勢直接對應每週熱度矩陣數據，真實呈現該小時的使用率（避免除以 7 天造成的虛假稀釋）
   const hourlyAverages = Array(24).fill(0);
   for (let h = 0; h < 24; h++) {
     let sum = 0;
+    let count = 0;
     for (let d = 0; d < 7; d++) {
-      sum += normalizedHeatmap[d].hours[h];
+      const val = normalizedHeatmap[d].hours[h];
+      if (val > 0) {
+        sum += val;
+        count++;
+      }
     }
-    hourlyAverages[h] = Math.round(sum / 7);
+    hourlyAverages[h] = count > 0 ? Math.round(sum / count) : 0;
   }
 
   // 宿舍生活公約規範：僅在合法營運時段 08:00 ~ 24:00 運算推薦最佳離峰時段（嚴格排除 00:00 ~ 08:00 夜間安寧區間）
