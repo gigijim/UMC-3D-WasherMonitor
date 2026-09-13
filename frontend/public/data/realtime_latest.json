@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-09-13T15:30:33.793Z",
+  "updatedAt": "2026-09-13T15:40:22.743Z",
   "summary": {
     "total": 24,
-    "running": 4,
-    "idle": 20,
+    "running": 7,
+    "idle": 17,
     "offline": 0
   },
   "merchant": {
@@ -85,7 +85,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-13T16:23:52.862Z",
-      "remainingSec": 3199
+      "remainingSec": 2610
     },
     {
       "hwid": "D3F34449",
@@ -145,7 +145,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-13T15:47:50.122Z",
-      "remainingSec": 1036
+      "remainingSec": 447
     },
     {
       "hwid": "546B5886",
@@ -155,9 +155,9 @@
       "type": "dryer",
       "num": 1,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-09-13T14:33:58.692Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-09-13T16:20:18.771Z",
+      "remainingSec": 2396
     },
     {
       "hwid": "2401AC09",
@@ -191,9 +191,9 @@
       "type": "washer",
       "num": 2,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-09-13T14:45:01.551Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-09-13T16:13:55.567Z",
+      "remainingSec": 2012
     },
     {
       "hwid": "DA450862",
@@ -227,9 +227,9 @@
       "type": "dryer",
       "num": 2,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-09-13T11:00:18.898Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-09-13T17:18:43.040Z",
+      "remainingSec": 5900
     },
     {
       "hwid": "BA6539AA",
@@ -253,7 +253,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-13T15:45:31.919Z",
-      "remainingSec": 898
+      "remainingSec": 309
     },
     {
       "hwid": "E7985177",
@@ -301,7 +301,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-13T15:43:11.838Z",
-      "remainingSec": 758
+      "remainingSec": 169
     }
   ]
 }
