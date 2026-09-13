@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Background Gradient -->
+    <radialGradient id="bg-radial" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#151e31" />
+      <stop offset="65%" stop-color="#0a0f1d" />
+      <stop offset="100%" stop-color="#060913" />
+    </radialGradient>
+
+    <!-- Center Amber/Yellow Ambient Light -->
+    <radialGradient id="gold-ambient" cx="50%" cy="50%" r="48%">
+      <stop offset="0%" stop-color="#facc15" stop-opacity="0.18" />
+      <stop offset="55%" stop-color="#facc15" stop-opacity="0.05" />
+      <stop offset="100%" stop-color="#facc15" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Golden Neon Glow Filter -->
+    <filter id="neon-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="14" result="blur1" />
+      <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur2" />
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="blur3" />
+      <feMerge>
+        <feMergeNode in="blur1" />
+        <feMergeNode in="blur2" />
+        <feMergeNode in="blur3" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <!-- Linear Golden Gradient for strokes -->
+    <linearGradient id="gold-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a" />
+      <stop offset="50%" stop-color="#facc15" />
+      <stop offset="100%" stop-color="#eab308" />
+    </linearGradient>
+
+    <!-- Core bright highlight -->
+    <linearGradient id="gold-bright" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="35%" stop-color="#fef08a" />
+      <stop offset="100%" stop-color="#facc15" />
+    </linearGradient>
+  </defs>
+
+  <!-- Full-bleed background base (flawless for iOS Squircle masking & browser tabs) -->
+  <rect width="512" height="512" fill="url(#bg-radial)" />
+  <rect width="512" height="512" fill="url(#gold-ambient)" />
+
+  <!-- MAIN WASHING MACHINE ICON GROUP WITH NEON GLOW -->
+  <g filter="url(#neon-glow)" stroke="url(#gold-grad)" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <!-- Machine Outer Cabinet -->
+    <rect x="96" y="66" width="320" height="380" rx="44" stroke-width="14" />
+
+    <!-- Control Panel Divider Line -->
+    <line x1="108" y1="154" x2="404" y2="154" stroke-width="8" stroke-opacity="0.85" />
+
+    <!-- Detergent Drawer Handle (Left) -->
+    <rect x="126" y="96" width="72" height="32" rx="10" stroke-width="6" stroke-opacity="0.9" />
+
+    <!-- Status Indicator LED Dots (Center-Right, mirroring the reference dot) -->
+    <circle cx="236" cy="112" r="5" fill="#facc15" stroke-width="2" />
+    <circle cx="260" cy="112" r="5" fill="#facc15" stroke-width="2" />
+    <circle cx="284" cy="112" r="5" fill="#facc15" stroke-width="2" />
+
+    <!-- Program Selection Dial Knob (Right) -->
+    <circle cx="352" cy="112" r="18" stroke-width="7" />
+    <circle cx="352" cy="112" r="5" fill="#facc15" stroke-width="2" />
+
+    <!-- Washing Drum Outer Door Ring -->
+    <circle cx="256" cy="296" r="108" stroke-width="14" />
+
+    <!-- Inner Glass Bezel Ring -->
+    <circle cx="256" cy="296" r="86" stroke-width="5" stroke-dasharray="10 8" stroke-opacity="0.75" />
+
+    <!-- Right Door Latch / Handle Accent -->
+    <path d="M 364 266 A 118 118 0 0 1 364 326" stroke-width="9" stroke-linecap="round" />
+
+    <!-- Dynamic Swirling Water / Vortex Waves (Active spinning motion) -->
+    <!-- Wave 1: Upper Swirl Arc -->
+    <path d="M 214 264 C 232 238 274 238 296 258 C 308 270 306 288 290 298" stroke-width="8" stroke="url(#gold-bright)" />
+    <!-- Wave 2: Lower Swirl Arc -->
+    <path d="M 298 328 C 280 354 238 354 216 334 C 204 322 206 304 222 294" stroke-width="8" stroke="url(#gold-bright)" />
+
+    <!-- Center Water Vortex Core -->
+    <circle cx="256" cy="296" r="14" stroke-width="5" stroke-dasharray="14 10" />
+
+    <!-- Swirling Bubbles / Energy Sparkles -->
+    <circle cx="226" cy="240" r="5" fill="#fef08a" stroke-width="2" />
+    <circle cx="286" cy="352" r="4" fill="#fef08a" stroke-width="2" />
+    <circle cx="312" cy="282" r="3.5" fill="#fef08a" stroke-width="1.5" />
+    <circle cx="200" cy="310" r="3.5" fill="#fef08a" stroke-width="1.5" />
+  </g>
+</svg>

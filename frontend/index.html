@@ -2,8 +2,26 @@
 <html lang="zh-TW" class="dark">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>聯苑宿舍二期 · 3D 洗衣機/烘衣機監控分析平台</title>
+
+  <!-- PWA Manifest & Theme -->
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <meta name="theme-color" content="#0a0f1d" />
+
+  <!-- Favicons & App Icons (Vector SVG & High-Res PNG) -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+  <!-- iOS Safari PWA Standalone Web App Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="二期洗衣" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="format-detection" content="telephone=no" />
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -24,12 +42,23 @@
     }
   </script>
   <style>
+    :root {
+      --sat: env(safe-area-inset-top, 0px);
+      --sab: env(safe-area-inset-bottom, 0px);
+      --sal: env(safe-area-inset-left, 0px);
+      --sar: env(safe-area-inset-right, 0px);
+    }
     body {
       background-color: #0a0f1d;
       color: #f8fafc;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       overflow: hidden;
       touch-action: manipulation;
+    }
+    header {
+      padding-top: max(12px, env(safe-area-inset-top, 12px)) !important;
+      padding-left: max(12px, env(safe-area-inset-left, 12px)) !important;
+      padding-right: max(12px, env(safe-area-inset-right, 12px)) !important;
     }
     /* Custom scrollbars */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -106,18 +135,26 @@
         <span>📊</span>
         <span>規律分析報表</span>
       </button>
+
+      <button id="btn-install-pwa" title="加入 iPhone / 手機桌面 (安裝為 APP)" class="p-2 rounded-lg bg-amber-950/40 hover:bg-amber-900/60 border border-amber-500/40 text-amber-300 transition-colors flex items-center gap-1.5 shadow-sm">
+        <span>📱</span>
+        <span class="hidden xl:inline font-medium">安裝 APP</span>
+      </button>
     </div>
   </header>
 
   <!-- Mobile Quick Badge Bar (shown only on small screens below header) -->
-  <div class="md:hidden absolute top-14 left-3 right-3 z-10 flex items-center justify-between text-[11px] bg-slate-950/60 backdrop-blur px-3 py-1.5 rounded-lg border border-slate-800/80">
+  <div class="md:hidden absolute top-14 left-3 right-3 z-10 flex items-center justify-between text-[11px] bg-slate-950/70 backdrop-blur px-3 py-1.5 rounded-lg border border-slate-800/80 shadow-md">
     <div class="flex items-center gap-2">
       <span id="m-badge-idle" class="text-emerald-400 font-medium">🟢 閒置: --</span>
       <span id="m-badge-running" class="text-amber-400 font-medium">🟠 運轉: --</span>
     </div>
     <div class="flex items-center gap-2">
-      <span id="m-refresh-countdown" class="text-cyan-400 font-mono text-[10px]">自動刷新: 30s</span>
-      <div id="m-update-time" class="text-slate-400 font-mono text-[10px]">更新中...</div>
+      <button id="m-btn-install-pwa" class="text-amber-300 font-medium text-[10px] flex items-center gap-1 bg-amber-950/50 hover:bg-amber-900/60 border border-amber-500/40 px-2 py-0.5 rounded-md active:scale-95 transition-all">
+        <span>📱</span>
+        <span>加入主畫面</span>
+      </button>
+      <span id="m-refresh-countdown" class="text-cyan-400 font-mono text-[10px]">30s</span>
     </div>
   </div>
 
@@ -251,6 +288,54 @@
         <!-- Injected by Charts.js -->
         <div class="flex items-center justify-center h-48 text-slate-400">載入歷史分析中...</div>
       </div>
+    </div>
+  </div>
+
+  <!-- iOS / PWA Add to Home Screen Modal -->
+  <div id="pwa-install-modal" class="hidden fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex justify-center items-center p-4">
+    <div class="w-full max-w-sm bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-2xl flex flex-col items-center text-center relative overflow-hidden">
+      <!-- Close button -->
+      <button id="pwa-modal-close" class="absolute top-4 right-4 p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+      </button>
+
+      <!-- App Icon Preview with Glowing Ring -->
+      <div class="relative w-20 h-20 mb-4 mt-1">
+        <div class="absolute inset-0 rounded-2xl bg-amber-400/25 blur-xl animate-pulse"></div>
+        <img src="/apple-touch-icon.png" alt="二期洗衣" class="w-20 h-20 rounded-2xl shadow-2xl relative z-10 border border-amber-400/40">
+      </div>
+
+      <h3 class="text-lg font-bold text-white mb-1">將「二期洗衣」加入 iPhone 桌面</h3>
+      <p class="text-xs text-slate-400 mb-5 leading-relaxed">一鍵加到主畫面，享受免網址列、秒開即用的原生 APP 體驗！</p>
+
+      <!-- Step-by-step instructions with iOS icons -->
+      <div class="w-full bg-slate-950/70 border border-slate-800/80 rounded-2xl p-4 text-left space-y-3 mb-5 text-xs text-slate-300">
+        <div class="flex items-start gap-3">
+          <div class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-300 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5 border border-amber-500/30">1</div>
+          <div>
+            點擊 Safari 底部工具列的「<span class="text-amber-300 font-medium">分享</span>」按鈕
+            <div class="text-[11px] text-slate-400 mt-0.5 flex items-center gap-1">（圖示為方框向上箭頭 <span class="inline-block px-1.5 py-0.5 rounded bg-slate-800 font-mono text-white text-[10px]">⎋ 分享</span>）</div>
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <div class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-300 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5 border border-amber-500/30">2</div>
+          <div>
+            在選單中向下瀏覽，點選「<span class="text-amber-300 font-medium">加入主畫面</span>」
+            <div class="text-[11px] text-slate-400 mt-0.5 flex items-center gap-1">（圖示為帶有加號的方格 <span class="inline-block px-1.5 py-0.5 rounded bg-slate-800 font-mono text-white text-[10px]">➕ 加入主畫面</span>）</div>
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <div class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-300 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5 border border-amber-500/30">3</div>
+          <div>
+            點選右上角「<span class="text-amber-300 font-medium">新增</span>」，大功告成！
+            <div class="text-[11px] text-slate-400 mt-0.5">桌面上將出現專屬黃光洗衣機 APP 圖示。</div>
+          </div>
+        </div>
+      </div>
+
+      <button id="pwa-modal-ok" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 font-bold text-sm shadow-lg shadow-amber-500/25 active:scale-[0.98] transition-all">
+        我知道了
+      </button>
     </div>
   </div>
 

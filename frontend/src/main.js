@@ -605,6 +605,35 @@ async function initApp() {
   document.getElementById('list-close-btn')?.addEventListener('click', () => {
     listModal?.classList.add('hidden');
   });
+
+  // PWA & iOS Add to Home Screen Setup
+  const pwaModal = document.getElementById('pwa-install-modal');
+  const btnInstall = document.getElementById('btn-install-pwa');
+  const mBtnInstall = document.getElementById('m-btn-install-pwa');
+  const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
+
+  if (isStandalone) {
+    if (btnInstall) btnInstall.style.display = 'none';
+    if (mBtnInstall) mBtnInstall.style.display = 'none';
+  } else {
+    const openPwaModal = () => pwaModal?.classList.remove('hidden');
+    btnInstall?.addEventListener('click', openPwaModal);
+    mBtnInstall?.addEventListener('click', openPwaModal);
+
+    document.getElementById('pwa-modal-close')?.addEventListener('click', () => {
+      pwaModal?.classList.add('hidden');
+    });
+    document.getElementById('pwa-modal-ok')?.addEventListener('click', () => {
+      pwaModal?.classList.add('hidden');
+    });
+  }
+
+  // Register PWA Service Worker for offline shell and installability
+  if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
+    navigator.serviceWorker.register('/sw.js').catch((err) => {
+      console.warn('ServiceWorker registration note:', err);
+    });
+  }
 }
 
 window.addEventListener('DOMContentLoaded', initApp);
