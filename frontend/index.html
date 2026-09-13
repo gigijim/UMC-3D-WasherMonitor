@@ -72,7 +72,7 @@
   <!-- 3D WebGL Canvas Container -->
   <div id="webgl-container" class="absolute inset-0 w-full h-full z-0"></div>
 
-  <!-- Top Glassmorphic Navigation Bar (單排精簡化：標題與樓層切換同排，絕不折成多排) -->
+  <!-- Top Glassmorphic Navigation Bar (頂部極簡單排導覽列) -->
   <header class="absolute top-0 left-0 right-0 z-20 px-3 sm:px-5 py-2.5 flex items-center justify-between gap-2 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80 flex-nowrap">
     <!-- Left Title & Badges -->
     <div class="flex items-center gap-2 sm:gap-3 shrink-0">
@@ -93,52 +93,53 @@
       </div>
     </div>
 
-    <!-- Right Controls: Floor Switcher on the same row! -->
-    <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
-      <!-- Floor Switcher Pills (移至右上角與標題同排，好按且節省垂直空間) -->
-      <div class="flex items-center gap-0.5 sm:gap-1 bg-slate-900/90 p-0.5 sm:p-1 rounded-xl border border-slate-800 shadow-sm">
-        <button data-floor="all" class="floor-btn px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-lg bg-cyan-600 text-white font-bold text-xs sm:text-sm tracking-wide transition-all active:scale-95">全部</button>
-        <button data-floor="2F" class="floor-btn px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-lg hover:bg-slate-800 text-slate-300 font-bold text-xs sm:text-sm tracking-wide transition-all active:scale-95">2F</button>
-        <button data-floor="4F" class="floor-btn px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-lg hover:bg-slate-800 text-slate-300 font-bold text-xs sm:text-sm tracking-wide transition-all active:scale-95">4F</button>
-        <button data-floor="6F" class="floor-btn px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-lg hover:bg-slate-800 text-slate-300 font-bold text-xs sm:text-sm tracking-wide transition-all active:scale-95">6F</button>
-        <button data-floor="8F" class="floor-btn px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-lg hover:bg-slate-800 text-slate-300 font-bold text-xs sm:text-sm tracking-wide transition-all active:scale-95">8F</button>
-      </div>
+    <!-- Desktop Action Buttons (桌機右上控制欄) -->
+    <div class="hidden md:flex items-center gap-1.5 text-xs shrink-0">
+      <button id="btn-open-analytics" class="px-2.5 py-1.5 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-medium shadow-sm transition-all flex items-center gap-1">
+        <span>📊</span>
+        <span>數據分析</span>
+      </button>
 
-      <!-- Desktop Extra Controls (桌機顯示，手機版下放至底部浮動欄) -->
-      <div class="hidden md:flex items-center gap-1.5 text-xs">
-        <button id="btn-open-analytics" class="px-2.5 py-1.5 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-medium shadow-sm transition-all flex items-center gap-1">
-          <span>📊</span>
-          <span>數據分析</span>
-        </button>
+      <button id="btn-pin-view" title="目前為動態巡航中，點擊固定視角" class="px-2.5 py-1.5 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-slate-700 text-cyan-300 hover:text-white transition-all flex items-center gap-1">
+        <span id="pin-icon">📍</span>
+        <span id="pin-text" class="font-mono">動態巡航</span>
+      </button>
 
-        <button id="btn-pin-view" title="目前為動態巡航中，點擊固定視角" class="px-2.5 py-1.5 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-slate-700 text-cyan-300 hover:text-white transition-all flex items-center gap-1">
-          <span id="pin-icon">📍</span>
-          <span id="pin-text" class="font-mono">動態巡航</span>
-        </button>
+      <button id="btn-refresh" title="手動立即重新整理最新狀態" class="p-1.5 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-slate-700 text-slate-200 transition-all flex items-center gap-1">
+        <svg id="btn-refresh-icon" class="w-3.5 h-3.5 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+        </svg>
+        <span id="btn-refresh-text" class="hidden lg:inline">刷新</span>
+      </button>
 
-        <button id="btn-refresh" title="手動立即重新整理最新狀態" class="p-1.5 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-slate-700 text-slate-200 transition-all flex items-center gap-1">
-          <svg id="btn-refresh-icon" class="w-3.5 h-3.5 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-          </svg>
-          <span id="btn-refresh-text" class="hidden lg:inline">刷新</span>
-        </button>
+      <button id="btn-list-view" class="p-1.5 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-slate-700 text-slate-200 transition-colors flex items-center gap-1">
+        <span>📋</span>
+        <span class="hidden lg:inline">清單</span>
+      </button>
 
-        <button id="btn-list-view" class="p-1.5 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-slate-700 text-slate-200 transition-colors flex items-center gap-1">
-          <span>📋</span>
-          <span class="hidden lg:inline">清單</span>
-        </button>
+      <button id="btn-toggle-demo" title="切換真實即時數據 / 模擬測試" class="p-1.5 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-slate-700 text-slate-200 transition-colors flex items-center gap-1">
+        <span>🎮</span>
+        <span class="hidden lg:inline" id="demo-btn-text">模擬</span>
+      </button>
 
-        <button id="btn-toggle-demo" title="切換真實即時數據 / 模擬測試" class="p-1.5 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-slate-700 text-slate-200 transition-colors flex items-center gap-1">
-          <span>🎮</span>
-          <span class="hidden lg:inline" id="demo-btn-text">模擬</span>
-        </button>
-
-        <button id="btn-install-pwa" title="加入主畫面 (安裝為 APP)" class="p-1.5 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 text-slate-400 hover:text-amber-300 transition-colors flex items-center justify-center">
-          <span>📱</span>
-        </button>
-      </div>
+      <button id="btn-install-pwa" title="加入主畫面 (安裝為 APP)" class="p-1.5 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 text-slate-400 hover:text-amber-300 transition-colors flex items-center justify-center">
+        <span>📱</span>
+      </button>
     </div>
   </header>
+
+  <!-- Vertical Floor Switcher Dock (直立式樓層切換按鈕：畫面右上方，依樓層垂直順序由上而下直觀排列) -->
+  <aside aria-label="樓層視角切換" class="absolute top-14 sm:top-16 right-3 sm:right-4 z-20 flex flex-col items-center bg-slate-950/85 backdrop-blur-xl p-1 sm:p-1.5 rounded-2xl border border-slate-800/90 shadow-2xl select-none">
+    <div class="text-[9px] font-mono text-slate-400 font-bold uppercase tracking-wider mb-1 px-1">樓層</div>
+    <div class="flex flex-col gap-1 w-full">
+      <button data-floor="8F" title="切換至 8 樓" class="floor-btn w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center font-bold text-xs sm:text-sm text-slate-300 hover:text-white hover:bg-slate-800 transition-all active:scale-90">8F</button>
+      <button data-floor="6F" title="切換至 6 樓" class="floor-btn w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center font-bold text-xs sm:text-sm text-slate-300 hover:text-white hover:bg-slate-800 transition-all active:scale-90">6F</button>
+      <button data-floor="4F" title="切換至 4 樓" class="floor-btn w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center font-bold text-xs sm:text-sm text-slate-300 hover:text-white hover:bg-slate-800 transition-all active:scale-90">4F</button>
+      <button data-floor="2F" title="切換至 2 樓" class="floor-btn w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center font-bold text-xs sm:text-sm text-slate-300 hover:text-white hover:bg-slate-800 transition-all active:scale-90">2F</button>
+      <div class="w-full h-px bg-slate-800 my-0.5"></div>
+      <button data-floor="all" title="全棟視野" class="floor-btn w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center font-bold text-[11px] sm:text-xs bg-cyan-600 text-white shadow-md shadow-cyan-900/40 transition-all active:scale-90">全部</button>
+    </div>
+  </aside>
 
   <!-- Mobile Bottom Floating Action Bar (手機底部懸浮欄，頂部徹底釋放給 3D，永不折三排) -->
   <nav class="md:hidden fixed bottom-3 left-3 right-3 z-20 flex items-center justify-between bg-slate-950/85 backdrop-blur-xl px-3 py-2 rounded-2xl border border-slate-800/90 shadow-2xl">

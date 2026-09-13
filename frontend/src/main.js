@@ -540,17 +540,24 @@ async function initApp() {
         if (updated) showMachineDetail(updated);
       }
     } else {
-      // 1. Update machine detail drawer card if open
+      // 1. 每秒即時滴答更新 3D 機台上方倒數看板
+      if (realtimeData?.devices) {
+        scene?.tickSecond(realtimeData.devices);
+      }
+
+      // 2. Update machine detail drawer card if open
       if (selectedDevice && selectedDevice.isRunning && selectedDevice.dueTime) {
+        const remSec = Math.max(0, Math.floor((new Date(selectedDevice.dueTime).getTime() - now) / 1000));
+        selectedDevice.remainingSec = remSec;
         const timerText = document.getElementById('card-timer-text');
         if (timerText) {
-          const m = Math.floor(selectedDevice.remainingSec / 60);
-          const s = selectedDevice.remainingSec % 60;
+          const m = Math.floor(remSec / 60);
+          const s = remSec % 60;
           timerText.textContent = `剩餘 ${m}分${s < 10 ? '0' : ''}${s}秒`;
         }
       }
 
-      // 2. Update list view card timers dynamically every second
+      // 3. Update list view card timers dynamically every second
       const listModal = document.getElementById('list-view-modal');
       if (listModal && !listModal.classList.contains('hidden') && realtimeData?.devices) {
         document.querySelectorAll('.list-item-card[data-hwid]').forEach((card) => {
@@ -637,10 +644,10 @@ async function initApp() {
   floorButtons.forEach((btn) => {
     btn.addEventListener('click', () => {
       floorButtons.forEach((b) => {
-        b.classList.remove('bg-cyan-600', 'text-white');
+        b.classList.remove('bg-cyan-600', 'text-white', 'shadow-md', 'shadow-cyan-900/40');
         b.classList.add('text-slate-300');
       });
-      btn.classList.add('bg-cyan-600', 'text-white');
+      btn.classList.add('bg-cyan-600', 'text-white', 'shadow-md', 'shadow-cyan-900/40');
       btn.classList.remove('text-slate-300');
 
       const floor = btn.dataset.floor;
