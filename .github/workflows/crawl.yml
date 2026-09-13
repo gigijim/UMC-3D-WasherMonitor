@@ -1,8 +1,8 @@
-﻿name: 10-Minute IoT Laundry Monitor Crawler
+name: 10-Minute IoT Laundry Monitor Crawler
 
 on:
   schedule:
-    - cron: '*/10 * * * *'
+    - cron: '2,12,22,32,42,52 * * * *'
   workflow_dispatch:
 
 permissions:
@@ -33,6 +33,6 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes in machine data. Skipping commit."
           else
-            git commit -m "chore(data): auto-update laundry status & history [skip ci]"
+            git commit -m "chore(data): auto-update laundry status & history"
             git push
           fi

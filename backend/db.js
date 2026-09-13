@@ -56,6 +56,11 @@ function initDb() {
 
     CREATE INDEX IF NOT EXISTS idx_events_floor_type 
     ON usage_events (floor, machine_type);
+
+    CREATE TABLE IF NOT EXISTS system_config (
+      key TEXT PRIMARY KEY,
+      value TEXT NOT NULL
+    );
   `);
 
   db.close();
@@ -130,11 +135,33 @@ function calculateCost(machineType, durationMin) {
   }
 }
 
+function getTrackingStartTime(db) {
+  try {
+    const row = db.prepare(`SELECT value FROM system_config WHERE key = 'tracking_start_time'`).get();
+    if (row && row.value) {
+      return row.value;
+    }
+  } catch (err) {
+    // table might be initializing
+  }
+  const defaultEpoch = '2026-09-12T21:00:00.000Z'; // 2026/09/13 05:00 AM (開始採集真實數據的基準點)
+  try {
+    db.prepare(`INSERT OR REPLACE INTO system_config (key, value) VALUES ('tracking_start_time', ?)`).run(defaultEpoch);
+  } catch (err) {}
+  return defaultEpoch;
+}
+
+function setTrackingStartTime(db, isoString) {
+  db.prepare(`INSERT OR REPLACE INTO system_config (key, value) VALUES ('tracking_start_time', ?)`).run(isoString);
+}
+
 module.exports = {
   DB_PATH,
   getDb,
   initDb,
   parseDeviceInfo,
   upsertDevice,
-  calculateCost
+  calculateCost,
+  getTrackingStartTime,
+  setTrackingStartTime
 };

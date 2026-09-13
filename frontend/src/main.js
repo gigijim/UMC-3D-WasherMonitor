@@ -119,7 +119,7 @@ async function fetchRealtime() {
 
 async function fetchHistory() {
   try {
-    const res = await fetch('/data/history_data.json');
+    const res = await fetch(`/data/history_data.json?t=${Date.now()}`);
     if (res.ok) {
       return await res.json();
     }
@@ -375,8 +375,12 @@ async function refreshAll() {
   btn?.classList.add('animate-spin');
 
   try {
-    const data = await fetchRealtime();
+    const [data, hist] = await Promise.all([
+      fetchRealtime(),
+      fetchHistory()
+    ]);
     realtimeData = data;
+    if (hist) historyData = hist;
     updateSummaryBadges(data);
 
     if (scene && data.devices) {
@@ -387,6 +391,12 @@ async function refreshAll() {
     if (selectedDevice) {
       const updated = data.devices.find((d) => d.hwid === selectedDevice.hwid);
       if (updated) showMachineDetail(updated);
+    }
+
+    const analyticsModal = document.getElementById('analytics-modal');
+    const analyticsContent = document.getElementById('analytics-content');
+    if (analyticsModal && !analyticsModal.classList.contains('hidden') && historyData) {
+      renderAnalytics(historyData, analyticsContent);
     }
   } catch (err) {
     console.error('更新失敗:', err);
@@ -525,9 +535,7 @@ async function initApp() {
   const analyticsContent = document.getElementById('analytics-content');
   document.getElementById('btn-open-analytics')?.addEventListener('click', async () => {
     analyticsModal?.classList.remove('hidden');
-    if (!historyData) {
-      historyData = await fetchHistory();
-    }
+    historyData = await fetchHistory();
     renderAnalytics(historyData, analyticsContent);
   });
 
