@@ -188,69 +188,75 @@ export class LaundryScene {
     return new THREE.CanvasTexture(canvas);
   }
 
+  // 依需求 2：黃框處的樓層告示（建築左側浮動看板），全面放大、高解析重繪，使其更顯眼壯觀！
   createFloorSignSprite(floorName) {
     const canvas = document.createElement('canvas');
-    canvas.width = 256;
-    canvas.height = 140;
+    canvas.width = 512;
+    canvas.height = 280;
     const ctx = canvas.getContext('2d');
 
-    // Rounded glowing glass card background
-    ctx.fillStyle = 'rgba(10, 15, 29, 0.92)';
+    // Rounded glowing glass card background with outer cyan glow
+    ctx.shadowColor = 'rgba(6, 182, 212, 0.55)';
+    ctx.shadowBlur = 18;
+    ctx.fillStyle = 'rgba(10, 15, 29, 0.94)';
     ctx.beginPath();
-    ctx.roundRect(8, 8, 240, 124, 28);
+    ctx.roundRect(14, 14, 484, 252, 48);
     ctx.fill();
 
-    // High luminance cyan border
+    // High luminance cyan glowing border
     ctx.strokeStyle = '#06b6d4';
-    ctx.lineWidth = 6;
+    ctx.lineWidth = 10;
     ctx.stroke();
+    ctx.shadowBlur = 0; // reset shadow for crisp text
 
-    // Floor text
-    ctx.font = 'bold 72px monospace';
+    // Floor prominent text (e.g. 8F, 6F, 4F, 2F)
+    ctx.font = 'bold 144px monospace';
     ctx.fillStyle = '#38bdf8';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText(floorName, 128, 56);
+    ctx.fillText(floorName, 256, 114);
 
     // Subtitle
-    ctx.font = 'bold 22px sans-serif';
-    ctx.fillStyle = '#94a3b8';
-    ctx.fillText('聯苑二期', 128, 104);
+    ctx.font = 'bold 44px sans-serif';
+    ctx.fillStyle = '#cbd5e1';
+    ctx.fillText('聯苑二期', 256, 210);
 
     const texture = new THREE.CanvasTexture(canvas);
     const mat = new THREE.SpriteMaterial({ map: texture, transparent: true, depthTest: true });
     const sprite = new THREE.Sprite(mat);
-    sprite.scale.set(3.6, 1.95, 1);
+    // 全面放大 ~40%，更顯眼立體
+    sprite.scale.set(5.0, 2.7, 1);
     return sprite;
   }
 
-  // 依需求：純粹 2 個字 "2F" / "4F" / "6F" / "8F"，無方框、無多餘文字、無 UMC 字樣
+  // 依需求 1：純粹 2 個字 "2F" / "4F" / "6F" / "8F"，微縮並上移外移至後牆紅框角落
   createSideWallFloorBadge(floorName) {
     const canvas = document.createElement('canvas');
     canvas.width = 256;
     canvas.height = 256;
     const ctx = canvas.getContext('2d');
 
-    // 巨大、立體、極簡無框純字體
-    ctx.font = '900 170px "Inter", "Segoe UI", system-ui, sans-serif';
+    // 高對比立體無框純字體
+    ctx.font = '900 150px "Inter", "Segoe UI", system-ui, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
 
     // 立體深黑陰影
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.88)';
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.92)';
     ctx.fillText(floorName, 131, 131);
 
     // 半透明淡青立體主字
-    ctx.fillStyle = 'rgba(186, 230, 253, 0.55)';
+    ctx.fillStyle = 'rgba(186, 230, 253, 0.65)';
     ctx.fillText(floorName, 128, 128);
 
     // 微光輪廓光圈
-    ctx.lineWidth = 4;
-    ctx.strokeStyle = 'rgba(56, 189, 248, 0.50)';
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = 'rgba(56, 189, 248, 0.60)';
     ctx.strokeText(floorName, 128, 128);
 
     const texture = new THREE.CanvasTexture(canvas);
-    const badgeGeo = new THREE.PlaneGeometry(3.6, 3.6);
+    // 縮小一些些（從 3.6 縮至 2.7），完美契合紅框外圍角落空間
+    const badgeGeo = new THREE.PlaneGeometry(2.7, 2.7);
     const badgeMat = new THREE.MeshBasicMaterial({
       map: texture,
       transparent: true,
@@ -297,13 +303,13 @@ export class LaundryScene {
       backWall.receiveShadow = true;
       floorGroup.add(backWall);
 
-      // 依需求：移動並複製到後牆左、右兩側空白區域 (x = -8.2 與 x = 8.2)，完全避開中間 spot light 與機台！
+      // 依需求 1：將樓層標示往後牆的外圍邊緣調整（左: x=-8.9, 右: x=8.9），高度抬升至 y=3.85，對齊紅框位置
       const leftBadge = this.createSideWallFloorBadge(floor.name);
-      leftBadge.position.set(-8.2, 2.6, -2.33);
+      leftBadge.position.set(-8.9, 3.85, -2.33);
       floorGroup.add(leftBadge);
 
       const rightBadge = this.createSideWallFloorBadge(floor.name);
-      rightBadge.position.set(8.2, 2.6, -2.33);
+      rightBadge.position.set(8.9, 3.85, -2.33);
       floorGroup.add(rightBadge);
 
       // Right Entrance Arch Wall
@@ -313,9 +319,9 @@ export class LaundryScene {
       rightWall.position.set(10.4, 2.6, -1.0);
       floorGroup.add(rightWall);
 
-      // Dynamic Camera-Facing Billboard Floor Sign (Outside left slab at x=-11.8)
+      // 依需求 2：黃框處左側樓層告示全面放大，位置外推至 x=-12.4，高度抬高至 y=2.2，無比顯眼
       const floorSignSprite = this.createFloorSignSprite(floor.name);
-      floorSignSprite.position.set(-11.8, 1.8, 0.5);
+      floorSignSprite.position.set(-12.4, 2.2, 0.5);
       floorGroup.add(floorSignSprite);
 
       // Pillars (依需求移除各樓層左前方柱子 [-10.2, 3.4]，全面敞開視角，絕不遮擋機台)
