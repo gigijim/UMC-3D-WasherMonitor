@@ -75,23 +75,28 @@
   <!-- Top Glassmorphic Navigation Bar (頂部極簡單排導覽列) -->
   <header class="absolute top-0 left-0 right-0 z-20 px-3 sm:px-5 py-2.5 flex items-center justify-between gap-2 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80 flex-nowrap">
     <!-- Left Title & Badges -->
-    <div class="flex items-center gap-2 sm:gap-3 shrink-0">
-      <div class="flex items-center gap-1.5 sm:gap-2">
-        <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_#22d3ee]"></span>
-        <h1 class="text-xs sm:text-base font-bold tracking-tight text-white whitespace-nowrap">
-          聯苑二期 <span class="text-cyan-400 font-mono">3D</span><span class="hidden sm:inline"> 洗衣監控</span>
+    <div class="flex items-center gap-2 sm:gap-3 shrink-0 min-w-0">
+      <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_#22d3ee] shrink-0"></span>
+        <h1 class="text-xs sm:text-base font-bold tracking-tight text-white whitespace-nowrap flex items-center gap-1">
+          <span>聯苑二期</span><span class="text-cyan-400 font-mono font-black">3D</span><span>洗衣監控分析</span>
         </h1>
       </div>
       <!-- Summary Counters (Desktop) -->
-      <div class="hidden xl:flex items-center gap-2 text-xs font-mono">
-        <span id="badge-idle" class="px-2 py-0.5 rounded-full bg-emerald-950/80 text-emerald-300 border border-emerald-800">
+      <div class="hidden xl:flex items-center gap-2 text-xs font-mono shrink-0">
+        <span id="badge-idle" class="px-2 py-0.5 rounded-full bg-emerald-950/80 text-emerald-300 border border-emerald-800 whitespace-nowrap">
           🟢 閒置: --
         </span>
-        <span id="badge-running" class="px-2 py-0.5 rounded-full bg-amber-950/80 text-amber-300 border border-amber-800">
+        <span id="badge-running" class="px-2 py-0.5 rounded-full bg-amber-950/80 text-amber-300 border border-amber-800 whitespace-nowrap">
           🟠 運轉: --
         </span>
       </div>
     </div>
+
+    <!-- Mobile Corner 'i' Info Button (手機版角落 i 符號，點擊查看版本與歷史紀錄) -->
+    <button id="m-btn-version" title="查看版本修改紀錄與版權資訊" class="md:hidden w-7 h-7 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 text-slate-400 hover:text-cyan-300 active:scale-95 transition-all flex items-center justify-center shrink-0 shadow-sm">
+      <span class="w-4 h-4 rounded-full bg-slate-800 border border-slate-700 text-[10px] flex items-center justify-center font-serif font-bold text-cyan-300">i</span>
+    </button>
 
     <!-- Desktop Action Buttons (桌機右上控制欄) -->
     <div class="hidden md:flex items-center gap-1.5 text-xs shrink-0">
@@ -141,35 +146,35 @@
     </div>
   </aside>
 
-  <!-- Mobile Bottom Floating Action Bar (手機底部懸浮欄，頂部徹底釋放給 3D，永不折三排) -->
-  <nav class="md:hidden fixed bottom-3 left-3 right-3 z-20 flex items-center justify-between bg-slate-950/85 backdrop-blur-xl px-3 py-2 rounded-2xl border border-slate-800/90 shadow-2xl">
-    <div class="flex items-center gap-2 text-[11px] font-mono">
-      <span id="m-badge-idle" class="text-emerald-400 font-semibold">🟢 --</span>
-      <span id="m-badge-running" class="text-amber-400 font-semibold">🟠 --</span>
+  <!-- Mobile Bottom Floating Action Bar (手機底部懸浮欄，防折行與適配安全區域) -->
+  <nav class="md:hidden fixed bottom-[max(10px,env(safe-area-inset-bottom))] left-2.5 right-2.5 z-20 flex items-center justify-between bg-slate-950/90 backdrop-blur-xl px-2.5 py-1.5 rounded-2xl border border-slate-800/90 shadow-2xl overflow-hidden gap-1">
+    <div class="flex items-center gap-1.5 text-[11px] font-mono shrink-0">
+      <span id="m-badge-idle" class="text-emerald-400 font-semibold whitespace-nowrap">🟢 --</span>
+      <span id="m-badge-running" class="text-amber-400 font-semibold whitespace-nowrap">🟠 --</span>
     </div>
 
-    <div class="flex items-center gap-1.5 text-xs">
-      <button id="m-btn-open-analytics" class="px-2.5 py-1 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-medium flex items-center gap-1 text-xs shadow-sm active:scale-95 transition-all">
+    <div class="flex items-center gap-1 text-xs shrink-0">
+      <button id="m-btn-open-analytics" class="px-2 py-1 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-medium flex items-center gap-1 text-[11px] shadow-sm active:scale-95 transition-all whitespace-nowrap shrink-0">
         <span>📊</span>
-        <span>數據分析</span>
+        <span class="whitespace-nowrap">數據分析</span>
       </button>
 
-      <button id="m-btn-pin-view" title="固定視角 / 動態巡航" class="px-2 py-1 rounded-xl bg-slate-900/90 text-cyan-300 border border-cyan-500/40 active:scale-95 transition-all flex items-center gap-0.5 text-xs">
+      <button id="m-btn-pin-view" title="固定視角 / 動態巡航" class="px-1.5 py-1 rounded-xl bg-slate-900/90 text-cyan-300 border border-cyan-500/40 active:scale-95 transition-all flex items-center gap-0.5 text-[11px] whitespace-nowrap shrink-0">
         <span id="m-pin-icon">📍</span>
-        <span id="m-pin-text" class="font-mono text-[11px]">巡航</span>
+        <span id="m-pin-text" class="font-mono text-[10px] whitespace-nowrap">巡航</span>
       </button>
 
-      <button id="m-btn-list-view" title="清單檢視" class="p-1.5 rounded-xl bg-slate-900/90 text-slate-300 border border-slate-700/80 active:scale-95 transition-all flex items-center justify-center">
+      <button id="m-btn-list-view" title="清單檢視" class="w-7 h-7 rounded-xl bg-slate-900/90 text-slate-300 border border-slate-700/80 active:scale-95 transition-all flex items-center justify-center shrink-0">
         <span>📋</span>
       </button>
 
-      <button id="m-btn-refresh" title="手動刷新" class="p-1.5 rounded-xl bg-slate-900/90 text-slate-300 border border-slate-700/80 active:scale-95 transition-all flex items-center justify-center">
+      <button id="m-btn-refresh" title="手動刷新" class="w-7 h-7 rounded-xl bg-slate-900/90 text-slate-300 border border-slate-700/80 active:scale-95 transition-all flex items-center justify-center shrink-0">
         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
         </svg>
       </button>
 
-      <button id="m-btn-install-pwa" title="加入主畫面" class="p-1.5 rounded-xl bg-slate-900/90 text-slate-400 hover:text-amber-300 border border-slate-700/80 active:scale-95 transition-all flex items-center justify-center">
+      <button id="m-btn-install-pwa" title="加入主畫面" class="w-7 h-7 rounded-xl bg-slate-900/90 text-slate-400 hover:text-amber-300 border border-slate-700/80 active:scale-95 transition-all flex items-center justify-center shrink-0">
         <span>📱</span>
       </button>
     </div>
@@ -197,13 +202,16 @@
     <span class="text-slate-400">💡 拖曳旋轉 · 滾輪縮放 · 點擊機台查看</span>
   </div>
 
-  <!-- Bottom Right Copyright Watermark -->
-  <div class="absolute bottom-3 right-4 z-10 pointer-events-none select-none text-[10px] font-mono text-slate-500/35 tracking-wider">
-    Copyright © 2026 UMC_IT-Jimmy
-  </div>
+  <!-- Bottom Right Copyright & Version Info Button (桌機右下角版本與 i 資訊按鈕) -->
+  <button id="btn-version-desktop" title="點擊查看歷史版本更新紀錄與版權資訊" class="hidden sm:flex absolute bottom-3 right-4 z-10 pointer-events-auto select-none text-[11px] font-mono text-slate-400/80 hover:text-cyan-300 bg-slate-950/60 hover:bg-slate-900/90 px-2.5 py-1 rounded-lg border border-slate-800/60 hover:border-slate-700/80 transition-all items-center gap-1.5 cursor-pointer backdrop-blur-xs">
+    <span>Copyright © 2026 UMC_IT-Jimmy</span>
+    <span class="text-slate-600">·</span>
+    <span class="text-cyan-400 font-semibold">v2.2.0</span>
+    <span class="w-3.5 h-3.5 rounded-full bg-slate-800 border border-slate-700 text-[9px] flex items-center justify-center text-cyan-300 font-serif font-bold">i</span>
+  </button>
 
-  <!-- Machine Detail Drawer / Card -->
-  <div id="machine-detail-card" class="hidden absolute bottom-4 right-4 left-4 sm:left-auto sm:w-96 z-30 bg-slate-900/95 backdrop-blur-xl p-5 rounded-2xl border border-slate-700 shadow-2xl transition-all">
+  <!-- Machine Detail Drawer / Card (適配 iOS Safari 底部安全區與可捲動瀏覽) -->
+  <div id="machine-detail-card" class="hidden fixed sm:absolute bottom-[max(12px,calc(env(safe-area-inset-bottom)+12px))] right-3 left-3 sm:left-auto sm:right-4 sm:bottom-4 sm:w-96 z-30 max-h-[calc(100dvh-115px)] sm:max-h-[85vh] overflow-y-auto bg-slate-900/95 backdrop-blur-xl p-4 sm:p-5 rounded-2xl border border-slate-700 shadow-2xl transition-all overscroll-contain">
     <div class="flex items-start justify-between mb-3">
       <div>
         <div class="flex items-center gap-2">
@@ -273,19 +281,19 @@
     </div>
   </div>
 
-  <!-- 2D Quick List View Drawer / Modal -->
-  <div id="list-view-modal" class="hidden fixed inset-0 z-40 bg-slate-950/80 backdrop-blur-sm flex justify-center items-center p-3 sm:p-6">
-    <div class="w-full max-w-4xl h-[90vh] bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl flex flex-col overflow-hidden">
-      <div class="p-4 border-b border-slate-800 flex items-center justify-between">
+  <!-- 2D Quick List View Drawer / Modal (適配 iOS Safari 安全區域與動態高度) -->
+  <div id="list-view-modal" class="hidden fixed inset-0 z-40 bg-slate-950/85 backdrop-blur-sm flex justify-center items-start sm:items-center p-2.5 sm:p-6 pt-[max(16px,calc(env(safe-area-inset-top)+12px))] pb-[max(16px,calc(env(safe-area-inset-bottom)+12px))]">
+    <div class="w-full max-w-4xl h-full max-h-[calc(100dvh-max(32px,calc(env(safe-area-inset-top)+env(safe-area-inset-bottom)+16px)))] bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl flex flex-col overflow-hidden">
+      <div class="px-4 sm:px-6 py-3 sm:py-3.5 border-b border-slate-800 flex items-center justify-between bg-slate-900/95 shrink-0">
         <div class="flex items-center gap-2">
           <span class="text-cyan-400 font-bold">📋</span>
           <h2 class="text-base font-bold text-white">全棟機台即時狀態清單 (24 台)</h2>
         </div>
-        <button id="list-close-btn" class="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        <button id="list-close-btn" aria-label="關閉清單" class="w-9 h-9 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 active:scale-95 transition-all flex items-center justify-center shrink-0 shadow-sm">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
       </div>
-      <div class="flex-1 overflow-y-auto p-4">
+      <div class="flex-1 overflow-y-auto p-3 sm:p-4">
         <div id="list-view-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
           <!-- Populated by JS -->
         </div>
@@ -293,29 +301,145 @@
     </div>
   </div>
 
-  <!-- Fullscreen Analytics Modal -->
-  <div id="analytics-modal" class="hidden fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex justify-center items-center p-2 sm:p-6">
-    <div class="w-full max-w-5xl h-[92vh] bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl flex flex-col overflow-hidden">
+  <!-- Fullscreen Analytics Modal (徹底修復 Safari 關閉鈕遮蔽、全面適配 iOS 安全區域) -->
+  <div id="analytics-modal" class="hidden fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex justify-center items-start sm:items-center p-2.5 sm:p-6 pt-[max(16px,calc(env(safe-area-inset-top)+12px))] pb-[max(16px,calc(env(safe-area-inset-bottom)+12px))]">
+    <div class="w-full max-w-5xl h-full max-h-[calc(100dvh-max(32px,calc(env(safe-area-inset-top)+env(safe-area-inset-bottom)+16px)))] bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl flex flex-col overflow-hidden">
       <!-- Modal Header -->
-      <div class="px-5 py-3.5 border-b border-slate-800 flex items-center justify-between bg-slate-900/90">
-        <div>
+      <div class="px-4 sm:px-6 py-3 sm:py-3.5 border-b border-slate-800 flex items-center justify-between bg-slate-900/95 shrink-0">
+        <div class="min-w-0 pr-2">
           <div class="flex items-center gap-2">
             <span class="text-lg">📊</span>
-            <h2 class="text-base sm:text-lg font-bold text-white">聯苑二期 · 數據分析</h2>
+            <h2 class="text-base sm:text-lg font-bold text-white truncate">聯苑二期 · 數據分析</h2>
           </div>
-          <p class="text-xs text-slate-400 mt-0.5">24H 規律採集 · 智慧離峰推薦</p>
+          <p class="text-[11px] sm:text-xs text-slate-400 mt-0.5 truncate">24H 規律採集 · 智慧離峰推薦</p>
         </div>
-        <button id="analytics-close-btn" class="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        <button id="analytics-close-btn" aria-label="關閉數據分析" class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-slate-200 hover:text-white border border-slate-700 active:scale-95 transition-all flex items-center justify-center shrink-0 shadow-md">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path>
           </svg>
         </button>
       </div>
 
       <!-- Modal Body (Scrollable) -->
-      <div id="analytics-content" class="flex-1 overflow-y-auto p-4 sm:p-6">
+      <div id="analytics-content" class="flex-1 overflow-y-auto p-3 sm:p-6">
         <!-- Injected by Charts.js -->
         <div class="flex items-center justify-center h-48 text-slate-400">載入歷史分析中...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Version & Copyright Information Modal (版本更新紀錄與版權資訊彈窗) -->
+  <div id="version-modal" class="hidden fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex justify-center items-start sm:items-center p-3 sm:p-6 pt-[max(16px,calc(env(safe-area-inset-top)+12px))] pb-[max(16px,calc(env(safe-area-inset-bottom)+12px))]">
+    <div class="w-full max-w-lg max-h-[calc(100dvh-max(32px,calc(env(safe-area-inset-top)+env(safe-area-inset-bottom)+16px)))] bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl flex flex-col overflow-hidden">
+      <!-- Header -->
+      <div class="px-5 py-4 border-b border-slate-800 flex items-center justify-between bg-slate-900/95 shrink-0">
+        <div class="flex items-center gap-2.5">
+          <span class="w-8 h-8 rounded-xl bg-cyan-950 border border-cyan-500/40 text-cyan-300 flex items-center justify-center text-sm font-bold shadow-[0_0_12px_rgba(6,182,212,0.3)]">ℹ️</span>
+          <div>
+            <h3 class="text-base font-bold text-white flex items-center gap-2">
+              系統版本與資訊
+              <span class="px-2 py-0.5 rounded-md bg-cyan-950 text-cyan-300 border border-cyan-800 text-[10px] font-mono font-bold">v2.2.0</span>
+            </h3>
+            <p class="text-[11px] text-slate-400">聯苑二期 3D 洗衣監控分析平台</p>
+          </div>
+        </div>
+        <button id="version-close-btn" aria-label="關閉" class="w-8 h-8 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 active:scale-95 transition-all flex items-center justify-center shrink-0">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+
+      <!-- Body (Scrollable changelog & metadata) -->
+      <div class="flex-1 overflow-y-auto p-5 space-y-4 text-xs">
+        <!-- Basic Metadata Card -->
+        <div class="bg-slate-950/70 p-3.5 rounded-2xl border border-slate-800 space-y-2">
+          <div class="flex justify-between items-center text-[11px]">
+            <span class="text-slate-400">系統版本</span>
+            <span class="font-mono text-cyan-300 font-bold">v2.2.0 (Release 2026.09.13)</span>
+          </div>
+          <div class="flex justify-between items-center text-[11px]">
+            <span class="text-slate-400">架構引擎</span>
+            <span class="font-mono text-slate-300">Three.js WebGL + Tailwind + IoT Sync</span>
+          </div>
+          <div class="flex justify-between items-center text-[11px]">
+            <span class="text-slate-400">開發維護</span>
+            <span class="font-medium text-amber-300">聯華電子 UMC IT - Jimmy</span>
+          </div>
+          <div class="flex justify-between items-center text-[11px] pt-1 border-t border-slate-800/80">
+            <span class="text-slate-500">版權聲明</span>
+            <span class="text-[10px] font-mono text-slate-500">Copyright © 2026 UMC_IT-Jimmy</span>
+          </div>
+        </div>
+
+        <!-- Changelog Timeline -->
+        <div>
+          <h4 class="text-xs font-bold text-slate-300 mb-2.5 flex items-center gap-1.5">
+            <span>📜</span>
+            <span>歷史版本修改紀錄</span>
+          </h4>
+          <div class="space-y-3">
+            <!-- v2.2.0 -->
+            <div class="border-l-2 border-cyan-500 pl-3 py-0.5 space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="font-mono font-bold text-cyan-300 text-xs">v2.2.0</span>
+                <span class="text-[10px] text-slate-500 font-mono">2026-09-13</span>
+              </div>
+              <ul class="text-[11px] text-slate-300 space-y-1 list-disc list-inside">
+                <li>補齊手機頂部標題「聯苑二期3D洗衣監控分析」</li>
+                <li>徹底解決 Safari 報表關閉鈕 (X) 遮蔽與 iOS 安全區適配</li>
+                <li>機台選取視角中心下移，機台與倒數看板完美避開資訊小窗</li>
+                <li>全棟視角微縮並導入微微俯瞰視角，層次更完美</li>
+                <li>底部選單防折行與防跑版調優，全面鎖定單行排版</li>
+                <li>新增角落版本與版權資訊彈窗系統</li>
+              </ul>
+            </div>
+
+            <!-- v2.1.0 -->
+            <div class="border-l-2 border-slate-700 pl-3 py-0.5 space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="font-mono font-bold text-slate-300 text-xs">v2.1.0</span>
+                <span class="text-[10px] text-slate-500 font-mono">2026-09-13</span>
+              </div>
+              <ul class="text-[11px] text-slate-400 space-y-1 list-disc list-inside">
+                <li>3D 倒數看板每秒滴答跳秒倒數修復（tickSecond + 貼圖緩存）</li>
+                <li>巡航視角校正（正面基準 0 度，舒適微擺 ±24 度）</li>
+                <li>背景告示純粹化（純 2 字無框）與左右雙側配置避開聚光燈</li>
+                <li>畫面右上直立式電梯樓層切換按鈕 Dock</li>
+                <li>全面效能檢視優化（分頁背景 0% 耗能、60FPS 幀率限制防發燙）</li>
+              </ul>
+            </div>
+
+            <!-- v2.0.0 -->
+            <div class="border-l-2 border-slate-700 pl-3 py-0.5 space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="font-mono font-bold text-slate-300 text-xs">v2.0.0</span>
+                <span class="text-[10px] text-slate-500 font-mono">2026-09-13</span>
+              </div>
+              <ul class="text-[11px] text-slate-400 space-y-1 list-disc list-inside">
+                <li>PWA 漸進式網頁應用支援（可加至 iPhone 主畫面獨立全螢幕運行）</li>
+                <li>24H 數據分析、熱度矩陣、使用率排名與智慧離峰時段推薦</li>
+                <li>樓層 3D 立體告示與高自由度全域縮放漫遊</li>
+              </ul>
+            </div>
+
+            <!-- v1.0.0 -->
+            <div class="border-l-2 border-slate-700 pl-3 py-0.5 space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="font-mono font-bold text-slate-300 text-xs">v1.0.0</span>
+                <span class="text-[10px] text-slate-500 font-mono">2026-09-12</span>
+              </div>
+              <ul class="text-[11px] text-slate-400 space-y-1 list-disc list-inside">
+                <li>聯苑二期 2F/4F/6F/8F 24 台洗衣機/烘衣機 3D 即時 IoT 監控系統發布</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="p-3 bg-slate-950/60 border-t border-slate-800/80">
+        <button id="version-modal-ok" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 active:scale-[0.98] text-white font-medium text-xs transition-all">
+          關閉
+        </button>
       </div>
     </div>
   </div>
