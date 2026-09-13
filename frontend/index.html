@@ -369,7 +369,7 @@
         <div class="bg-slate-950/70 p-3.5 rounded-2xl border border-slate-800 space-y-2">
           <div class="flex justify-between items-center text-[11px]">
             <span class="text-slate-400">系統版本</span>
-            <span class="font-mono text-cyan-300 font-bold">v2.4.1 (Release 2026.09.13)</span>
+            <span class="font-mono text-cyan-300 font-bold">v2.4.2 (Release 2026.09.13)</span>
           </div>
           <div class="flex justify-between items-center text-[11px]">
             <span class="text-slate-400">架構引擎</span>
@@ -391,13 +391,27 @@
             <span>歷史版本修改紀錄</span>
           </h4>
           <div class="space-y-3">
-            <!-- v2.4.1 -->
+            <!-- v2.4.2 -->
             <div class="border-l-2 border-cyan-400 pl-3 py-0.5 space-y-1">
               <div class="flex items-center justify-between">
-                <span class="font-mono font-bold text-cyan-300 text-xs">v2.4.1</span>
-                <span class="text-[10px] text-slate-500 font-mono">2026-09-13 20:50</span>
+                <span class="font-mono font-bold text-cyan-300 text-xs">v2.4.2</span>
+                <span class="text-[10px] text-slate-500 font-mono">2026-09-13 21:05</span>
               </div>
               <ul class="text-[11px] text-slate-300 space-y-1 list-disc list-inside">
+                <li>數據分析視角重整：分類順序更新為「🌐 全棟 ➔ 🏢 樓層 ➔ 🧺 機台」，打開數據分析預設選取「🏢 樓層」分析</li>
+                <li>樓層智慧預設與全棟排名看板：預設直接聚焦「最高使用率樓層」，提供全棟 8F~2F 樓層使用率金銀銅牌排名與即時切換晶片</li>
+                <li>機台下拉清單依宿舍樓層由高至低（8F ➔ 6F ➔ 4F ➔ 2F）嚴格排序，進入機台分析預設選取「最高使用率機台」</li>
+                <li>排程提示文案精準校訂為「每10分鐘 cron-job.org 自動觸發更新」</li>
+              </ul>
+            </div>
+
+            <!-- v2.4.1 -->
+            <div class="border-l-2 border-slate-700 pl-3 py-0.5 space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="font-mono font-bold text-slate-400 text-xs">v2.4.1</span>
+                <span class="text-[10px] text-slate-500 font-mono">2026-09-13 20:50</span>
+              </div>
+              <ul class="text-[11px] text-slate-400 space-y-1 list-disc list-inside">
                 <li>點擊機台資訊卡新增「最後一次使用時間」動態戳記與相對時長（如：今天下午06:27，約2小時前）</li>
                 <li>新增剛洗完滾筒衣物取留智慧提醒（剛洗完15分鐘內標註「⚠️ 剛洗完 (留意衣物)」，提醒先確認滾筒是否清空）</li>
                 <li>2D 清單檢視直接顯示閒置機台上次完成時間與經過時間</li>

@@ -5,11 +5,13 @@ let mainChartInstance = null;
 let secondaryChartInstance = null;
 
 // Active UI States
-let currentScope = 'overall'; // 'overall' | 'floor' | 'machine' (default 'overall' as requested)
+let currentScope = 'floor';   // 'floor' | 'overall' | 'machine' (default 'floor' as requested)
 let selectedFloor = '2F';     // '2F' | '4F' | '6F' | '8F'
 let selectedHwid = null;
 let equipmentType = 'combined'; // 'combined' | 'wash' | 'dry'
 let activeData = null;
+let cachedFloorRanking = [];
+let cachedTopMachineHwid = null;
 
 function formatSyncTime(isoStr) {
   if (!isoStr) return '最新';
@@ -61,19 +63,45 @@ export function renderAnalytics(data, containerEl, options = {}) {
     return;
   }
 
-  if (options.scope) {
-    currentScope = options.scope;
-  }
-  if (options.hwid) {
-    selectedHwid = options.hwid;
-  }
-  if (options.floor) {
-    selectedFloor = options.floor;
-  }
+  // 1. Calculate floor ranking across all 4 floors
+  const floorRanking = ['8F', '6F', '4F', '2F'].map((f) => {
+    const fData = data.byFloor?.[f] || {};
+    return {
+      floor: f,
+      cycles: fData.totalCycles || 0,
+      washerCycles: fData.washerCycles || 0,
+      dryerCycles: fData.dryerCycles || 0,
+      durationMin: fData.durationMin || 0,
+      cost: fData.cost || 0
+    };
+  }).sort((a, b) => b.cycles - a.cycles);
+  floorRanking.forEach((fr, idx) => {
+    fr.rank = idx + 1;
+    fr.medal = idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : '4️⃣';
+  });
+  cachedFloorRanking = floorRanking;
 
-  // Ensure selectedHwid has a valid default
-  if (!selectedHwid && data.machineStats && data.machineStats.length > 0) {
-    selectedHwid = data.machineStats[0].hwid;
+  const topFloor = floorRanking[0]?.floor || '2F';
+
+  // 2. Find machine with highest usage
+  const sortedMachinesByUsage = [...(data.machineStats || [])].sort((a, b) => (b.total_cycles || 0) - (a.total_cycles || 0));
+  const topMachineHwid = sortedMachinesByUsage[0]?.hwid || null;
+  cachedTopMachineHwid = topMachineHwid;
+
+  // 3~5: Determine scope, floor and machine selections (Requirements 3, 4, 5)
+  if (!options.preserveState) {
+    // 3. Set current scope (Requirement 3: 預設選樓層分析)
+    currentScope = options.scope || 'floor';
+
+    // 4. Set selected floor (Requirement 4: 預設選擇使用率最高的樓層)
+    selectedFloor = options.floor || topFloor;
+
+    // 5. Set selected machine (Requirement 5: 預設選擇最高使用率的機台)
+    selectedHwid = options.hwid || topMachineHwid;
+  } else {
+    if (options.scope) currentScope = options.scope;
+    if (options.floor) selectedFloor = options.floor;
+    if (options.hwid) selectedHwid = options.hwid;
   }
 
   const syncTimeStr = formatSyncTime(data.generatedAt);
@@ -82,11 +110,11 @@ export function renderAnalytics(data, containerEl, options = {}) {
 
   // Render Base Layout Skeleton
   containerEl.innerHTML = `
-    <!-- Top Sync & Cloud Cron Status Banner -->
+    <!-- Top Sync & Cloud Cron Status Banner (Requirement 2: 改為 每10分鐘 cron-job.org 自動觸發更新) -->
     <div class="mb-3 p-2.5 sm:px-3.5 sm:py-2.5 rounded-xl bg-slate-950/70 border border-slate-800/80 flex flex-col md:flex-row md:items-center justify-between gap-2 text-xs text-slate-400">
       <div class="flex items-center gap-1.5 shrink-0">
         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-        <span class="text-slate-200 font-medium text-[11px] sm:text-xs">每10分鐘 cron-job.org 排程自動爬蟲數據更新</span>
+        <span class="text-slate-200 font-medium text-[11px] sm:text-xs">每10分鐘 cron-job.org 自動觸發更新</span>
       </div>
       <div class="flex flex-wrap items-center gap-x-2.5 gap-y-1 font-mono text-[11px] text-slate-400">
         <div>數據更新時間: <span class="text-amber-300 font-semibold">${syncTimeStr}</span></div>
@@ -97,17 +125,17 @@ export function renderAnalytics(data, containerEl, options = {}) {
       </div>
     </div>
 
-    <!-- Primary Scope Selector Tabs: by全棟 -> by樓層 -> by機台 -->
+    <!-- Primary Scope Selector Tabs: 全棟 -> 樓層 -> 機台 (Requirement 1) -->
     <div class="mb-4 flex flex-wrap items-center justify-between gap-2.5 border-b border-slate-800 pb-3">
       <div class="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800 text-xs sm:text-sm">
         <button id="scope-overall-btn" class="scope-btn px-3 py-1.5 rounded-lg font-medium transition-all ${currentScope === 'overall' ? 'bg-cyan-600 text-white shadow' : 'text-slate-400 hover:text-white'}">
-          🌐 by 全棟
+          🌐 全棟
         </button>
         <button id="scope-floor-btn" class="scope-btn px-3 py-1.5 rounded-lg font-medium transition-all ${currentScope === 'floor' ? 'bg-cyan-600 text-white shadow' : 'text-slate-400 hover:text-white'}">
-          🏢 by 樓層
+          🏢 樓層
         </button>
         <button id="scope-machine-btn" class="scope-btn px-3 py-1.5 rounded-lg font-medium transition-all ${currentScope === 'machine' ? 'bg-cyan-600 text-white shadow' : 'text-slate-400 hover:text-white'}">
-          🧺 by 機台
+          🧺 機台
         </button>
       </div>
 
@@ -126,10 +154,12 @@ export function renderAnalytics(data, containerEl, options = {}) {
   });
   document.getElementById('scope-floor-btn').addEventListener('click', () => {
     currentScope = 'floor';
+    if (!selectedFloor) selectedFloor = topFloor;
     updateView(data);
   });
   document.getElementById('scope-machine-btn').addEventListener('click', () => {
     currentScope = 'machine';
+    if (!selectedHwid && topMachineHwid) selectedHwid = topMachineHwid;
     updateView(data);
   });
 
@@ -179,16 +209,31 @@ function updateView(data) {
 
     renderOverallView(data, body);
   } else if (currentScope === 'floor') {
+    // Floor Ranking for Floor Tab Badges (8F down to 2F)
+    const floorRankMap = {};
+    const rankingList = cachedFloorRanking.length
+      ? cachedFloorRanking
+      : ['8F', '6F', '4F', '2F'].map((f) => {
+          const fData = data.byFloor?.[f] || {};
+          return { floor: f, cycles: fData.totalCycles || 0 };
+        }).sort((a, b) => b.cycles - a.cycles).map((fr, idx) => ({ ...fr, rank: idx + 1, medal: idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : '4️⃣' }));
+    rankingList.forEach((fr) => {
+      floorRankMap[fr.floor] = fr;
+    });
+
     // Floor Pills + Floor Equipment Switcher
     subFilter.innerHTML = `
-      <!-- Floor Selection -->
+      <!-- Floor Selection (from 8F downwards with rank medals) -->
       <div class="flex items-center gap-1 bg-slate-900/90 border border-slate-800 p-1 rounded-lg text-xs">
         <span class="text-slate-400 pl-1.5 pr-1">樓層:</span>
-        ${['2F', '4F', '6F', '8F'].map((f) => `
-          <button data-target-floor="${f}" class="floor-tab-btn px-2.5 py-1 rounded font-medium transition-colors ${selectedFloor === f ? 'bg-cyan-500 text-white' : 'text-slate-400 hover:text-white'}">
-            ${f}
-          </button>
-        `).join('')}
+        ${['8F', '6F', '4F', '2F'].map((f) => {
+          const r = floorRankMap[f];
+          return `
+            <button data-target-floor="${f}" class="floor-tab-btn px-2.5 py-1 rounded font-medium transition-colors ${selectedFloor === f ? 'bg-cyan-500 text-white shadow' : 'text-slate-400 hover:text-white'}">
+              ${f} ${r ? r.medal : ''}
+            </button>
+          `;
+        }).join('')}
       </div>
 
       <!-- Equipment Type in this floor -->
@@ -221,17 +266,35 @@ function updateView(data) {
 
     renderFloorView(data, selectedFloor, body);
   } else {
-    // Machine Dropdown Selector
-    const machineList = data.machineStats || [];
+    // Machine Dropdown Selector (Requirement 5: 預設選最高使用率機台，清單由8樓往下去排)
+    const floorOrder = { '8F': 1, '6F': 2, '4F': 3, '2F': 4 };
+    const sortedMachines = [...(data.machineStats || [])].sort((a, b) => {
+      const fA = floorOrder[a.floor] || 99;
+      const fB = floorOrder[b.floor] || 99;
+      if (fA !== fB) return fA - fB;
+      if (a.machine_type !== b.machine_type) {
+        return a.machine_type === 'washer' ? -1 : 1;
+      }
+      return (a.machine_num || 0) - (b.machine_num || 0);
+    });
+
+    const topMachineHwid = cachedTopMachineHwid || ([...(data.machineStats || [])].sort((a, b) => (b.total_cycles || 0) - (a.total_cycles || 0))[0]?.hwid);
+    if (!selectedHwid && topMachineHwid) {
+      selectedHwid = topMachineHwid;
+    }
+
     subFilter.innerHTML = `
       <div class="flex items-center gap-2 text-xs">
         <span class="text-slate-400">選擇機台:</span>
         <select id="machine-select" class="bg-slate-900 border border-slate-700 text-slate-200 px-3 py-1.5 rounded-lg font-medium focus:outline-none focus:border-cyan-500">
-          ${machineList.map((m) => `
-            <option value="${m.hwid}" ${selectedHwid === m.hwid ? 'selected' : ''}>
-              ${m.floor} · ${m.description} (${m.machine_type === 'washer' ? '洗衣' : '烘衣'}) · ${m.total_cycles}次
-            </option>
-          `).join('')}
+          ${sortedMachines.map((m) => {
+            const isTop = m.hwid === topMachineHwid;
+            return `
+              <option value="${m.hwid}" ${selectedHwid === m.hwid ? 'selected' : ''}>
+                ${m.floor} · ${m.description} (${m.machine_type === 'washer' ? '洗衣' : '烘衣'}) · ${m.total_cycles}次${isTop ? ' ★最高使用率' : ''}
+              </option>
+            `;
+          }).join('')}
         </select>
       </div>
     `;
@@ -480,14 +543,77 @@ function renderFloorView(data, floor, body) {
     return;
   }
 
+  // Calculate floor ranking across all 4 floors (8F down to 2F)
+  const floorRanking = ['8F', '6F', '4F', '2F'].map((f) => {
+    const fData = data.byFloor?.[f] || {};
+    return {
+      floor: f,
+      cycles: fData.totalCycles || 0,
+      washerCycles: fData.washerCycles || 0,
+      dryerCycles: fData.dryerCycles || 0,
+      durationMin: fData.durationMin || 0,
+      cost: fData.cost || 0
+    };
+  }).sort((a, b) => b.cycles - a.cycles);
+  floorRanking.forEach((fr, idx) => {
+    fr.rank = idx + 1;
+    fr.medal = idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : '4️⃣';
+  });
+
+  const currentFloorRank = floorRanking.find((fr) => fr.floor === floor) || { rank: 1, medal: '🥇' };
+
   // Select equipment-specific floor data or fallback to combined
   const fData = floorRaw[equipmentType] || floorRaw.combined || floorRaw;
   const capacityCount = fData.capacityCount || (equipmentType === 'wash' ? 4 : equipmentType === 'dry' ? 2 : 6);
   const eqName = equipmentType === 'wash' ? '洗衣機' : equipmentType === 'dry' ? '烘衣機' : '洗烘合併';
 
   body.innerHTML = `
-    <!-- Floor Overview Cards -->
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-4">
+    <!-- Floor Usage Ranking Board (Requirement 4: 全棟各樓層使用率排名看板) -->
+    <div class="mb-4 p-3 sm:p-3.5 rounded-xl bg-slate-900/90 border border-slate-800">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2.5">
+        <div class="flex items-center gap-2">
+          <span class="text-sm">🏆</span>
+          <h3 class="text-xs font-bold text-white">全棟各樓層使用率排名看板</h3>
+          <span class="text-[11px] text-slate-400 font-mono">(依累計運轉次數排序 · 點選切換樓層)</span>
+        </div>
+        <div class="text-[11px] text-amber-300 font-medium">
+          👑 全棟最高使用率：<strong class="font-bold">${floorRanking[0]?.floor}</strong> (${floorRanking[0]?.cycles} 次運轉)
+        </div>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+        ${floorRanking.map((fr) => {
+          const isSelected = fr.floor === floor;
+          const rankBorder = fr.rank === 1 ? 'border-amber-500/50 bg-amber-950/25' : isSelected ? 'border-cyan-500/50 bg-cyan-950/25' : 'border-slate-800 bg-slate-950/60';
+          return `
+            <div data-target-floor="${fr.floor}" class="floor-ranking-chip p-2.5 rounded-lg border transition-all cursor-pointer hover:border-slate-600 ${rankBorder} ${isSelected ? 'ring-1 ring-cyan-400 shadow-sm' : ''}">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-slate-200 flex items-center gap-1">
+                  <span>${fr.medal}</span> ${fr.floor}
+                </span>
+                <span class="text-[10px] font-mono ${fr.rank === 1 ? 'text-amber-400 font-bold' : 'text-slate-400'}">第 ${fr.rank} 名</span>
+              </div>
+              <div class="mt-1 flex items-baseline justify-between text-xs font-mono">
+                <span class="text-slate-400 text-[10px]">累計運轉</span>
+                <span class="text-cyan-300 font-bold">${fr.cycles} 次</span>
+              </div>
+              <div class="mt-0.5 flex items-baseline justify-between text-[10px] font-mono text-slate-400">
+                <span>洗 ${fr.washerCycles} · 烘 ${fr.dryerCycles}</span>
+                <span class="text-emerald-400">NT$ ${fr.cost}</span>
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    </div>
+
+    <!-- Floor Overview Cards (5 Metrics with Floor Rank) -->
+    <div class="grid grid-cols-2 sm:grid-cols-5 gap-2.5 mb-4">
+      <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
+        <div class="text-[11px] text-slate-400">全棟使用率排名</div>
+        <div class="text-base sm:text-lg font-bold font-mono ${currentFloorRank.rank === 1 ? 'text-amber-400' : 'text-white'} mt-0.5">
+          ${currentFloorRank.medal} 第 ${currentFloorRank.rank} 名
+        </div>
+      </div>
       <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
         <div class="text-[11px] text-slate-400">${floor} 累計運轉</div>
         <div class="text-base sm:text-lg font-bold font-mono text-cyan-400 mt-0.5">${floorRaw.totalCycles} 次</div>
@@ -500,7 +626,7 @@ function renderFloorView(data, floor, body) {
         <div class="text-[11px] text-slate-400">烘衣機 (2台)</div>
         <div class="text-base sm:text-lg font-bold font-mono text-amber-400 mt-0.5">${floorRaw.dryerCycles} 次</div>
       </div>
-      <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
+      <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800 col-span-2 sm:col-span-1">
         <div class="text-[11px] text-slate-400">${floor} 累計投幣</div>
         <div class="text-base sm:text-lg font-bold font-mono text-emerald-400 mt-0.5">NT$ ${floorRaw.cost}</div>
       </div>
@@ -557,6 +683,14 @@ function renderFloorView(data, floor, body) {
       </div>
     </div>
   `;
+
+  // Bind click event for Floor Ranking Chips
+  body.querySelectorAll('.floor-ranking-chip').forEach((chip) => {
+    chip.addEventListener('click', () => {
+      selectedFloor = chip.dataset.targetFloor;
+      updateView(data);
+    });
+  });
 
   // Draw Machine Comparison on this floor
   const fMachines = floorRaw.machines || [];
