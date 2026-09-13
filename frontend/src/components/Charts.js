@@ -527,7 +527,15 @@ function renderOverallView(data, body) {
           x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8', font: { size: 10 } } },
           y: { min: 0, max: 100, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8', callback: (v) => `${v}%` } }
         },
-        plugins: { legend: { display: false } }
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              title: (items) => `${items[0].label} ~ ${String((parseInt(items[0].label) + 1) % 24).padStart(2, '0')}:00`,
+              label: (item) => `使用率: ${item.parsed.y}% (對應熱度矩陣)`
+            }
+          }
+        }
       }
     });
   }
@@ -751,7 +759,15 @@ function renderFloorView(data, floor, body) {
           x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8', font: { size: 10 } } },
           y: { min: 0, max: 100, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8', callback: (v) => `${v}%` } }
         },
-        plugins: { legend: { display: false } }
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              title: (items) => `${items[0].label} ~ ${String((parseInt(items[0].label) + 1) % 24).padStart(2, '0')}:00`,
+              label: (item) => `使用率: ${item.parsed.y}% (對應熱度矩陣)`
+            }
+          }
+        }
       }
     });
   }
@@ -936,7 +952,7 @@ function renderMachineView(data, hwid, body) {
                 const isNight = h < 8;
                 return `${String(h).padStart(2, '0')}:00 ~ ${String(nextH).padStart(2, '0')}:00 ${isNight ? '🌙 [夜間安寧禁洗]' : '☀️ [正常營運]'}`;
               },
-              label: (item) => `佔用機率: ${item.parsed.y}%`
+              label: (item) => `佔用率: ${item.parsed.y}% (對應熱度矩陣)`
             }
           }
         }
