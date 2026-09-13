@@ -73,19 +73,14 @@
   <div id="webgl-container" class="absolute inset-0 w-full h-full z-0"></div>
 
   <!-- Top Glassmorphic Navigation Bar (頂部極簡單排導覽列) -->
-  <header class="absolute top-0 left-0 right-0 z-20 px-3 sm:px-5 py-2.5 pt-[max(10px,calc(env(safe-area-inset-top)+4px))] flex items-center justify-between gap-2 bg-slate-950/85 backdrop-blur-md border-b border-slate-800/80 flex-nowrap">
+  <header class="absolute top-0 left-0 right-0 z-30 px-3 sm:px-5 py-2.5 pt-[max(10px,calc(env(safe-area-inset-top)+4px))] flex items-center justify-between gap-2 bg-slate-950/85 backdrop-blur-md border-b border-slate-800/80 flex-nowrap">
     <!-- Left Title & Badges -->
     <div class="flex items-center gap-2 sm:gap-3 shrink-0 min-w-0">
       <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
         <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_#22d3ee] shrink-0"></span>
-        <!-- 依需求 4：大幅加大手機標題字體，粗體清晰醒目 -->
         <h1 class="text-[15px] sm:text-lg font-black tracking-tight text-white whitespace-nowrap flex items-center gap-1">
           <span>聯苑二期</span><span class="text-cyan-400 font-mono font-black text-base sm:text-xl px-0.5">3D</span><span>洗衣監控分析</span>
         </h1>
-        <!-- 依需求 3：將手機版 i 資訊按鈕設計在標題正後方（畫面左側），徹底避免被右上直立式樓層選單遮蔽！ -->
-        <button id="m-btn-version" title="查看版本修改紀錄與版權資訊" class="md:hidden w-6 h-6 rounded-full bg-slate-800/95 hover:bg-slate-700 border border-slate-600/80 text-cyan-300 hover:text-white active:scale-90 transition-all flex items-center justify-center shrink-0 shadow-md ml-1.5" aria-label="系統版本資訊">
-          <span class="font-serif font-bold text-xs leading-none">i</span>
-        </button>
       </div>
       <!-- Summary Counters (Desktop) -->
       <div class="hidden xl:flex items-center gap-2 text-xs font-mono shrink-0">
@@ -98,43 +93,51 @@
       </div>
     </div>
 
-    <!-- Desktop Action Buttons (桌機右上控制欄) -->
-    <div class="hidden md:flex items-center gap-1.5 text-xs shrink-0">
-      <button id="btn-open-analytics" class="px-2.5 py-1.5 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-medium shadow-sm transition-all flex items-center gap-1">
-        <span>📊</span>
-        <span>數據分析</span>
+    <!-- Right Controls: Mobile Top-Right 'i' Button + Desktop Action Buttons (依需求 1：手機版 i 移至右上方) -->
+    <div class="flex items-center gap-1.5 text-xs shrink-0">
+      <!-- Mobile Right Top 'i' Info Button (獨立於標題，置於右上方，並與下方樓層選單保留安全間距) -->
+      <button id="m-btn-version" title="查看版本修改紀錄與系統資訊" class="md:hidden w-7 h-7 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 text-cyan-300 hover:text-white active:scale-90 transition-all flex items-center justify-center shrink-0 shadow-sm" aria-label="系統版本資訊">
+        <span class="font-serif font-bold text-xs leading-none">i</span>
       </button>
 
-      <button id="btn-pin-view" title="目前為動態巡航中，點擊固定視角" class="px-2.5 py-1.5 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-slate-700 text-cyan-300 hover:text-white transition-all flex items-center gap-1">
-        <span id="pin-icon">📍</span>
-        <span id="pin-text" class="font-mono">動態巡航</span>
-      </button>
+      <!-- Desktop Action Buttons (桌機右上控制欄) -->
+      <div class="hidden md:flex items-center gap-1.5 text-xs shrink-0">
+        <button id="btn-open-analytics" class="px-2.5 py-1.5 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-medium shadow-sm transition-all flex items-center gap-1">
+          <span>📊</span>
+          <span>數據分析</span>
+        </button>
 
-      <button id="btn-refresh" title="手動立即重新整理最新狀態" class="p-1.5 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-slate-700 text-slate-200 transition-all flex items-center gap-1">
-        <svg id="btn-refresh-icon" class="w-3.5 h-3.5 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-        </svg>
-        <span id="btn-refresh-text" class="hidden lg:inline">刷新</span>
-      </button>
+        <button id="btn-pin-view" title="目前為動態巡航中，點擊固定視角" class="px-2.5 py-1.5 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-slate-700 text-cyan-300 hover:text-white transition-all flex items-center gap-1">
+          <span id="pin-icon">📍</span>
+          <span id="pin-text" class="font-mono">動態巡航</span>
+        </button>
 
-      <button id="btn-list-view" class="p-1.5 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-slate-700 text-slate-200 transition-colors flex items-center gap-1">
-        <span>📋</span>
-        <span class="hidden lg:inline">清單</span>
-      </button>
+        <button id="btn-refresh" title="手動立即重新整理最新狀態" class="p-1.5 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-slate-700 text-slate-200 transition-all flex items-center gap-1">
+          <svg id="btn-refresh-icon" class="w-3.5 h-3.5 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+          </svg>
+          <span id="btn-refresh-text" class="hidden lg:inline">刷新</span>
+        </button>
 
-      <button id="btn-toggle-demo" title="切換真實即時數據 / 模擬測試" class="p-1.5 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-slate-700 text-slate-200 transition-colors flex items-center gap-1">
-        <span>🎮</span>
-        <span class="hidden lg:inline" id="demo-btn-text">模擬</span>
-      </button>
+        <button id="btn-list-view" class="p-1.5 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-slate-700 text-slate-200 transition-colors flex items-center gap-1">
+          <span>📋</span>
+          <span class="hidden lg:inline">清單</span>
+        </button>
 
-      <button id="btn-install-pwa" title="加入主畫面 (安裝為 APP)" class="p-1.5 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 text-slate-400 hover:text-amber-300 transition-colors flex items-center justify-center">
-        <span>📱</span>
-      </button>
+        <button id="btn-toggle-demo" title="切換真實即時數據 / 模擬測試" class="p-1.5 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-slate-700 text-slate-200 transition-colors flex items-center gap-1">
+          <span>🎮</span>
+          <span class="hidden lg:inline" id="demo-btn-text">模擬</span>
+        </button>
+
+        <button id="btn-install-pwa" title="加入主畫面 (安裝為 APP)" class="p-1.5 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 text-slate-400 hover:text-amber-300 transition-colors flex items-center justify-center">
+          <span>📱</span>
+        </button>
+      </div>
     </div>
   </header>
 
-  <!-- Vertical Floor Switcher Dock (直立式樓層切換按鈕：畫面右上方，依樓層垂直順序由上而下直觀排列，適配 iOS PWA 安全頂部) -->
-  <aside aria-label="樓層視角切換" class="absolute top-[max(60px,calc(env(safe-area-inset-top)+52px))] right-2.5 sm:right-4 z-20 flex flex-col items-center bg-slate-950/85 backdrop-blur-xl p-1 sm:p-1.5 rounded-2xl border border-slate-800/90 shadow-2xl select-none">
+  <!-- Vertical Floor Switcher Dock (直立式樓層切換按鈕：畫面右上方，依樓層垂直順序由上而下直觀排列，確保位於頂部導覽列下方) -->
+  <aside aria-label="樓層視角切換" class="absolute top-[max(64px,calc(env(safe-area-inset-top)+54px))] right-2.5 sm:right-4 z-20 flex flex-col items-center bg-slate-950/85 backdrop-blur-xl p-1 sm:p-1.5 rounded-2xl border border-slate-800/90 shadow-2xl select-none">
     <div class="text-[9px] font-mono text-slate-400 font-bold uppercase tracking-wider mb-1 px-1">樓層</div>
     <div class="flex flex-col gap-1 w-full">
       <button data-floor="8F" title="切換至 8 樓" class="floor-btn w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center font-bold text-xs sm:text-sm text-slate-300 hover:text-white hover:bg-slate-800 transition-all active:scale-90">8F</button>
@@ -362,11 +365,10 @@
           </div>
           <div class="flex justify-between items-center text-[11px]">
             <span class="text-slate-400">開發維護</span>
-            <span class="font-medium text-amber-300">聯華電子 UMC IT - Jimmy</span>
+            <span class="font-medium text-slate-500">看我心情~和下班有沒有空</span>
           </div>
-          <div class="flex justify-between items-center text-[11px] pt-1 border-t border-slate-800/80">
-            <span class="text-slate-500">版權聲明</span>
-            <span class="text-[10px] font-mono text-slate-500">Copyright © 2026 UMC_IT-Jimmy</span>
+          <div class="flex justify-center items-center text-[10px] font-mono text-slate-500 pt-1.5 border-t border-slate-800/80">
+            <span>Copyright © 2026 UMC_IT-Jimmy</span>
           </div>
         </div>
 
@@ -386,7 +388,7 @@
               <ul class="text-[11px] text-slate-300 space-y-1 list-disc list-inside">
                 <li>後牆樓層標示上移外移（x=±8.9, y=3.85），微縮適配紅框角落空間</li>
                 <li>黃框處左側樓層告示全面放大 35%（x=-12.4, y=2.2），高解析重繪更顯眼</li>
-                <li>手機版 i 按鈕移至左側標題旁，徹底消除與右上樓層選單重疊問題</li>
+                <li>手機版 i 按鈕獨立移至右上方，與下方直立式樓層選單保持安全間距</li>
                 <li>手機版頂部標題字體顯著加大（粗黑體 15px/18px），清晰易讀</li>
               </ul>
             </div>
@@ -443,6 +445,17 @@
               <ul class="text-[11px] text-slate-400 space-y-1 list-disc list-inside">
                 <li>聯苑二期 2F/4F/6F/8F 24 台洗衣機/烘衣機 3D 即時 IoT 監控系統發布</li>
               </ul>
+            </div>
+
+            <!-- v0.0.9 beta (專案誕生初衷) -->
+            <div class="border-l-2 border-amber-500/70 pl-3 py-0.5 space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="font-mono font-bold text-amber-400 text-xs">v0.0.9 beta</span>
+                <span class="text-[10px] text-slate-500 font-mono">20260912 凌晨02:40</span>
+              </div>
+              <p class="text-[11px] text-slate-400 leading-relaxed">
+                因為太討厭每周下班搶洗衣機，索性開始實驗逆向分析這棟樓的洗衣機 IoT API 傳輸方式，預計做長期分析與數據收集，目標是要改善下班洗衣效率和學習AI工具開發。
+              </p>
             </div>
           </div>
         </div>
