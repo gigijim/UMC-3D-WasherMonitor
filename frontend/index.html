@@ -209,7 +209,7 @@
   <button id="btn-version-desktop" title="點擊查看歷史版本更新紀錄與版權資訊" class="hidden sm:flex absolute bottom-3 right-4 z-10 pointer-events-auto select-none text-[11px] font-mono text-slate-400/80 hover:text-cyan-300 bg-slate-950/60 hover:bg-slate-900/90 px-2.5 py-1 rounded-lg border border-slate-800/60 hover:border-slate-700/80 transition-all items-center gap-1.5 cursor-pointer backdrop-blur-xs">
     <span>Copyright © 2026 UMC_IT-Jimmy</span>
     <span class="text-slate-600">·</span>
-    <span class="text-cyan-400 font-semibold">v2.2.1</span>
+    <span class="text-cyan-400 font-semibold">v2.3.0</span>
     <span class="w-3.5 h-3.5 rounded-full bg-slate-800 border border-slate-700 text-[9px] flex items-center justify-center text-cyan-300 font-serif font-bold">i</span>
   </button>
 
@@ -357,7 +357,7 @@
         <div class="bg-slate-950/70 p-3.5 rounded-2xl border border-slate-800 space-y-2">
           <div class="flex justify-between items-center text-[11px]">
             <span class="text-slate-400">系統版本</span>
-            <span class="font-mono text-cyan-300 font-bold">v2.2.1 (Release 2026.09.13)</span>
+            <span class="font-mono text-cyan-300 font-bold">v2.3.0 (Release 2026.09.13)</span>
           </div>
           <div class="flex justify-between items-center text-[11px]">
             <span class="text-slate-400">架構引擎</span>
@@ -379,13 +379,28 @@
             <span>歷史版本修改紀錄</span>
           </h4>
           <div class="space-y-3">
-            <!-- v2.2.1 -->
+            <!-- v2.3.0 -->
             <div class="border-l-2 border-cyan-400 pl-3 py-0.5 space-y-1">
               <div class="flex items-center justify-between">
-                <span class="font-mono font-bold text-cyan-300 text-xs">v2.2.1</span>
-                <span class="text-[10px] text-slate-500 font-mono">2026-09-13</span>
+                <span class="font-mono font-bold text-cyan-300 text-xs">v2.3.0</span>
+                <span class="text-[10px] text-slate-500 font-mono">2026-09-13 18:50</span>
               </div>
               <ul class="text-[11px] text-slate-300 space-y-1 list-disc list-inside">
+                <li>串接 cron-job.org 外部 Webhook，徹底解決 GitHub Actions 尖峰排程延遲問題</li>
+                <li>全面校準數據分析熱度圖時區為台灣時間（Asia/Taipei UTC+8），消除 8 小時時差</li>
+                <li>數據分析頂部新增「cron-job.org 定時自動爬蟲數據更新」與「雲端爬蟲更新次數」</li>
+                <li>新增 Vercel Serverless `/api/trigger-crawl` 橋接端點，支援外部即時喚醒爬蟲</li>
+                <li>自癒補登機制驗證：離線間隔自動精準追蹤並補登 21 筆歷史洗衣/烘衣事件</li>
+              </ul>
+            </div>
+
+            <!-- v2.2.1 -->
+            <div class="border-l-2 border-slate-700 pl-3 py-0.5 space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="font-mono font-bold text-slate-400 text-xs">v2.2.1</span>
+                <span class="text-[10px] text-slate-500 font-mono">2026-09-13</span>
+              </div>
+              <ul class="text-[11px] text-slate-400 space-y-1 list-disc list-inside">
                 <li>後牆樓層標示上移外移（x=±8.9, y=3.85），微縮適配紅框角落空間</li>
                 <li>黃框處左側樓層告示全面放大 35%（x=-12.4, y=2.2），高解析重繪更顯眼</li>
                 <li>手機版 i 按鈕獨立移至右上方，與下方直立式樓層選單保持安全間距</li>
