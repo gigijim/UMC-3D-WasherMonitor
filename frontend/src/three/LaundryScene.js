@@ -224,6 +224,67 @@ export class LaundryScene {
     return sprite;
   }
 
+  createBackWallFloorBadge(floorName) {
+    const canvas = document.createElement('canvas');
+    canvas.width = 512;
+    canvas.height = 256;
+    const ctx = canvas.getContext('2d');
+
+    // 1. Subtle futuristic embossed framing
+    ctx.strokeStyle = 'rgba(56, 189, 248, 0.18)';
+    ctx.lineWidth = 4;
+    ctx.strokeRect(16, 16, 480, 224);
+
+    // Subtle corner brackets
+    ctx.strokeStyle = 'rgba(56, 189, 248, 0.60)';
+    ctx.lineWidth = 6;
+    // Top-left
+    ctx.beginPath();
+    ctx.moveTo(16, 50); ctx.lineTo(16, 16); ctx.lineTo(50, 16); ctx.stroke();
+    // Top-right
+    ctx.beginPath();
+    ctx.moveTo(462, 16); ctx.lineTo(496, 16); ctx.lineTo(496, 50); ctx.stroke();
+    // Bottom-left
+    ctx.beginPath();
+    ctx.moveTo(16, 206); ctx.lineTo(16, 240); ctx.lineTo(50, 240); ctx.stroke();
+    // Bottom-right
+    ctx.beginPath();
+    ctx.moveTo(462, 240); ctx.lineTo(496, 240); ctx.lineTo(496, 206); ctx.stroke();
+
+    // 2. Huge faint 3D embossed Floor Number (2F, 4F, 6F, 8F)
+    ctx.font = '900 150px "Inter", "Segoe UI", system-ui, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    // Dark depth shadow for 3D extrusion effect
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.80)';
+    ctx.fillText(floorName, 260, 126);
+
+    // Front embossed faint cyan-slate text
+    ctx.fillStyle = 'rgba(186, 230, 253, 0.45)';
+    ctx.fillText(floorName, 256, 120);
+
+    // Subtle cyan edge glow
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = 'rgba(56, 189, 248, 0.38)';
+    ctx.strokeText(floorName, 256, 120);
+
+    // 3. Subtle Subtitle
+    ctx.font = 'bold 22px monospace';
+    ctx.fillStyle = 'rgba(148, 163, 184, 0.55)';
+    ctx.fillText('· UMC LIANYUAN DORM 2 ·', 256, 214);
+
+    const texture = new THREE.CanvasTexture(canvas);
+    const badgeGeo = new THREE.PlaneGeometry(8.8, 4.4);
+    const badgeMat = new THREE.MeshBasicMaterial({
+      map: texture,
+      transparent: true,
+      opacity: 0.95,
+      depthWrite: false
+    });
+    return new THREE.Mesh(badgeGeo, badgeMat);
+  }
+
   buildFloors() {
     const slabGeo = new THREE.BoxGeometry(21, 0.4, 7.5);
     const slabMat = new THREE.MeshStandardMaterial({
@@ -260,6 +321,11 @@ export class LaundryScene {
       backWall.position.set(0, 1.6, -2.5);
       backWall.receiveShadow = true;
       floorGroup.add(backWall);
+
+      // Back Wall Large 3D Floor Badge (背景淡色立體大字樣 2F / 4F / 6F / 8F)
+      const backWallBadge = this.createBackWallFloorBadge(floor.name);
+      backWallBadge.position.set(0.5, 1.65, -2.33);
+      floorGroup.add(backWallBadge);
 
       // Right Entrance Arch Wall
       const doorArchGeo = new THREE.BoxGeometry(0.3, 3.2, 3.0);
@@ -1170,11 +1236,10 @@ export class LaundryScene {
       cameraPos = new THREE.Vector3(14.0, 17.5, 45.0);
     } else {
       // 直式手機螢幕 (aspect < 0.95, 9:16 ~ 9:20 直長比例)
-      // 精準比照使用者截圖角度：由正面偏左前斜角俯瞰 (front-left diagonal oblique)
-      // 左側清晰陳列「8F/6F/4F/2F 聯苑二期」樓層標示，機台沿對角線向右後方延伸
-      // 完美貼合手機長螢幕，重心居中且上下邊距均勻對稱
-      lookAt = new THREE.Vector3(-0.5, 12.5, -0.5);
-      cameraPos = new THREE.Vector3(-20.5, 22.0, 32.5);
+      // 依照需求：再縮小一點 (鏡頭適度拉遠)，中心下移 (lookAt.y 降至 10.8，相機高度降至 18.5)
+      // 徹底解決手機版只看得到 2 4 6 樓、8 樓被切掉的問題，確保 2F, 4F, 6F, 8F 全棟 4 層完整映入眼簾
+      lookAt = new THREE.Vector3(-0.5, 10.8, -0.5);
+      cameraPos = new THREE.Vector3(-27.0, 18.5, 44.0);
     }
 
     return {
