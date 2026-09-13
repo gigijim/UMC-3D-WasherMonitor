@@ -1101,8 +1101,16 @@ export class LaundryScene {
     const worldPos = new THREE.Vector3();
     machineGroup.getWorldPosition(worldPos);
 
-    this.targetLookAt.copy(worldPos).add(new THREE.Vector3(0, 1.0, 0));
-    this.targetCameraPos.set(worldPos.x + 3.0, worldPos.y + 2.8, worldPos.z + 5.0);
+    // 視角適度拉開，抬高注視中心 (y + 1.85)，確保機台上方的倒數計時看板 (y = 3.20) 擁有充裕留白、絕不遮蔽
+    const aspect = (this.container?.clientWidth || window.innerWidth) / (this.container?.clientHeight || window.innerHeight);
+    const isMobile = aspect < 1.0;
+
+    const offsetX = isMobile ? 4.0 : 4.6;
+    const offsetY = isMobile ? 4.2 : 3.8;
+    const offsetZ = isMobile ? 12.8 : 9.8;
+
+    this.targetLookAt.set(worldPos.x, worldPos.y + 1.85, worldPos.z);
+    this.targetCameraPos.set(worldPos.x + offsetX, worldPos.y + offsetY, worldPos.z + offsetZ);
     this.isAnimatingCamera = true;
   }
 

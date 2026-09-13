@@ -165,17 +165,41 @@ function showMachineDetail(device) {
   const statusText = document.getElementById('card-status-text');
   const timerText = document.getElementById('card-timer-text');
   const dueTimeText = document.getElementById('card-due-time');
+  const rankText = document.getElementById('card-rank-text');
   const monthCyclesText = document.getElementById('card-month-cycles');
+  const totalCostText = document.getElementById('card-total-cost');
   const adviceText = document.getElementById('card-advice');
 
-  // Find history stats for this machine
-  if (historyData?.machineStats) {
+  // Find history stats for this machine & calculate overall ranking
+  if (historyData?.machineStats && historyData.machineStats.length > 0) {
+    const sortedStats = [...historyData.machineStats].sort((a, b) => {
+      if (b.total_cycles !== a.total_cycles) return b.total_cycles - a.total_cycles;
+      return b.total_duration_min - a.total_duration_min;
+    });
+
     const stat = historyData.machineStats.find((m) => m.hwid === device.hwid);
+    const rankIndex = sortedStats.findIndex((m) => m.hwid === device.hwid);
+    const totalCount = sortedStats.length;
+
     if (stat) {
-      monthCyclesText.textContent = `${stat.total_cycles} 次 (累計 ${stat.total_duration_min} 分)`;
+      if (stat.total_cycles > 0 && rankIndex !== -1) {
+        const medal = rankIndex === 0 ? '🥇' : rankIndex === 1 ? '🥈' : rankIndex === 2 ? '🥉' : '🏅';
+        if (rankText) rankText.innerHTML = `${medal} <span class="text-amber-300 font-bold">第 ${rankIndex + 1} 名</span> <span class="text-slate-400 text-[10px]">/ ${totalCount}台</span>`;
+      } else {
+        if (rankText) rankText.innerHTML = `<span class="text-slate-400 text-[11px]">暫無使用紀錄</span>`;
+      }
+      if (monthCyclesText) monthCyclesText.textContent = `${stat.total_cycles} 次 (${stat.total_duration_min} 分)`;
+      const costPerCycle = isDryer ? 10 : 20;
+      if (totalCostText) totalCostText.textContent = `NT$ ${stat.total_cycles * costPerCycle}`;
     } else {
-      monthCyclesText.textContent = '-- 次';
+      if (rankText) rankText.textContent = '暫無紀錄';
+      if (monthCyclesText) monthCyclesText.textContent = '0 次 (0 分)';
+      if (totalCostText) totalCostText.textContent = 'NT$ 0';
     }
+  } else {
+    if (rankText) rankText.textContent = '--';
+    if (monthCyclesText) monthCyclesText.textContent = '-- 次';
+    if (totalCostText) totalCostText.textContent = 'NT$ --';
   }
 
   if (!device.connection) {
@@ -192,13 +216,13 @@ function showMachineDetail(device) {
       statusBox.className = 'p-3 rounded-xl mb-4 flex items-center justify-between bg-red-950/70 border-2 border-red-500/80 shadow-[0_0_20px_rgba(239,68,68,0.35)]';
       statusDot.className = 'w-3 h-3 rounded-full bg-red-500 animate-ping';
       statusText.className = 'font-bold text-red-300 text-sm';
-      statusText.textContent = '🔥 烘乾中 (高溫運轉)';
-      adviceText.textContent = '⏳ 提示：烘乾機高溫運轉中，請注意高溫，建議在結束前 3 分鐘前往準備取衣。';
+      statusText.textContent = '🔥 烘乾中...';
+      adviceText.textContent = '⏳ 提示：烘乾機運轉中，請注意高溫，建議在結束前 3 分鐘前往準備取衣。';
     } else {
       statusBox.className = 'p-3 rounded-xl mb-4 flex items-center justify-between bg-yellow-950/70 border-2 border-yellow-400/80 shadow-[0_0_20px_rgba(250,204,21,0.35)]';
       statusDot.className = 'w-3 h-3 rounded-full bg-yellow-400 animate-ping';
       statusText.className = 'font-bold text-yellow-300 text-sm';
-      statusText.textContent = '⚡ 洗衣中 (洗滌脫水)';
+      statusText.textContent = '⚡ 洗衣中...';
       adviceText.textContent = '⏳ 提示：洗衣機運轉中，預計將於上述時間釋出，建議可在結束前 5 分鐘前往等待。';
     }
 
@@ -219,7 +243,7 @@ function showMachineDetail(device) {
     statusBox.className = 'p-3 rounded-xl mb-4 flex items-center justify-between bg-emerald-950/50 border border-emerald-500/30';
     statusDot.className = 'w-3 h-3 rounded-full bg-emerald-400 animate-pulse';
     statusText.className = 'font-semibold text-emerald-300 text-sm';
-    statusText.textContent = '可使用 (空閒中)';
+    statusText.textContent = '可使用';
     timerText.className = 'text-xs font-mono text-slate-300';
     timerText.textContent = '隨時可投幣使用';
     dueTimeText.textContent = '隨時可用';
@@ -372,7 +396,15 @@ function renderListView(devices) {
 async function refreshAll() {
   resetRefreshCountdown();
   const btn = document.getElementById('btn-refresh');
-  btn?.classList.add('animate-spin');
+  const icon = document.getElementById('btn-refresh-icon');
+  const text = document.getElementById('btn-refresh-text');
+
+  // 柔和微動畫：僅旋轉內部 SVG 箭頭並加上青色外圈微發光，避免整個按鈕選轉帶來的卡頓跳動
+  if (icon) icon.classList.add('animate-spin');
+  if (btn) {
+    btn.classList.add('ring-2', 'ring-cyan-400', 'bg-cyan-950/70', 'border-cyan-500', 'shadow-[0_0_12px_rgba(6,182,212,0.4)]');
+  }
+  if (text) text.textContent = '同步中';
 
   try {
     const [data, hist] = await Promise.all([
@@ -401,7 +433,13 @@ async function refreshAll() {
   } catch (err) {
     console.error('更新失敗:', err);
   } finally {
-    setTimeout(() => btn?.classList.remove('animate-spin'), 600);
+    setTimeout(() => {
+      if (icon) icon.classList.remove('animate-spin');
+      if (btn) {
+        btn.classList.remove('ring-2', 'ring-cyan-400', 'bg-cyan-950/70', 'border-cyan-500', 'shadow-[0_0_12px_rgba(6,182,212,0.4)]');
+      }
+      if (text) text.textContent = '刷新';
+    }, 600);
   }
 }
 
@@ -528,6 +566,22 @@ async function initApp() {
   document.getElementById('card-close-btn')?.addEventListener('click', () => {
     document.getElementById('machine-detail-card')?.classList.add('hidden');
     selectedDevice = null;
+  });
+
+  // View Detailed Report for Selected Machine
+  document.getElementById('card-view-report-btn')?.addEventListener('click', async () => {
+    if (!selectedDevice) return;
+    const analyticsModal = document.getElementById('analytics-modal');
+    const analyticsContent = document.getElementById('analytics-content');
+    analyticsModal?.classList.remove('hidden');
+
+    if (!historyData) {
+      historyData = await fetchHistory();
+    }
+    renderAnalytics(historyData, analyticsContent, {
+      scope: 'machine',
+      hwid: selectedDevice.hwid
+    });
   });
 
   // Analytics Modal
