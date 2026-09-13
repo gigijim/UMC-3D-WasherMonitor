@@ -59,7 +59,7 @@ export function renderAnalytics(data, containerEl, options = {}) {
     <div class="mb-3 p-2.5 sm:px-3.5 sm:py-2.5 rounded-xl bg-slate-950/70 border border-slate-800/80 flex flex-col md:flex-row md:items-center justify-between gap-2 text-xs text-slate-400">
       <div class="flex items-center gap-1.5 shrink-0">
         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-        <span class="text-slate-200 font-medium text-[11px] sm:text-xs">每10分鐘 GitHub Actions 排程自動爬蟲數據更新</span>
+        <span class="text-slate-200 font-medium text-[11px] sm:text-xs">每10分鐘 cron-job.org 排程自動爬蟲數據更新</span>
       </div>
       <div class="flex flex-wrap items-center gap-x-2.5 gap-y-1 font-mono text-[11px] text-slate-400">
         <div>數據更新時間: <span class="text-amber-300 font-semibold">${syncTimeStr}</span></div>
