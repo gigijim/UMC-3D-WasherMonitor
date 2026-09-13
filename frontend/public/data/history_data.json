@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-09-13T11:40:22.731Z",
-  "totalEvents": 68,
-  "crawlCount": 24,
+  "generatedAt": "2026-09-13T11:50:23.464Z",
+  "totalEvents": 69,
+  "crawlCount": 25,
   "floorComparison": [
     {
       "floor": "2F",
@@ -29,11 +29,11 @@
     },
     {
       "floor": "8F",
-      "cycles": 18,
-      "durationMin": 700,
-      "cost": 350,
+      "cycles": 19,
+      "durationMin": 720,
+      "cost": 360,
       "washerCycles": 12,
-      "dryerCycles": 6
+      "dryerCycles": 7
     }
   ],
   "overall": {
@@ -61,7 +61,7 @@
           100,
           31,
           77,
-          0,
+          4,
           0,
           0,
           0,
@@ -269,7 +269,7 @@
       14,
       4,
       11,
-      0,
+      1,
       0,
       0,
       0,
@@ -1291,11 +1291,11 @@
     },
     "8F": {
       "floor": "8F",
-      "totalCycles": 18,
-      "durationMin": 700,
-      "cost": 350,
+      "totalCycles": 19,
+      "durationMin": 720,
+      "cost": 360,
       "washerCycles": 12,
-      "dryerCycles": 6,
+      "dryerCycles": 7,
       "machines": [
         {
           "hwid": "CA0FCD25",
@@ -1343,9 +1343,9 @@
           "floor": "8F",
           "machine_type": "dryer",
           "machine_num": 1,
-          "total_cycles": 3,
-          "total_duration_min": 80,
-          "total_cost_ntd": 40
+          "total_cycles": 4,
+          "total_duration_min": 100,
+          "total_cost_ntd": 50
         },
         {
           "hwid": "CD62093C",
@@ -1382,7 +1382,7 @@
             100,
             0,
             67,
-            0,
+            17,
             0,
             0,
             0,
@@ -1590,7 +1590,7 @@
         14,
         0,
         10,
-        0,
+        2,
         0,
         0,
         0,
@@ -7567,9 +7567,9 @@
       "floor": "8F",
       "type": "dryer",
       "num": 1,
-      "totalCycles": 3,
-      "totalDurationMin": 80,
-      "totalCost": 40,
+      "totalCycles": 4,
+      "totalDurationMin": 100,
+      "totalCost": 50,
       "heatmap": [
         {
           "dayIndex": 0,
@@ -7594,7 +7594,7 @@
             0,
             0,
             50,
-            0,
+            50,
             0,
             0,
             0,
@@ -7802,7 +7802,7 @@
         0,
         0,
         7,
-        0,
+        7,
         0,
         0,
         0,
@@ -8329,9 +8329,9 @@
       "floor": "8F",
       "machine_type": "dryer",
       "machine_num": 1,
-      "total_cycles": 3,
-      "total_duration_min": 80,
-      "total_cost_ntd": 40
+      "total_cycles": 4,
+      "total_duration_min": 100,
+      "total_cost_ntd": 50
     },
     {
       "hwid": "CD62093C",
@@ -8472,7 +8472,7 @@
         100,
         31,
         77,
-        0,
+        4,
         0,
         0,
         0,
@@ -8680,7 +8680,7 @@
     14,
     4,
     11,
-    0,
+    1,
     0,
     0,
     0,
