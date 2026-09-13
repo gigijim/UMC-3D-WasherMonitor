@@ -892,12 +892,17 @@ function renderMachineView(data, hwid, body) {
                 <span class="text-slate-200 font-medium">${w.label}</span>
               </div>
               <div class="text-right">
-                <span class="text-rose-400 font-semibold">${w.rate}% 佔用機率</span>
+                <span class="text-rose-400 font-semibold">${w.rate}% 佔用率</span>
               </div>
             </div>
           `).join('')}
         </div>
       </div>
+    </div>
+
+    <!-- Machine Heatmap (單機每週熱度矩陣，分母: 1台) -->
+    <div class="mb-4">
+      ${renderHeatmapHtml(`${mData.floor} ${mData.description} 每週熱度矩陣 (佔用率 · 分母: 1台)`, mData.heatmap)}
     </div>
 
     <!-- Machine 24H Occupancy Curve (Denomination = 1 machine, showing hourly occupancy probability) -->
