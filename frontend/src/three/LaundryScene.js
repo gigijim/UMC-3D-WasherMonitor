@@ -35,7 +35,7 @@ export class LaundryScene {
     this.orbitLookAt = initialCam.lookAt.clone();
     this.orbitCamY = initialCam.cameraPos.y;
     this.orbitRadius = Math.hypot(initialCam.cameraPos.x - initialCam.lookAt.x, initialCam.cameraPos.z - initialCam.lookAt.z);
-    this.orbitBaseAngle = Math.atan2(initialCam.cameraPos.x - initialCam.lookAt.x, initialCam.cameraPos.z - initialCam.lookAt.z);
+    this.orbitBaseAngle = 0; // 核心修正：巡航基準正對中央正面 (0度)，絕不偏斜到側牆！
     this.isAnimatingCamera = true;
 
     this.init();
@@ -224,58 +224,33 @@ export class LaundryScene {
     return sprite;
   }
 
-  createBackWallFloorBadge(floorName) {
+  // 依需求：純粹 2 個字 "2F" / "4F" / "6F" / "8F"，無方框、無多餘文字、無 UMC 字樣
+  createSideWallFloorBadge(floorName) {
     const canvas = document.createElement('canvas');
-    canvas.width = 512;
-    canvas.height = 180;
+    canvas.width = 256;
+    canvas.height = 256;
     const ctx = canvas.getContext('2d');
 
-    // 1. Subtle futuristic embossed framing
-    ctx.strokeStyle = 'rgba(56, 189, 248, 0.22)';
-    ctx.lineWidth = 3;
-    ctx.strokeRect(12, 12, 488, 156);
-
-    // Subtle corner brackets
-    ctx.strokeStyle = 'rgba(56, 189, 248, 0.70)';
-    ctx.lineWidth = 5;
-    // Top-left
-    ctx.beginPath();
-    ctx.moveTo(12, 40); ctx.lineTo(12, 12); ctx.lineTo(40, 12); ctx.stroke();
-    // Top-right
-    ctx.beginPath();
-    ctx.moveTo(472, 12); ctx.lineTo(500, 12); ctx.lineTo(500, 40); ctx.stroke();
-    // Bottom-left
-    ctx.beginPath();
-    ctx.moveTo(12, 140); ctx.lineTo(12, 168); ctx.lineTo(40, 168); ctx.stroke();
-    // Bottom-right
-    ctx.beginPath();
-    ctx.moveTo(472, 168); ctx.lineTo(500, 168); ctx.lineTo(500, 140); ctx.stroke();
-
-    // 2. Huge faint 3D embossed Floor Number (2F, 4F, 6F, 8F)
-    ctx.font = '900 120px "Inter", "Segoe UI", system-ui, sans-serif';
+    // 巨大、立體、極簡無框純字體
+    ctx.font = '900 170px "Inter", "Segoe UI", system-ui, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
 
-    // Dark depth shadow for 3D extrusion effect
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.85)';
-    ctx.fillText(floorName, 259, 88);
+    // 立體深黑陰影
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.88)';
+    ctx.fillText(floorName, 131, 131);
 
-    // Front embossed faint cyan-slate text
-    ctx.fillStyle = 'rgba(186, 230, 253, 0.50)';
-    ctx.fillText(floorName, 256, 85);
+    // 半透明淡青立體主字
+    ctx.fillStyle = 'rgba(186, 230, 253, 0.55)';
+    ctx.fillText(floorName, 128, 128);
 
-    // Subtle cyan edge glow
-    ctx.lineWidth = 3;
-    ctx.strokeStyle = 'rgba(56, 189, 248, 0.45)';
-    ctx.strokeText(floorName, 256, 85);
-
-    // 3. Subtle Subtitle
-    ctx.font = 'bold 18px monospace';
-    ctx.fillStyle = 'rgba(148, 163, 184, 0.65)';
-    ctx.fillText('· UMC LIANYUAN DORM 2 ·', 256, 148);
+    // 微光輪廓光圈
+    ctx.lineWidth = 4;
+    ctx.strokeStyle = 'rgba(56, 189, 248, 0.50)';
+    ctx.strokeText(floorName, 128, 128);
 
     const texture = new THREE.CanvasTexture(canvas);
-    const badgeGeo = new THREE.PlaneGeometry(8.5, 2.4);
+    const badgeGeo = new THREE.PlaneGeometry(3.6, 3.6);
     const badgeMat = new THREE.MeshBasicMaterial({
       map: texture,
       transparent: true,
@@ -316,16 +291,20 @@ export class LaundryScene {
       const edgeLines = new THREE.LineSegments(edgeGeo, edgeMat);
       floorGroup.add(edgeLines);
 
-      // Back Wall (挑高背牆至 5.2，提供上方告示完整背景)
+      // Back Wall
       const backWall = new THREE.Mesh(wallGeo, wallMat);
       backWall.position.set(0, 2.6, -2.5);
       backWall.receiveShadow = true;
       floorGroup.add(backWall);
 
-      // Back Wall Large 3D Floor Badge (挑高至機台上方 y = 3.8，絕不被洗衣機遮擋)
-      const backWallBadge = this.createBackWallFloorBadge(floor.name);
-      backWallBadge.position.set(0.5, 3.8, -2.33);
-      floorGroup.add(backWallBadge);
+      // 依需求：移動並複製到後牆左、右兩側空白區域 (x = -8.2 與 x = 8.2)，完全避開中間 spot light 與機台！
+      const leftBadge = this.createSideWallFloorBadge(floor.name);
+      leftBadge.position.set(-8.2, 2.6, -2.33);
+      floorGroup.add(leftBadge);
+
+      const rightBadge = this.createSideWallFloorBadge(floor.name);
+      rightBadge.position.set(8.2, 2.6, -2.33);
+      floorGroup.add(rightBadge);
 
       // Right Entrance Arch Wall
       const doorArchGeo = new THREE.BoxGeometry(0.3, 5.2, 3.0);
@@ -882,9 +861,18 @@ export class LaundryScene {
     if (!timerCanvas || !timerTexture || !timerSprite) return;
 
     if (remainingSec <= 0) {
-      timerSprite.visible = false;
+      if (timerSprite.visible) timerSprite.visible = false;
+      mesh.userData.lastTimerText = '';
       return;
     }
+
+    const m = Math.floor(remainingSec / 60);
+    const s = remainingSec % 60;
+    const timeText = `⏳ ${m}分${s < 10 ? '0' : ''}${s}秒`;
+
+    // 效能優化：字串相同時直接略過 Canvas 重繪與 GPU 貼圖上傳
+    if (mesh.userData.lastTimerText === timeText && timerSprite.visible) return;
+    mesh.userData.lastTimerText = timeText;
 
     timerSprite.visible = true;
     const ctx = timerCanvas.getContext('2d');
@@ -903,10 +891,6 @@ export class LaundryScene {
     ctx.lineWidth = 5;
     ctx.stroke();
 
-    const m = Math.floor(remainingSec / 60);
-    const s = remainingSec % 60;
-    const timeText = `⏳ ${m}分${s < 10 ? '0' : ''}${s}秒`;
-
     ctx.font = 'bold 34px monospace';
     ctx.fillStyle = textColor;
     ctx.textAlign = 'center';
@@ -914,6 +898,26 @@ export class LaundryScene {
     ctx.fillText(timeText, 128, 38);
 
     timerTexture.needsUpdate = true;
+  }
+
+  // 解決洗衣機時間 3D 動畫不會倒數計時問題：每秒精準滴答更新所有運轉中機台的 3D 倒數看板
+  tickSecond(devices) {
+    if (!devices || devices.length === 0) return;
+    const now = Date.now();
+    for (const dev of devices) {
+      if (dev.isRunning) {
+        const mesh = this.machineMeshes.get(dev.hwid);
+        if (mesh) {
+          let remSec = 0;
+          if (dev.dueTime) {
+            remSec = Math.max(0, Math.floor((new Date(dev.dueTime).getTime() - now) / 1000));
+          } else if (typeof dev.remainingSec === 'number') {
+            remSec = dev.remainingSec;
+          }
+          this.updateTimerSprite(mesh, remSec, mesh.userData.isDryer);
+        }
+      }
+    }
   }
 
   populateMachines(devices) {
@@ -1293,20 +1297,17 @@ export class LaundryScene {
 
     if (aspect >= 1.2) {
       // 電腦寬螢幕 (16:9, 16:10, 21:9 超寬螢幕)
-      // 根據使用者實測截圖（紅框與向下箭頭）：將視覺中心抬升至 y=16.5，相機位置 (12.0, 17.5, 36.5)
-      // 視角輕微上仰，全棟建築整體向下平移，2F 底板緊沉於螢幕下緣，8F 頂部擁有舒適留白，徹底解決下方空曠留白問題
+      // 正面重心下移視角，相機略微偏右 4.5 營造立體層次，絕不偏轉過度
       lookAt = new THREE.Vector3(0, 16.5, 0);
-      cameraPos = new THREE.Vector3(12.0, 17.5, 36.5);
+      cameraPos = new THREE.Vector3(4.5, 17.2, 37.5);
     } else if (aspect >= 0.95) {
       // 平板電腦 / 方正螢幕 (e.g. iPad 4:3)
       lookAt = new THREE.Vector3(0, 15.5, 0);
-      cameraPos = new THREE.Vector3(13.0, 17.5, 41.0);
+      cameraPos = new THREE.Vector3(4.0, 17.5, 41.0);
     } else {
       // 直式手機螢幕 (aspect < 0.95, 9:16 ~ 9:20 直長比例)
-      // 手機全棟視角重心下移 (lookAt.y=15.0, camera.y=17.8, cameraPos=(-22.5, 17.8, 38.5))
-      // 建築物垂直置中偏下，解決下方大片留空問題，全棟 2F~8F 完美飽滿地填滿手機直向螢幕
-      lookAt = new THREE.Vector3(-0.5, 15.0, -0.5);
-      cameraPos = new THREE.Vector3(-22.5, 17.8, 38.5);
+      lookAt = new THREE.Vector3(0, 15.0, 0);
+      cameraPos = new THREE.Vector3(2.5, 17.8, 39.0);
     }
 
     return {
@@ -1327,17 +1328,17 @@ export class LaundryScene {
       this.orbitLookAt.copy(lookAt);
       this.orbitCamY = cameraPos.y;
       this.orbitRadius = Math.hypot(cameraPos.x - lookAt.x, cameraPos.z - lookAt.z);
-      this.orbitBaseAngle = Math.atan2(cameraPos.x - lookAt.x, cameraPos.z - lookAt.z);
+      this.orbitBaseAngle = 0; // 正面基準 (0度)
       this.orbitStartTime = performance.now();
     } else {
       const config = this.floorConfig.find((f) => f.name === floorName);
       if (config) {
         if (isMobile) {
-          // 手機直式比例：選取 2, 4, 6, 8 樓層時，改用更斜的角度（與截圖角度一致），視角中心移至選取樓層
+          // 手機直式比例：選取 2, 4, 6, 8 樓層時，視角中心移至選取樓層
           this.targetLookAt.set(-0.5, config.y + 1.2, -0.5);
           this.targetCameraPos.set(-16.5, config.y + 7.5, 21.5);
         } else {
-          // 電腦桌面寬螢幕：原本舒適的微俯瞰角度
+          // 電腦桌面寬螢幕：微俯瞰視角
           this.targetLookAt.set(0, config.y + 1.2, 0);
           this.targetCameraPos.set(7.5, config.y + 3.2, 17.5);
         }
@@ -1353,11 +1354,7 @@ export class LaundryScene {
       this.isPinned = !this.isPinned;
     }
     if (!this.isPinned) {
-      // 重新恢復巡航時，以當前視角作為中心基底角平滑擺動
-      this.orbitBaseAngle = Math.atan2(
-        this.camera.position.x - this.controls.target.x,
-        this.camera.position.z - this.controls.target.z
-      );
+      this.orbitBaseAngle = 0; // 恢復巡航時以正面為基準
       this.orbitRadius = Math.hypot(
         this.camera.position.x - this.controls.target.x,
         this.camera.position.z - this.controls.target.z
@@ -1384,7 +1381,7 @@ export class LaundryScene {
       this.orbitLookAt.copy(lookAt);
       this.orbitCamY = cameraPos.y;
       this.orbitRadius = Math.hypot(cameraPos.x - lookAt.x, cameraPos.z - lookAt.z);
-      this.orbitBaseAngle = Math.atan2(cameraPos.x - lookAt.x, cameraPos.z - lookAt.z);
+      this.orbitBaseAngle = 0;
       this.isAnimatingCamera = true;
     }
   }
@@ -1392,10 +1389,10 @@ export class LaundryScene {
   animate() {
     requestAnimationFrame(() => this.animate());
 
-    // 1. Pause rendering completely when tab is backgrounded or hidden (0% CPU/GPU usage)
+    // 1. 頁面切到背景時完全停止渲染，0% CPU/GPU 負擔
     if (document.hidden) return;
 
-    // 2. Cap framerate to smooth 60 FPS (prevents 120Hz/144Hz/240Hz monitors from overworking GPU)
+    // 2. 鎖定 60 FPS 幀率上限（杜絕高刷螢幕過載發熱）
     const now = performance.now();
     const elapsed = now - this.lastFrameTime;
     if (elapsed < 16.0) return;
@@ -1403,21 +1400,21 @@ export class LaundryScene {
 
     const time = Date.now() * 0.008;
 
-    // Spin ONLY actively running washers (blue water vortex churning & bobbing)
+    // 僅對運轉中的洗衣機更新水流渦流
     for (const waterGroup of this.activeWashers) {
       waterGroup.rotation.y -= 0.16;
       waterGroup.position.y = 0.95 + Math.sin(time) * 0.035;
     }
 
-    // Spin ONLY actively running dryers (smooth tumbling drum)
+    // 僅對運轉中的烘衣機更新滾筒旋轉
     for (const drum of this.activeDryers) {
       drum.rotation.z -= 0.15;
     }
 
-    // Gentle rising steam animation for running dryers (drifts backward away from timer)
+    // 烘衣機熱氣粒子
     for (const p of this.steamParticles) {
       p.mesh.position.y += p.speedY;
-      p.mesh.position.z -= 0.016; // 後方飄散，絕不遮擋前方倒數看板
+      p.mesh.position.z -= 0.016;
       p.mesh.position.x += 0.005;
       p.lifetime += 0.022;
       const opacity = Math.sin(p.lifetime * Math.PI) * 0.65;
@@ -1430,7 +1427,7 @@ export class LaundryScene {
       }
     }
 
-    // Camera animation tweening (平滑轉場至機台或樓層，使用者一旦滾輪或觸控則立即中斷交由使用者自由操作)
+    // 鏡頭動畫平滑差值
     if (this.isAnimatingCamera) {
       this.camera.position.lerp(this.targetCameraPos, 0.08);
       this.controls.target.lerp(this.targetLookAt, 0.08);
@@ -1448,23 +1445,18 @@ export class LaundryScene {
       !this.isPinned &&
       !this.isUserInteracting
     ) {
-      // 全棟「全部」視野時，在正面 150 度範圍內進行大幅度優雅鐘擺巡航，並搭配動態斜角高低鏡位切換
-      const t = (performance.now() - this.orbitStartTime) * 0.00018; // 優雅平滑週期 (~35秒)
-      const sway = Math.sin(t) * 1.25; // 左右擺動幅度擴大至 ±71.6° (全幅約 144°~147°，拉滿正面 150° 大廣角)
+      // 依需求：維持在正面視野內緩慢弧形巡航，擺幅適中 (±24度)，絕不轉到側牆平行
+      const t = (performance.now() - this.orbitStartTime) * 0.00015; // 極慢舒適週期 (~42秒)
+      const sway = Math.sin(t) * 0.42; // 最大左右擺動約 ±24度，正面全景機台一目了然
       const angle = this.orbitBaseAngle + sway;
 
-      // 搭配斜角動態高度與景深切換：擺動至兩側大斜角時鏡頭優雅微抬升 (+2.8)，呈現俯瞰層次感
-      const obliqueFactor = Math.abs(Math.sin(t)); // 0 在正中央，1 在兩側極限斜角
-      const dynamicY = this.orbitCamY + (obliqueFactor * 2.8 - 0.8);
-      const dynamicRadius = this.orbitRadius * (1.0 + (1.0 - obliqueFactor) * 0.05);
+      const targetX = this.orbitLookAt.x + this.orbitRadius * Math.sin(angle);
+      const targetZ = this.orbitLookAt.z + this.orbitRadius * Math.cos(angle);
 
-      const targetX = this.orbitLookAt.x + dynamicRadius * Math.sin(angle);
-      const targetZ = this.orbitLookAt.z + dynamicRadius * Math.cos(angle);
-
-      this.camera.position.x += (targetX - this.camera.position.x) * 0.04;
-      this.camera.position.z += (targetZ - this.camera.position.z) * 0.04;
-      this.camera.position.y += (dynamicY - this.camera.position.y) * 0.04;
-      this.controls.target.lerp(this.orbitLookAt, 0.04);
+      this.camera.position.x += (targetX - this.camera.position.x) * 0.035;
+      this.camera.position.z += (targetZ - this.camera.position.z) * 0.035;
+      this.camera.position.y += (this.orbitCamY - this.camera.position.y) * 0.035;
+      this.controls.target.lerp(this.orbitLookAt, 0.035);
     }
 
     this.controls.update();
