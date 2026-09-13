@@ -608,15 +608,15 @@ async function initApp() {
 
     if (mBtnPin) {
       if (isPinned) {
-        mBtnPin.className = 'px-2.5 py-1 rounded-lg text-xs flex items-center gap-1 bg-amber-950/70 text-amber-300 border border-amber-500/40 hover:bg-amber-900/60 active:scale-95 transition-all shadow-inner';
+        mBtnPin.className = 'px-1.5 py-1 rounded-xl text-[11px] flex items-center gap-0.5 bg-amber-950/70 text-amber-300 border border-amber-500/40 hover:bg-amber-900/60 active:scale-95 transition-all shadow-inner whitespace-nowrap shrink-0';
         mBtnPin.title = '目前為固定視角，點擊開啟動態巡航';
         if (mPinIcon) mPinIcon.textContent = '📌';
-        if (mPinText) mPinText.textContent = '固定視角';
+        if (mPinText) mPinText.textContent = '固定';
       } else {
-        mBtnPin.className = 'px-2.5 py-1 rounded-lg text-xs flex items-center gap-1 bg-slate-900/90 text-cyan-300 border border-cyan-500/40 hover:bg-slate-800 active:scale-95 transition-all shadow-sm';
+        mBtnPin.className = 'px-1.5 py-1 rounded-xl text-[11px] flex items-center gap-0.5 bg-slate-900/90 text-cyan-300 border border-cyan-500/40 hover:bg-slate-800 active:scale-95 transition-all shadow-sm whitespace-nowrap shrink-0';
         mBtnPin.title = '目前為動態巡航中，點擊固定視角';
         if (mPinIcon) mPinIcon.textContent = '📍';
-        if (mPinText) mPinText.textContent = '動態巡航';
+        if (mPinText) mPinText.textContent = '巡航';
       }
     }
   };
@@ -718,6 +718,9 @@ async function initApp() {
   document.getElementById('analytics-close-btn')?.addEventListener('click', () => {
     analyticsModal?.classList.add('hidden');
   });
+  analyticsModal?.addEventListener('click', (e) => {
+    if (e.target === analyticsModal) analyticsModal.classList.add('hidden');
+  });
 
   // 2D List View Modal (Desktop & Mobile)
   const listModal = document.getElementById('list-view-modal');
@@ -728,6 +731,25 @@ async function initApp() {
   document.getElementById('m-btn-list-view')?.addEventListener('click', openListView);
   document.getElementById('list-close-btn')?.addEventListener('click', () => {
     listModal?.classList.add('hidden');
+  });
+  listModal?.addEventListener('click', (e) => {
+    if (e.target === listModal) listModal.classList.add('hidden');
+  });
+
+  // Version & System Info Modal (Desktop & Mobile)
+  const versionModal = document.getElementById('version-modal');
+  const openVersionModal = () => {
+    versionModal?.classList.remove('hidden');
+  };
+  const closeVersionModal = () => {
+    versionModal?.classList.add('hidden');
+  };
+  document.getElementById('btn-version-desktop')?.addEventListener('click', openVersionModal);
+  document.getElementById('m-btn-version')?.addEventListener('click', openVersionModal);
+  document.getElementById('version-close-btn')?.addEventListener('click', closeVersionModal);
+  document.getElementById('version-modal-ok')?.addEventListener('click', closeVersionModal);
+  versionModal?.addEventListener('click', (e) => {
+    if (e.target === versionModal) closeVersionModal();
   });
 
   // PWA & iOS Add to Home Screen Setup

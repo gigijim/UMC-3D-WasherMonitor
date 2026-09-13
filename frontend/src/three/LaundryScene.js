@@ -1277,37 +1277,43 @@ export class LaundryScene {
     const worldPos = new THREE.Vector3();
     machineGroup.getWorldPosition(worldPos);
 
-    // 視角適度拉開，抬高注視中心 (y + 1.85)，確保機台上方的倒數計時看板 (y = 3.20) 擁有充裕留白、絕不遮蔽
     const aspect = (this.container?.clientWidth || window.innerWidth) / (this.container?.clientHeight || window.innerHeight);
     const isMobile = aspect < 1.0;
 
-    const offsetX = isMobile ? 4.0 : 4.6;
-    const offsetY = isMobile ? 4.2 : 3.8;
-    const offsetZ = isMobile ? 12.8 : 9.8;
-
-    this.targetLookAt.set(worldPos.x, worldPos.y + 1.85, worldPos.z);
-    this.targetCameraPos.set(worldPos.x + offsetX, worldPos.y + offsetY, worldPos.z + offsetZ);
+    if (isMobile) {
+      // 依需求 2.2：手機端點機台時，底部會彈出機台資訊小視窗（佔螢幕下半部約 40%~50%）
+      // 將注視中心大幅往下移 (y - 0.8)，使機台在畫面中向上抬升至螢幕上半部中央開闊處
+      // 確保機台本身與頭頂的 3D 倒數時間看板絕不被下方資訊小窗遮蔽，清晰一目了然！
+      this.targetLookAt.set(worldPos.x, worldPos.y - 0.8, worldPos.z);
+      this.targetCameraPos.set(worldPos.x + 3.0, worldPos.y + 3.0, worldPos.z + 13.5);
+    } else {
+      // 電腦寬螢幕：資訊窗在右側，中央維持舒適的微仰角全覽
+      this.targetLookAt.set(worldPos.x, worldPos.y + 1.2, worldPos.z);
+      this.targetCameraPos.set(worldPos.x + 4.6, worldPos.y + 3.5, worldPos.z + 10.5);
+    }
     this.isAnimatingCamera = true;
   }
 
-  // 根據當前螢幕長寬比動態計算「全部」全棟 3D 視角：放大畫面，重心下移，機台更清晰一目了然
+  // 依需求 2.3：根據螢幕比例動態計算「全部」全棟視野：視角再縮小一些，微微俯瞰一些，呈現完美立體層次
   computeAllFloorsCamera(aspect) {
     let lookAt;
     let cameraPos;
 
     if (aspect >= 1.2) {
       // 電腦寬螢幕 (16:9, 16:10, 21:9 超寬螢幕)
-      // 正面重心下移視角，相機略微偏右 4.5 營造立體層次，絕不偏轉過度
-      lookAt = new THREE.Vector3(0, 16.5, 0);
-      cameraPos = new THREE.Vector3(4.5, 17.2, 37.5);
+      // 微微俯瞰視角：相機高度抬升至 y=19.2，目標中心沉至 y=14.2，相機距離稍微拉大至 41.5 (微縮放)
+      lookAt = new THREE.Vector3(0, 14.2, 0);
+      cameraPos = new THREE.Vector3(4.5, 19.2, 41.5);
     } else if (aspect >= 0.95) {
       // 平板電腦 / 方正螢幕 (e.g. iPad 4:3)
-      lookAt = new THREE.Vector3(0, 15.5, 0);
-      cameraPos = new THREE.Vector3(4.0, 17.5, 41.0);
+      lookAt = new THREE.Vector3(0, 14.0, 0);
+      cameraPos = new THREE.Vector3(3.8, 19.0, 44.0);
     } else {
       // 直式手機螢幕 (aspect < 0.95, 9:16 ~ 9:20 直長比例)
-      lookAt = new THREE.Vector3(0, 15.0, 0);
-      cameraPos = new THREE.Vector3(2.5, 17.8, 39.0);
+      // 手機全棟視角：縮小一些 (z 從 39.0 拉至 44.5)，微微俯瞰 (camera.y=20.2, lookAt.y=13.2, 俯瞰角約 9 度)
+      // 徹底解決 8F 頂部頂手與 2F 底部過擠問題，機台頂部水流與樓板立體質感大幅提升
+      lookAt = new THREE.Vector3(0, 13.2, 0);
+      cameraPos = new THREE.Vector3(2.5, 20.2, 44.5);
     }
 
     return {
