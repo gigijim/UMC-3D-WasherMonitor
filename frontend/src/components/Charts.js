@@ -9,10 +9,20 @@ let currentScope = 'floor'; // 'floor' | 'machine' | 'overall'
 let selectedFloor = '2F'; // Default '2F'
 let selectedHwid = null;
 
-export function renderAnalytics(data, containerEl) {
+export function renderAnalytics(data, containerEl, options = {}) {
   if (!data) {
     containerEl.innerHTML = '<div class="p-8 text-center text-slate-400">目前尚無足夠的歷史數據。</div>';
     return;
+  }
+
+  if (options.scope) {
+    currentScope = options.scope;
+  }
+  if (options.hwid) {
+    selectedHwid = options.hwid;
+  }
+  if (options.floor) {
+    selectedFloor = options.floor;
   }
 
   // Set default machine if not set
