@@ -4,6 +4,8 @@ on:
   schedule:
     - cron: '2,12,22,32,42,52 * * * *'
   workflow_dispatch:
+  repository_dispatch:
+    types: [crawl]
 
 permissions:
   contents: write
@@ -11,6 +13,8 @@ permissions:
 jobs:
   crawl:
     runs-on: ubuntu-latest
+    env:
+      TZ: 'Asia/Taipei'
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4

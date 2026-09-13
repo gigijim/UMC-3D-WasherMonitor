@@ -13,6 +13,11 @@ function exportData() {
   fs.mkdirSync(path.dirname(outPath), { recursive: true });
   fs.writeFileSync(outPath, JSON.stringify(analysisResult, null, 2), 'utf-8');
 
+  const distPath = path.resolve(__dirname, '../frontend/dist/data/history_data.json');
+  if (fs.existsSync(path.dirname(distPath))) {
+    fs.writeFileSync(distPath, JSON.stringify(analysisResult, null, 2), 'utf-8');
+  }
+
   console.log(`[Export] Successfully exported history analysis (${analysisResult.totalEvents} events) to ${outPath}`);
   return analysisResult;
 }

@@ -1,13 +1,21 @@
-const { getDb } = require('./db');
+// Asia/Taipei is strictly UTC+8 year-round with no DST
+const TAIPEI_OFFSET_MS = 8 * 60 * 60 * 1000;
+
+function getTaipeiDayAndHour(isoStringOrDate) {
+  const utcMs = new Date(isoStringOrDate).getTime();
+  const taipeiDate = new Date(utcMs + TAIPEI_OFFSET_MS);
+  return {
+    day: taipeiDate.getUTCDay(),
+    hour: taipeiDate.getUTCHours()
+  };
+}
 
 function calculateHeatmapAndHourly(events) {
   const heatGrid = Array.from({ length: 7 }, () => Array(24).fill(0));
   const dayLabels = ['週日', '週一', '週二', '週三', '週四', '週五', '週六'];
 
   for (const ev of events) {
-    const start = new Date(ev.start_time);
-    const day = start.getDay();
-    const hour = start.getHours();
+    const { day, hour } = getTaipeiDayAndHour(ev.start_time);
     heatGrid[day][hour] += ev.duration_min;
   }
 
