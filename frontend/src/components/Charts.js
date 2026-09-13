@@ -31,7 +31,24 @@ export function renderAnalytics(data, containerEl, options = {}) {
   }
 
   // Render Skeleton UI
+  const syncTimeStr = data.generatedAt
+    ? new Date(data.generatedAt).toLocaleString('zh-TW', { timeZone: 'Asia/Taipei', hour: '2-digit', minute: '2-digit' })
+    : '最新';
+
   containerEl.innerHTML = `
+    <!-- DB Sync Info Banner -->
+    <div class="mb-4 px-3.5 py-2.5 rounded-xl bg-slate-950/70 border border-slate-800 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-400">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span>資料庫採集機制：<span class="text-slate-200 font-medium">每 10 分鐘自動由後台排程彙整一次</span></span>
+      </div>
+      <div class="flex items-center gap-2 font-mono text-[11px]">
+        <span>最後彙整時間：<span class="text-amber-300 font-semibold">${syncTimeStr}</span></span>
+        <span class="text-slate-600">|</span>
+        <span>已累積記錄 <span class="text-cyan-300 font-bold">${data.totalEvents || 0}</span> 次運轉事件</span>
+      </div>
+    </div>
+
     <!-- Scope Selector Tabs -->
     <div class="mb-6 flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-4">
       <div class="flex items-center gap-1.5 bg-slate-950 p-1.5 rounded-xl border border-slate-800 text-xs sm:text-sm">

@@ -108,10 +108,18 @@
     <!-- Right Controls -->
     <div class="flex items-center gap-2 text-xs">
       <!-- Auto-Refresh Countdown Reminder Pill -->
-      <div class="hidden md:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-900/90 border border-slate-800 text-slate-300 font-mono text-xs shadow-inner" title="系統每 30 秒自動向雲端 IoT 同步最新狀態">
-        <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
-        <span class="text-slate-400">自動刷新:</span>
-        <span id="refresh-countdown" class="font-bold text-cyan-300">30s</span>
+      <div class="hidden md:flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-slate-900/90 border border-slate-800 text-slate-300 font-mono text-xs shadow-inner" title="即時機況：每 30 秒向 IoT 雲端自動同步&#10;歷史報表：每 10 分鐘由後台爬蟲自動彙整">
+        <div class="flex items-center gap-1">
+          <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+          <span class="text-slate-400">即時機況:</span>
+          <span id="refresh-countdown" class="font-bold text-cyan-300">30s</span>
+        </div>
+        <span class="text-slate-600">|</span>
+        <div class="flex items-center gap-1 text-[11px]">
+          <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+          <span class="text-slate-400">歷史庫:</span>
+          <span class="text-amber-300 font-semibold">10m定時</span>
+        </div>
       </div>
 
       <button id="btn-toggle-demo" title="切換真實即時數據 / 模擬測試 (過半機台運轉)" class="p-2 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-slate-700 text-slate-200 transition-colors flex items-center gap-1.5">
@@ -241,6 +249,18 @@
     <!-- Advice -->
     <div id="card-advice" class="text-xs text-slate-400 bg-slate-950/50 p-2.5 rounded-lg border border-slate-800">
       💡 提示：此機台目前空閒，若需使用可至對應樓層投幣。
+    </div>
+
+    <!-- Sync Frequency Reminder Footer -->
+    <div class="mt-2.5 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[10px] text-slate-400">
+      <span class="flex items-center gap-1.5" title="機台狀態每 30 秒自動向 IoT 雲端刷新">
+        <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+        <span>即時機況: 30s 同步</span>
+      </span>
+      <span class="flex items-center gap-1.5" title="歷史規律資料庫每 10 分鐘由後端爬蟲定時彙整">
+        <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+        <span>歷史庫: 10m 排程彙整</span>
+      </span>
     </div>
   </div>
 
