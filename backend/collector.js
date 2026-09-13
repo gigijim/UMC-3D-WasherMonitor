@@ -86,6 +86,18 @@ async function collectOnce(options = { exportRealtime: true }) {
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
   `);
 
+  // Record crawl count in system_config
+  const currentCountRow = db.prepare(`SELECT value FROM system_config WHERE key = 'crawl_count'`).get();
+  let crawlCount = 1;
+  if (currentCountRow) {
+    crawlCount = parseInt(currentCountRow.value, 10) + 1;
+    db.prepare(`UPDATE system_config SET value = ? WHERE key = 'crawl_count'`).run(crawlCount.toString());
+  } else {
+    const distinctSnapshots = db.prepare(`SELECT COUNT(DISTINCT timestamp) as c FROM device_snapshots`).get();
+    crawlCount = Math.max(1, (distinctSnapshots?.c || 0) + 1);
+    db.prepare(`INSERT INTO system_config (key, value) VALUES ('crawl_count', ?)`).run(crawlCount.toString());
+  }
+
   for (const device of devices) {
     upsertDevice(db, device);
     const { floor, machine_type, machine_num } = parseDeviceInfo(device.description);

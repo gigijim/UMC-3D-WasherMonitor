@@ -153,9 +153,15 @@ function analyzeHistory(db) {
   const busiestMachines = sortedByUsage.slice(0, 5);
   const coldestMachines = [...sortedByUsage].reverse().slice(0, 5);
 
+  // 7. Crawl updates count
+  const countRow = db.prepare(`SELECT value FROM system_config WHERE key = 'crawl_count'`).get();
+  const distinctSnapshots = db.prepare(`SELECT COUNT(DISTINCT timestamp) as c FROM device_snapshots`).get();
+  const crawlCount = countRow ? parseInt(countRow.value, 10) : (distinctSnapshots?.c || 1);
+
   return {
     generatedAt: new Date().toISOString(),
     totalEvents: events.length,
+    crawlCount,
     floorComparison: Object.values(floorMap),
     overall: overallAnalysis,
     byFloor,
