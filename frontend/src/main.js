@@ -655,8 +655,9 @@ async function initApp() {
     });
   });
 
-  // Bind UI Controls
+  // Bind UI Controls (Desktop & Mobile)
   document.getElementById('btn-refresh')?.addEventListener('click', refreshAll);
+  document.getElementById('m-btn-refresh')?.addEventListener('click', refreshAll);
 
   // Toggle Demo Mode (可手動開啟過半機台模擬測試，或隨時恢復真實 IoT 監控)
   const btnDemo = document.getElementById('btn-toggle-demo');
@@ -696,24 +697,28 @@ async function initApp() {
     });
   });
 
-  // Analytics Modal
+  // Analytics Modal (Desktop & Mobile)
   const analyticsModal = document.getElementById('analytics-modal');
   const analyticsContent = document.getElementById('analytics-content');
-  document.getElementById('btn-open-analytics')?.addEventListener('click', async () => {
+  const openAnalytics = async () => {
     analyticsModal?.classList.remove('hidden');
     historyData = await fetchHistory();
     renderAnalytics(historyData, analyticsContent);
-  });
+  };
+  document.getElementById('btn-open-analytics')?.addEventListener('click', openAnalytics);
+  document.getElementById('m-btn-open-analytics')?.addEventListener('click', openAnalytics);
 
   document.getElementById('analytics-close-btn')?.addEventListener('click', () => {
     analyticsModal?.classList.add('hidden');
   });
 
-  // 2D List View Modal
+  // 2D List View Modal (Desktop & Mobile)
   const listModal = document.getElementById('list-view-modal');
-  document.getElementById('btn-list-view')?.addEventListener('click', () => {
+  const openListView = () => {
     listModal?.classList.remove('hidden');
-  });
+  };
+  document.getElementById('btn-list-view')?.addEventListener('click', openListView);
+  document.getElementById('m-btn-list-view')?.addEventListener('click', openListView);
   document.getElementById('list-close-btn')?.addEventListener('click', () => {
     listModal?.classList.add('hidden');
   });

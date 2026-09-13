@@ -37,29 +37,27 @@ export function renderAnalytics(data, containerEl, options = {}) {
 
   containerEl.innerHTML = `
     <!-- DB Sync Info Banner -->
-    <div class="mb-4 px-3.5 py-2.5 rounded-xl bg-slate-950/70 border border-slate-800 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-400">
-      <div class="flex items-center gap-2">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-        <span>資料庫採集機制：<span class="text-slate-200 font-medium">每 10 分鐘自動由後台排程彙整一次</span></span>
+    <div class="mb-3 px-3.5 py-2 rounded-xl bg-slate-950/70 border border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
+      <div class="flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+        <span class="text-slate-300 font-medium">10分鐘排程採集</span>
       </div>
-      <div class="flex items-center gap-2 font-mono text-[11px]">
-        <span>最後彙整時間：<span class="text-amber-300 font-semibold">${syncTimeStr}</span></span>
-        <span class="text-slate-600">|</span>
-        <span>已累積記錄 <span class="text-cyan-300 font-bold">${data.totalEvents || 0}</span> 次運轉事件</span>
+      <div class="font-mono text-[11px] text-slate-400">
+        彙整：<span class="text-amber-300">${syncTimeStr}</span> · 累積 <span class="text-cyan-300 font-bold">${data.totalEvents || 0}</span> 次
       </div>
     </div>
 
     <!-- Scope Selector Tabs -->
-    <div class="mb-6 flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-4">
-      <div class="flex items-center gap-1.5 bg-slate-950 p-1.5 rounded-xl border border-slate-800 text-xs sm:text-sm">
-        <button id="scope-floor-btn" class="scope-btn px-3.5 py-1.5 rounded-lg font-medium transition-all ${currentScope === 'floor' ? 'bg-cyan-600 text-white shadow' : 'text-slate-400 hover:text-white'}">
-          🏢 依樓層分析 (預設)
+    <div class="mb-4 flex flex-wrap items-center justify-between gap-2.5 border-b border-slate-800 pb-3">
+      <div class="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800 text-xs sm:text-sm">
+        <button id="scope-floor-btn" class="scope-btn px-3 py-1.5 rounded-lg font-medium transition-all ${currentScope === 'floor' ? 'bg-cyan-600 text-white shadow' : 'text-slate-400 hover:text-white'}">
+          🏢 樓層
         </button>
-        <button id="scope-machine-btn" class="scope-btn px-3.5 py-1.5 rounded-lg font-medium transition-all ${currentScope === 'machine' ? 'bg-cyan-600 text-white shadow' : 'text-slate-400 hover:text-white'}">
-          🧺 依機台單獨分析
+        <button id="scope-machine-btn" class="scope-btn px-3 py-1.5 rounded-lg font-medium transition-all ${currentScope === 'machine' ? 'bg-cyan-600 text-white shadow' : 'text-slate-400 hover:text-white'}">
+          🧺 機台
         </button>
-        <button id="scope-overall-btn" class="scope-btn px-3.5 py-1.5 rounded-lg font-medium transition-all ${currentScope === 'overall' ? 'bg-cyan-600 text-white shadow' : 'text-slate-400 hover:text-white'}">
-          🌐 全棟總覽分析
+        <button id="scope-overall-btn" class="scope-btn px-3 py-1.5 rounded-lg font-medium transition-all ${currentScope === 'overall' ? 'bg-cyan-600 text-white shadow' : 'text-slate-400 hover:text-white'}">
+          🌐 全棟
         </button>
       </div>
 
@@ -166,63 +164,63 @@ function renderFloorView(data, floor, body) {
 
   body.innerHTML = `
     <!-- Floor Overview Cards -->
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
-      <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800">
-        <div class="text-xs text-slate-400">${floor} 累計運轉</div>
-        <div class="text-lg font-bold font-mono text-cyan-400 mt-0.5">${fData.totalCycles} 次</div>
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-4">
+      <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
+        <div class="text-[11px] text-slate-400">${floor} 累計運轉</div>
+        <div class="text-base sm:text-lg font-bold font-mono text-cyan-400 mt-0.5">${fData.totalCycles} 次</div>
       </div>
-      <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800">
-        <div class="text-xs text-slate-400">洗衣機次數</div>
-        <div class="text-lg font-bold font-mono text-sky-400 mt-0.5">${fData.washerCycles} 次</div>
+      <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
+        <div class="text-[11px] text-slate-400">洗衣機次數</div>
+        <div class="text-base sm:text-lg font-bold font-mono text-sky-400 mt-0.5">${fData.washerCycles} 次</div>
       </div>
-      <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800">
-        <div class="text-xs text-slate-400">烘衣機次數</div>
-        <div class="text-lg font-bold font-mono text-amber-400 mt-0.5">${fData.dryerCycles} 次</div>
+      <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
+        <div class="text-[11px] text-slate-400">烘衣機次數</div>
+        <div class="text-base sm:text-lg font-bold font-mono text-amber-400 mt-0.5">${fData.dryerCycles} 次</div>
       </div>
-      <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800">
-        <div class="text-xs text-slate-400">${floor} 累計投幣</div>
-        <div class="text-lg font-bold font-mono text-emerald-400 mt-0.5">NT$ ${fData.cost}</div>
+      <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
+        <div class="text-[11px] text-slate-400">${floor} 累計投幣</div>
+        <div class="text-base sm:text-lg font-bold font-mono text-emerald-400 mt-0.5">NT$ ${fData.cost}</div>
       </div>
     </div>
 
     <!-- Recommendation Banner -->
-    <div class="mb-6 p-4 rounded-xl bg-gradient-to-r from-cyan-950/60 to-blue-950/60 border border-cyan-500/30 text-cyan-200 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+    <div class="mb-4 p-3 rounded-xl bg-gradient-to-r from-cyan-950/70 to-blue-950/70 border border-cyan-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
       <div>
-        <div class="font-semibold text-white text-sm flex items-center gap-2">
-          <span>💡</span> ${floor} 最佳離峰洗衣推薦時段
+        <div class="text-xs font-semibold text-cyan-300 flex items-center gap-1.5">
+          <span>💡</span> ${floor} 最佳離峰時段
         </div>
-        <div class="text-xs text-slate-300 mt-1">
-          歷史數據分析：${floor} 最清閒時段為 <span class="text-amber-400 font-bold">${fData.bestTimeWindows?.[0]?.label || '05:00 ~ 07:00'}</span>（佔用率僅 ${fData.bestTimeWindows?.[0]?.rate || 0}%）。
+        <div class="text-xs text-slate-200 mt-0.5">
+          空閒推薦：<span class="text-amber-400 font-bold font-mono">${fData.bestTimeWindows?.[0]?.label || '05:00 ~ 07:00'}</span>（空閒率 ${(100 - (fData.bestTimeWindows?.[0]?.rate || 0)).toFixed(0)}%）
         </div>
       </div>
-      <div class="flex gap-2 flex-wrap text-xs">
+      <div class="flex gap-1.5 flex-wrap text-[11px] font-mono">
         ${(fData.bestTimeWindows || []).slice(0, 3).map((w, idx) => `
-          <div class="px-2.5 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700 text-slate-200">
-            <span class="text-cyan-400 font-mono font-bold">#${idx + 1}</span> ${w.label} (${w.rate}% 佔用)
+          <div class="px-2 py-1 rounded-lg bg-slate-900/80 border border-slate-700/80 text-slate-300">
+            <span class="text-cyan-400 font-bold">#${idx + 1}</span> ${w.label}
           </div>
         `).join('')}
       </div>
     </div>
 
     <!-- Heatmap -->
-    ${renderHeatmapHtml(`${floor} 每週 24 小時使用熱度矩陣 (Heatmap)`, fData.heatmap)}
+    ${renderHeatmapHtml(`${floor} 每週熱度矩陣`, fData.heatmap)}
 
     <!-- Charts Grid: Floor Machine Comparison & Hourly Curve -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-      <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800">
-        <h3 class="text-sm font-semibold text-white mb-3 flex items-center gap-2">
-          <span>🧺</span> ${floor} 內部機台使用次數排行
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
+      <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800">
+        <h3 class="text-xs font-semibold text-white mb-2 flex items-center gap-1.5">
+          <span>🧺</span> 機台使用排行
         </h3>
-        <div class="h-64 relative">
+        <div class="h-60 relative">
           <canvas id="floorDetailChartCanvas"></canvas>
         </div>
       </div>
 
-      <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800">
-        <h3 class="text-sm font-semibold text-white mb-3 flex items-center gap-2">
-          <span>⏰</span> ${floor} 全天 24 小時平均使用率走勢
+      <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800">
+        <h3 class="text-xs font-semibold text-white mb-2 flex items-center gap-1.5">
+          <span>⏰</span> 24H 使用走勢
         </h3>
-        <div class="h-64 relative">
+        <div class="h-60 relative">
           <canvas id="floorHourlyChartCanvas"></canvas>
         </div>
       </div>
@@ -300,53 +298,53 @@ function renderMachineView(data, hwid, body) {
 
   body.innerHTML = `
     <!-- Machine Overview Cards -->
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
-      <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800">
-        <div class="text-xs text-slate-400">機台型號 / 樓層</div>
-        <div class="text-base font-bold text-white mt-0.5">${mData.description}</div>
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-4">
+      <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
+        <div class="text-[11px] text-slate-400">機台型號</div>
+        <div class="text-sm font-bold text-white mt-0.5 truncate">${mData.description}</div>
       </div>
-      <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800">
-        <div class="text-xs text-slate-400">歷史累計運轉</div>
-        <div class="text-lg font-bold font-mono text-cyan-400 mt-0.5">${mData.totalCycles} 次</div>
+      <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
+        <div class="text-[11px] text-slate-400">累計運轉</div>
+        <div class="text-base sm:text-lg font-bold font-mono text-cyan-400 mt-0.5">${mData.totalCycles} 次</div>
       </div>
-      <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800">
-        <div class="text-xs text-slate-400">累計運轉時長</div>
-        <div class="text-lg font-bold font-mono text-sky-400 mt-0.5">${mData.totalDurationMin} 分鐘</div>
+      <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
+        <div class="text-[11px] text-slate-400">累計時長</div>
+        <div class="text-base sm:text-lg font-bold font-mono text-sky-400 mt-0.5">${mData.totalDurationMin} 分</div>
       </div>
-      <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800">
-        <div class="text-xs text-slate-400">推估投幣收益</div>
-        <div class="text-lg font-bold font-mono text-emerald-400 mt-0.5">NT$ ${mData.totalCost}</div>
+      <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
+        <div class="text-[11px] text-slate-400">推估投幣</div>
+        <div class="text-base sm:text-lg font-bold font-mono text-emerald-400 mt-0.5">NT$ ${mData.totalCost}</div>
       </div>
     </div>
 
     <!-- Recommendation Banner -->
-    <div class="mb-6 p-4 rounded-xl bg-gradient-to-r from-emerald-950/60 to-cyan-950/60 border border-emerald-500/30 text-emerald-200 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+    <div class="mb-4 p-3 rounded-xl bg-gradient-to-r from-emerald-950/70 to-cyan-950/70 border border-emerald-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
       <div>
-        <div class="font-semibold text-white text-sm flex items-center gap-2">
-          <span>✨</span> ${mData.description} 歷史空閒時段推薦
+        <div class="text-xs font-semibold text-emerald-300 flex items-center gap-1.5">
+          <span>✨</span> ${mData.description} 空閒推薦
         </div>
-        <div class="text-xs text-slate-300 mt-1">
-          這台機台最少人使用的時段為 <span class="text-amber-400 font-bold">${mData.bestTimeWindows?.[0]?.label || '06:00 ~ 08:00'}</span>（空閒機率高達 ${(100 - (mData.bestTimeWindows?.[0]?.rate || 0)).toFixed(0)}%）。
+        <div class="text-xs text-slate-200 mt-0.5">
+          最冷門時段：<span class="text-amber-400 font-bold font-mono">${mData.bestTimeWindows?.[0]?.label || '06:00 ~ 08:00'}</span>（空閒率 ${(100 - (mData.bestTimeWindows?.[0]?.rate || 0)).toFixed(0)}%）
         </div>
       </div>
-      <div class="flex gap-2 flex-wrap text-xs">
+      <div class="flex gap-1.5 flex-wrap text-[11px] font-mono">
         ${(mData.bestTimeWindows || []).slice(0, 3).map((w, idx) => `
-          <div class="px-2.5 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700 text-slate-200">
-            <span class="text-emerald-400 font-mono font-bold">#${idx + 1}</span> ${w.label} (使用率 ${w.rate}%)
+          <div class="px-2 py-1 rounded-lg bg-slate-900/80 border border-slate-700/80 text-slate-300">
+            <span class="text-emerald-400 font-bold">#${idx + 1}</span> ${w.label}
           </div>
         `).join('')}
       </div>
     </div>
 
     <!-- Heatmap for this single machine -->
-    ${renderHeatmapHtml(`${mData.description} 專屬 24H × 7D 使用熱度圖 (越深代表該時間越常有人投幣)`, mData.heatmap)}
+    ${renderHeatmapHtml(`${mData.description} 熱度矩陣`, mData.heatmap)}
 
     <!-- Machine Hourly Curve -->
-    <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800 mt-6">
-      <h3 class="text-sm font-semibold text-white mb-3 flex items-center gap-2">
-        <span>⏰</span> ${mData.description} 全天 24 小時使用概率曲線
+    <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800 mt-4">
+      <h3 class="text-xs font-semibold text-white mb-2 flex items-center gap-1.5">
+        <span>⏰</span> 24H 使用走勢
       </h3>
-      <div class="h-64 relative">
+      <div class="h-60 relative">
         <canvas id="machineHourlyChartCanvas"></canvas>
       </div>
     </div>
@@ -386,99 +384,97 @@ function renderMachineView(data, hwid, body) {
 function renderOverallView(data, body) {
   body.innerHTML = `
     <!-- Top Recommendation Alert -->
-    <div class="mb-6 p-4 rounded-xl bg-gradient-to-r from-cyan-950/60 to-blue-950/60 border border-cyan-500/30 text-cyan-200 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+    <div class="mb-4 p-3 rounded-xl bg-gradient-to-r from-cyan-950/70 to-blue-950/70 border border-cyan-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
       <div>
-        <div class="flex items-center gap-2 font-semibold text-white text-base">
-          <span class="inline-block w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping"></span>
-          💡 全棟智慧離峰洗衣時段推薦
+        <div class="flex items-center gap-1.5 text-xs font-semibold text-cyan-300">
+          <span class="inline-block w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+          💡 全棟智慧離峰推薦
         </div>
-        <div class="text-xs text-slate-300 mt-1">
-          全棟最清閒時段為 
-          <span class="text-amber-400 font-bold">${data.bestTimeWindows?.[0]?.label || '05:00 ~ 07:00'}</span> 
-          （平均空閒率達 ${(100 - (data.bestTimeWindows?.[0]?.rate || 0)).toFixed(0)}%）。
+        <div class="text-xs text-slate-200 mt-0.5">
+          最冷門時段：<span class="text-amber-400 font-bold font-mono">${data.bestTimeWindows?.[0]?.label || '05:00 ~ 07:00'}</span>（空閒率 ${(100 - (data.bestTimeWindows?.[0]?.rate || 0)).toFixed(0)}%）
         </div>
       </div>
-      <div class="flex gap-2 flex-wrap text-xs">
+      <div class="flex gap-1.5 flex-wrap text-[11px] font-mono">
         ${(data.bestTimeWindows || []).slice(0, 3).map((w, idx) => `
-          <div class="px-2.5 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700 text-slate-200">
-            <span class="text-cyan-400 font-mono font-bold">#${idx + 1}</span> ${w.label} (佔用率 ${w.rate}%)
+          <div class="px-2 py-1 rounded-lg bg-slate-900/80 border border-slate-700/80 text-slate-300">
+            <span class="text-cyan-400 font-bold">#${idx + 1}</span> ${w.label}
           </div>
         `).join('')}
       </div>
     </div>
 
     <!-- Heatmap -->
-    ${renderHeatmapHtml('全棟每週 24 小時使用熱度矩陣 (Heatmap)', data.heatmap)}
+    ${renderHeatmapHtml('全棟每週熱度矩陣', data.heatmap)}
 
     <!-- Charts Row -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6 mb-8">
-      <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800">
-        <h3 class="text-sm font-semibold text-white mb-3 flex items-center gap-2">
-          <span>🏢</span> 各樓層使用量比較 (2F vs 4F vs 6F vs 8F)
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4 mb-4">
+      <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800">
+        <h3 class="text-xs font-semibold text-white mb-2 flex items-center gap-1.5">
+          <span>🏢</span> 樓層使用量對比
         </h3>
-        <div class="h-64 relative">
+        <div class="h-60 relative">
           <canvas id="overallFloorChartCanvas"></canvas>
         </div>
       </div>
 
-      <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800">
-        <h3 class="text-sm font-semibold text-white mb-3 flex items-center gap-2">
-          <span>⏰</span> 全棟 24 小時平均使用率曲線
+      <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800">
+        <h3 class="text-xs font-semibold text-white mb-2 flex items-center gap-1.5">
+          <span>⏰</span> 24H 平均使用走勢
         </h3>
-        <div class="h-64 relative">
+        <div class="h-60 relative">
           <canvas id="overallHourlyChartCanvas"></canvas>
         </div>
       </div>
     </div>
 
     <!-- Rankings: Coldest vs Busiest -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div class="bg-slate-900/80 p-4 rounded-xl border border-emerald-500/20">
-        <div class="flex items-center justify-between mb-3">
-          <h3 class="text-sm font-semibold text-emerald-400 flex items-center gap-2">
-            <span>❄️</span> 最少人搶 / 最冷門機台 (Top 5)
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="bg-slate-900/80 p-3.5 rounded-xl border border-emerald-500/20">
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="text-xs font-semibold text-emerald-400 flex items-center gap-1.5">
+            <span>❄️</span> 離峰冷門機台 (Top 5)
           </h3>
-          <span class="text-[11px] px-2 py-0.5 rounded bg-emerald-950/70 text-emerald-300 border border-emerald-800">推薦使用</span>
+          <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-950/70 text-emerald-300 border border-emerald-800">推薦使用</span>
         </div>
-        <div class="space-y-2">
+        <div class="space-y-1.5">
           ${(data.coldestMachines || []).map((m, idx) => `
-            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-colors text-xs border border-slate-700/50">
-              <div class="flex items-center gap-2.5">
-                <span class="w-5 h-5 rounded-full bg-emerald-900/70 text-emerald-300 flex items-center justify-center font-bold text-[11px]">${idx + 1}</span>
+            <div class="flex items-center justify-between p-2 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-colors text-xs border border-slate-700/50">
+              <div class="flex items-center gap-2">
+                <span class="w-4 h-4 rounded-full bg-emerald-900/70 text-emerald-300 flex items-center justify-center font-bold text-[10px]">${idx + 1}</span>
                 <div>
                   <div class="font-medium text-white">${m.description}</div>
-                  <div class="text-[10px] text-slate-400">${m.floor} · ${m.machine_type === 'washer' ? '洗衣機' : '烘衣機'}</div>
+                  <div class="text-[10px] text-slate-400">${m.floor} · ${m.machine_type === 'washer' ? '洗衣' : '烘衣'}</div>
                 </div>
               </div>
               <div class="text-right font-mono">
-                <div class="text-emerald-400 font-semibold">${m.total_cycles} 次</div>
-                <div class="text-[10px] text-slate-400">總累計 ${m.total_duration_min} 分鐘</div>
+                <div class="text-emerald-400 font-semibold text-xs">${m.total_cycles} 次</div>
+                <div class="text-[10px] text-slate-400">${m.total_duration_min}分</div>
               </div>
             </div>
           `).join('')}
         </div>
       </div>
 
-      <div class="bg-slate-900/80 p-4 rounded-xl border border-red-500/20">
-        <div class="flex items-center justify-between mb-3">
-          <h3 class="text-sm font-semibold text-red-400 flex items-center gap-2">
-            <span>🔥</span> 最熱門 / 尖峰常滿機台 (Top 5)
+      <div class="bg-slate-900/80 p-3.5 rounded-xl border border-red-500/20">
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="text-xs font-semibold text-red-400 flex items-center gap-1.5">
+            <span>🔥</span> 尖峰熱門機台 (Top 5)
           </h3>
-          <span class="text-[11px] px-2 py-0.5 rounded bg-red-950/70 text-red-300 border border-red-800">尖峰避開</span>
+          <span class="text-[10px] px-1.5 py-0.5 rounded bg-red-950/70 text-red-300 border border-red-800">建議避開</span>
         </div>
-        <div class="space-y-2">
+        <div class="space-y-1.5">
           ${(data.busiestMachines || []).map((m, idx) => `
-            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-colors text-xs border border-slate-700/50">
-              <div class="flex items-center gap-2.5">
-                <span class="w-5 h-5 rounded-full bg-red-900/70 text-red-300 flex items-center justify-center font-bold text-[11px]">${idx + 1}</span>
+            <div class="flex items-center justify-between p-2 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-colors text-xs border border-slate-700/50">
+              <div class="flex items-center gap-2">
+                <span class="w-4 h-4 rounded-full bg-red-900/70 text-red-300 flex items-center justify-center font-bold text-[10px]">${idx + 1}</span>
                 <div>
                   <div class="font-medium text-white">${m.description}</div>
-                  <div class="text-[10px] text-slate-400">${m.floor} · ${m.machine_type === 'washer' ? '洗衣機' : '烘衣機'}</div>
+                  <div class="text-[10px] text-slate-400">${m.floor} · ${m.machine_type === 'washer' ? '洗衣' : '烘衣'}</div>
                 </div>
               </div>
               <div class="text-right font-mono">
-                <div class="text-red-400 font-semibold">${m.total_cycles} 次</div>
-                <div class="text-[10px] text-slate-400">累計收益 NT$${m.total_cost_ntd}</div>
+                <div class="text-red-400 font-semibold text-xs">${m.total_cycles} 次</div>
+                <div class="text-[10px] text-slate-400">NT$${m.total_cost_ntd}</div>
               </div>
             </div>
           `).join('')}
@@ -561,21 +557,21 @@ function renderOverallView(data, body) {
 function renderHeatmapHtml(title, heatmapRows) {
   if (!heatmapRows) return '';
   return `
-    <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800">
-      <div class="flex items-center justify-between mb-3">
-        <h3 class="text-sm font-semibold text-white flex items-center gap-2">
+    <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800">
+      <div class="flex items-center justify-between mb-2.5">
+        <h3 class="text-xs font-semibold text-white flex items-center gap-1.5">
           <span>🔥</span> ${title}
         </h3>
-        <div class="flex items-center gap-1.5 text-[11px] text-slate-400">
+        <div class="flex items-center gap-1 text-[10px] text-slate-400">
           <span>空閒</span>
-          <span class="w-3 h-3 rounded bg-slate-800 inline-block"></span>
-          <span class="w-3 h-3 rounded bg-blue-700/60 inline-block"></span>
-          <span class="w-3 h-3 rounded bg-amber-600/70 inline-block"></span>
-          <span class="w-3 h-3 rounded bg-red-600/90 inline-block"></span>
-          <span>極熱門</span>
+          <span class="w-2.5 h-2.5 rounded bg-slate-800 inline-block"></span>
+          <span class="w-2.5 h-2.5 rounded bg-blue-700/60 inline-block"></span>
+          <span class="w-2.5 h-2.5 rounded bg-amber-600/70 inline-block"></span>
+          <span class="w-2.5 h-2.5 rounded bg-red-600/90 inline-block"></span>
+          <span>尖峰</span>
         </div>
       </div>
-      <div class="overflow-x-auto pb-2">
+      <div class="overflow-x-auto pb-1.5">
         <div class="min-w-[720px]">
           <!-- Hours Header -->
           <div class="grid grid-cols-[60px_repeat(24,1fr)] text-[10px] text-slate-400 text-center mb-1 font-mono">
