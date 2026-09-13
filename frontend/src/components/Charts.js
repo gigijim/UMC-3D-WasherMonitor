@@ -30,6 +30,30 @@ function formatSyncTime(isoStr) {
   return `${prefix}${timeStr}分`;
 }
 
+function formatLastUsedSimple(timestamp) {
+  if (!timestamp) return '尚無紀錄';
+  const target = new Date(timestamp);
+  if (isNaN(target.getTime())) return '尚無紀錄';
+  const now = new Date();
+  const diffMin = Math.max(0, Math.floor((now.getTime() - target.getTime()) / 60000));
+
+  const getTaipeiDate = (d) => new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Taipei' }).format(d);
+  const isToday = getTaipeiDate(target) === getTaipeiDate(now);
+  const yesterday = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+  const isYesterday = getTaipeiDate(target) === getTaipeiDate(yesterday);
+
+  const timeFormatter = new Intl.DateTimeFormat('zh-TW', {
+    timeZone: 'Asia/Taipei',
+    hour12: true,
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+  const timeStr = timeFormatter.format(target);
+  const prefix = isToday ? '今天 ' : isYesterday ? '昨天 ' : `${target.getMonth() + 1}/${target.getDate()} `;
+  const relStr = diffMin < 60 ? `${diffMin}分前` : diffMin < 1440 ? `${Math.floor(diffMin / 60)}小時前` : `${Math.floor(diffMin / 1440)}天前`;
+  return `${prefix}${timeStr} (${relStr})`;
+}
+
 export function renderAnalytics(data, containerEl, options = {}) {
   activeData = data;
   if (!data) {
@@ -618,6 +642,8 @@ function renderMachineView(data, hwid, body) {
   // Machine status badge
   const isOnline = mData.isOnline !== false;
 
+  const lastUsedDisplay = formatLastUsedSimple(mData.lastUsedTime);
+
   body.innerHTML = `
     <!-- Machine Header Card & Peer Ranking -->
     <div class="mb-4 p-4 rounded-xl bg-gradient-to-r from-slate-900 via-slate-850 to-slate-900 border border-slate-700/80 flex flex-col md:flex-row md:items-center justify-between gap-3">
@@ -637,6 +663,8 @@ function renderMachineView(data, hwid, body) {
           <div>同類熱門度天梯：在全棟 <strong class="text-amber-400">${totalInType} 台${typeText}</strong> 中排名第 <strong class="text-cyan-400 font-mono text-sm">#${rank}</strong> 名 (前 ${100 - rankPercent + 1}%)</div>
           <span class="text-slate-600 hidden sm:inline">·</span>
           <div>單次平均運轉：<strong class="text-sky-300 font-mono">${mData.avgDurationMin} 分鐘</strong></div>
+          <span class="text-slate-600 hidden sm:inline">·</span>
+          <div>最後使用：<strong class="text-amber-300 font-mono">${lastUsedDisplay}</strong></div>
         </div>
       </div>
 
@@ -651,16 +679,18 @@ function renderMachineView(data, hwid, body) {
     <!-- Machine Metric Cards -->
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-4">
       <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
+        <div class="text-[11px] text-slate-400">最後一次使用</div>
+        <div class="text-xs sm:text-sm font-bold font-mono text-amber-300 mt-1 truncate" title="${lastUsedDisplay}">
+          ${lastUsedDisplay}
+        </div>
+      </div>
+      <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
         <div class="text-[11px] text-slate-400">累計運轉次數</div>
         <div class="text-base sm:text-lg font-bold font-mono text-cyan-400 mt-0.5">${mData.totalCycles} 次</div>
       </div>
       <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
         <div class="text-[11px] text-slate-400">累計使用總時長</div>
         <div class="text-base sm:text-lg font-bold font-mono text-sky-400 mt-0.5">${mData.totalDurationMin} 分</div>
-      </div>
-      <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
-        <div class="text-[11px] text-slate-400">平均每日運轉</div>
-        <div class="text-base sm:text-lg font-bold font-mono text-amber-400 mt-0.5">${(mData.totalCycles / 30).toFixed(1)} 次/天</div>
       </div>
       <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
         <div class="text-[11px] text-slate-400">使用率評級</div>

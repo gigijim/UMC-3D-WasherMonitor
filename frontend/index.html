@@ -209,7 +209,7 @@
   <button id="btn-version-desktop" title="點擊查看歷史版本更新紀錄與版權資訊" class="hidden sm:flex absolute bottom-3 right-4 z-10 pointer-events-auto select-none text-[11px] font-mono text-slate-400/80 hover:text-cyan-300 bg-slate-950/60 hover:bg-slate-900/90 px-2.5 py-1 rounded-lg border border-slate-800/60 hover:border-slate-700/80 transition-all items-center gap-1.5 cursor-pointer backdrop-blur-xs">
     <span>Copyright © 2026 UMC_IT-Jimmy</span>
     <span class="text-slate-600">·</span>
-    <span class="text-cyan-400 font-semibold">v2.4.0</span>
+    <span class="text-cyan-400 font-semibold">v2.4.1</span>
     <span class="w-3.5 h-3.5 rounded-full bg-slate-800 border border-slate-700 text-[9px] flex items-center justify-center text-cyan-300 font-serif font-bold">i</span>
   </button>
 
@@ -231,12 +231,24 @@
     </div>
 
     <!-- Status Indicator Box -->
-    <div id="card-status-box" class="p-3 rounded-xl mb-3 flex items-center justify-between bg-emerald-950/50 border border-emerald-500/30">
+    <div id="card-status-box" class="p-3 rounded-xl mb-2.5 flex items-center justify-between bg-emerald-950/50 border border-emerald-500/30">
       <div class="flex items-center gap-2">
         <span id="card-status-dot" class="w-3 h-3 rounded-full bg-emerald-400 animate-pulse"></span>
         <span id="card-status-text" class="font-semibold text-emerald-300 text-sm">可使用</span>
       </div>
       <div id="card-timer-text" class="text-xs font-mono text-slate-300">隨時可投幣</div>
+    </div>
+
+    <!-- Last Used Time Banner (點擊機台顯示最後一次使用時間) -->
+    <div id="card-last-used-banner" class="mb-3 p-2.5 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between text-xs">
+      <div class="flex items-center gap-2">
+        <span class="text-sm">🕒</span>
+        <div>
+          <div class="text-[10px] text-slate-400">最後一次使用時間</div>
+          <div id="card-last-used-time" class="font-mono font-bold text-amber-300 mt-0.5">--</div>
+        </div>
+      </div>
+      <span id="card-last-used-tag" class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700">--</span>
     </div>
 
     <!-- Machine Live Metrics (2x2 Grid) -->
@@ -341,7 +353,7 @@
           <div>
             <h3 class="text-base font-bold text-white flex items-center gap-2">
               系統版本與資訊
-              <span class="px-2 py-0.5 rounded-md bg-cyan-950 text-cyan-300 border border-cyan-800 text-[10px] font-mono font-bold">v2.4.0</span>
+              <span class="px-2 py-0.5 rounded-md bg-cyan-950 text-cyan-300 border border-cyan-800 text-[10px] font-mono font-bold">v2.4.1</span>
             </h3>
             <p class="text-[11px] text-slate-400">聯苑二期 3D 洗衣監控分析平台</p>
           </div>
@@ -357,7 +369,7 @@
         <div class="bg-slate-950/70 p-3.5 rounded-2xl border border-slate-800 space-y-2">
           <div class="flex justify-between items-center text-[11px]">
             <span class="text-slate-400">系統版本</span>
-            <span class="font-mono text-cyan-300 font-bold">v2.4.0 (Release 2026.09.13)</span>
+            <span class="font-mono text-cyan-300 font-bold">v2.4.1 (Release 2026.09.13)</span>
           </div>
           <div class="flex justify-between items-center text-[11px]">
             <span class="text-slate-400">架構引擎</span>
@@ -379,13 +391,27 @@
             <span>歷史版本修改紀錄</span>
           </h4>
           <div class="space-y-3">
-            <!-- v2.4.0 -->
+            <!-- v2.4.1 -->
             <div class="border-l-2 border-cyan-400 pl-3 py-0.5 space-y-1">
               <div class="flex items-center justify-between">
-                <span class="font-mono font-bold text-cyan-300 text-xs">v2.4.0</span>
-                <span class="text-[10px] text-slate-500 font-mono">2026-09-13 19:50</span>
+                <span class="font-mono font-bold text-cyan-300 text-xs">v2.4.1</span>
+                <span class="text-[10px] text-slate-500 font-mono">2026-09-13 20:50</span>
               </div>
               <ul class="text-[11px] text-slate-300 space-y-1 list-disc list-inside">
+                <li>點擊機台資訊卡新增「最後一次使用時間」動態戳記與相對時長（如：今天下午06:27，約2小時前）</li>
+                <li>新增剛洗完滾筒衣物取留智慧提醒（剛洗完15分鐘內標註「⚠️ 剛洗完 (留意衣物)」，提醒先確認滾筒是否清空）</li>
+                <li>2D 清單檢視直接顯示閒置機台上次完成時間與經過時間</li>
+                <li>數據分析「by機台」行為畫像納入最後一次使用時間核心指標</li>
+              </ul>
+            </div>
+
+            <!-- v2.4.0 -->
+            <div class="border-l-2 border-slate-700 pl-3 py-0.5 space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="font-mono font-bold text-slate-400 text-xs">v2.4.0</span>
+                <span class="text-[10px] text-slate-500 font-mono">2026-09-13 19:50</span>
+              </div>
+              <ul class="text-[11px] text-slate-400 space-y-1 list-disc list-inside">
                 <li>數據分析分類順序升級：由左至右依序為「by全棟 ➔ by樓層 ➔ by機台」，預設進入即為全棟總覽</li>
                 <li>熱度矩陣物理分母重構：支援「洗烘合併 / 洗衣機 / 烘衣機」切換，樓層洗4/烘2/合6，全棟洗16/烘8/合24</li>
                 <li>夜間安寧生活公約合規：熱度圖標註 00:00~08:00 禁洗時段（違規偷用以 ⚠️ 標記），離峰推薦嚴格限定於 08:00~24:00 合法營運時段</li>
