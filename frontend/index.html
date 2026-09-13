@@ -96,17 +96,13 @@
       </div>
     </div>
 
-    <!-- Center Floor Pills -->
-    <div class="flex items-center gap-1 bg-slate-900/90 p-1 rounded-xl border border-slate-800 text-xs">
-      <button data-floor="all" class="floor-btn px-2.5 py-1 rounded-lg bg-cyan-600 text-white font-medium transition-colors">全部</button>
-      <button id="btn-pin-view" title="目前為動態巡航中，點擊固定視角" class="px-2 py-1 rounded-lg text-xs flex items-center gap-1 transition-all bg-slate-800/80 text-cyan-300 border border-cyan-500/30 hover:bg-slate-700">
-        <span id="pin-icon">📍</span>
-        <span id="pin-text" class="hidden sm:inline font-mono">動態巡航</span>
-      </button>
-      <button data-floor="2F" class="floor-btn px-2.5 py-1 rounded-lg hover:bg-slate-800 text-slate-300 transition-colors">2F</button>
-      <button data-floor="4F" class="floor-btn px-2.5 py-1 rounded-lg hover:bg-slate-800 text-slate-300 transition-colors">4F</button>
-      <button data-floor="6F" class="floor-btn px-2.5 py-1 rounded-lg hover:bg-slate-800 text-slate-300 transition-colors">6F</button>
-      <button data-floor="8F" class="floor-btn px-2.5 py-1 rounded-lg hover:bg-slate-800 text-slate-300 transition-colors">8F</button>
+    <!-- Center Floor Pills (加大尺寸、好點按、不擁擠) -->
+    <div class="flex items-center gap-1 sm:gap-1.5 bg-slate-900/95 p-1 sm:p-1.5 rounded-xl sm:rounded-2xl border border-slate-800 shadow-lg">
+      <button data-floor="all" class="floor-btn px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-lg sm:rounded-xl bg-cyan-600 text-white font-bold text-xs sm:text-sm tracking-wide transition-all shadow-sm active:scale-95">全部</button>
+      <button data-floor="2F" class="floor-btn px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-lg sm:rounded-xl hover:bg-slate-800 text-slate-300 font-bold text-xs sm:text-sm tracking-wide transition-all active:scale-95">2F</button>
+      <button data-floor="4F" class="floor-btn px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-lg sm:rounded-xl hover:bg-slate-800 text-slate-300 font-bold text-xs sm:text-sm tracking-wide transition-all active:scale-95">4F</button>
+      <button data-floor="6F" class="floor-btn px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-lg sm:rounded-xl hover:bg-slate-800 text-slate-300 font-bold text-xs sm:text-sm tracking-wide transition-all active:scale-95">6F</button>
+      <button data-floor="8F" class="floor-btn px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-lg sm:rounded-xl hover:bg-slate-800 text-slate-300 font-bold text-xs sm:text-sm tracking-wide transition-all active:scale-95">8F</button>
     </div>
 
     <!-- Right Controls -->
@@ -125,6 +121,12 @@
           <span class="text-amber-300 font-semibold">10m定時</span>
         </div>
       </div>
+
+      <!-- Desktop Independent Cruise / Pin View Button -->
+      <button id="btn-pin-view" title="目前為動態巡航中，點擊固定視角" class="hidden md:flex px-3 py-1.5 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-slate-700 text-cyan-300 hover:text-white transition-all items-center gap-1.5 text-xs shadow-sm">
+        <span id="pin-icon">📍</span>
+        <span id="pin-text" class="font-mono">動態巡航</span>
+      </button>
 
       <button id="btn-toggle-demo" title="切換真實即時數據 / 模擬測試 (過半機台運轉)" class="p-2 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-slate-700 text-slate-200 transition-colors flex items-center gap-1.5">
         <span>🎮</span>
@@ -154,13 +156,18 @@
     </div>
   </header>
 
-  <!-- Mobile Quick Badge Bar (shown only on small screens below header) -->
-  <div class="md:hidden absolute top-14 left-3 right-3 z-10 flex items-center justify-between text-[11px] bg-slate-950/70 backdrop-blur px-3 py-1.5 rounded-lg border border-slate-800/80 shadow-md">
+  <!-- Mobile Quick Badge Bar (右上第二排獨立按鈕設計，不壓迫樓層切換與3D畫面) -->
+  <div class="md:hidden absolute top-14 left-3 right-3 z-10 flex items-center justify-between text-[11px] bg-slate-950/75 backdrop-blur-md px-3 py-1.5 rounded-xl border border-slate-800/80 shadow-md">
     <div class="flex items-center gap-2">
-      <span id="m-badge-idle" class="text-emerald-400 font-medium">🟢 閒置: --</span>
-      <span id="m-badge-running" class="text-amber-400 font-medium">🟠 運轉: --</span>
+      <span id="m-badge-idle" class="text-emerald-400 font-semibold">🟢 閒置: --</span>
+      <span id="m-badge-running" class="text-amber-400 font-semibold">🟠 運轉: --</span>
     </div>
-    <div class="flex items-center gap-2">
+    <div class="flex items-center gap-1.5">
+      <!-- Mobile Independent Cruise Button in Row 2 -->
+      <button id="m-btn-pin-view" title="固定視角 / 動態巡航" class="px-2.5 py-1 rounded-lg text-xs flex items-center gap-1 bg-slate-900/90 text-cyan-300 border border-cyan-500/40 hover:bg-slate-800 active:scale-95 transition-all shadow-sm">
+        <span id="m-pin-icon">📍</span>
+        <span id="m-pin-text" class="font-mono text-[11px]">動態巡航</span>
+      </button>
       <button id="m-btn-install-pwa" title="加入主畫面" class="text-slate-400 hover:text-amber-300 flex items-center justify-center bg-slate-900/80 hover:bg-slate-800 border border-slate-700/80 p-1.5 rounded-md active:scale-95 transition-all text-xs">
         <span>📱</span>
       </button>

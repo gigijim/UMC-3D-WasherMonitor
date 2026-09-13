@@ -485,9 +485,13 @@ async function initApp() {
   scene = new LaundryScene(container, (device) => {
     showMachineDetail(device);
     const btnPin = document.getElementById('btn-pin-view');
+    const mBtnPin = document.getElementById('m-btn-pin-view');
     if (btnPin) {
-      btnPin.classList.add('hidden');
       btnPin.style.display = 'none';
+      btnPin.classList.add('hidden');
+    }
+    if (mBtnPin) {
+      mBtnPin.style.display = 'none';
     }
   });
 
@@ -570,32 +574,65 @@ async function initApp() {
     }
   }, 1000);
 
-  // Bind Floor Buttons & Pin View Toggle
+  // Bind Floor Buttons & Independent Cruise / Pin View Toggle (桌機頂部與手機第二排)
   const floorButtons = document.querySelectorAll('.floor-btn');
   const btnPin = document.getElementById('btn-pin-view');
   const pinIcon = document.getElementById('pin-icon');
   const pinText = document.getElementById('pin-text');
 
-  const updatePinButtonUI = (isPinned) => {
-    if (!btnPin) return;
-    if (isPinned) {
-      btnPin.className = 'px-2 py-1 rounded-lg text-xs flex items-center gap-1 transition-all bg-amber-950/70 text-amber-300 border border-amber-500/40 hover:bg-amber-900/60 shadow-inner';
-      btnPin.title = '目前為固定視角，點擊開啟動態巡航';
-      if (pinIcon) pinIcon.textContent = '📌';
-      if (pinText) pinText.textContent = '固定視角';
-    } else {
-      btnPin.className = 'px-2 py-1 rounded-lg text-xs flex items-center gap-1 transition-all bg-slate-800/80 text-cyan-300 border border-cyan-500/30 hover:bg-slate-700';
-      btnPin.title = '目前為動態巡航中，點擊固定視角';
-      if (pinIcon) pinIcon.textContent = '📍';
-      if (pinText) pinText.textContent = '動態巡航';
+  const mBtnPin = document.getElementById('m-btn-pin-view');
+  const mPinIcon = document.getElementById('m-pin-icon');
+  const mPinText = document.getElementById('m-pin-text');
+
+  const updatePinButtonsUI = (isPinned) => {
+    if (btnPin) {
+      if (isPinned) {
+        btnPin.className = 'hidden md:flex px-3 py-1.5 rounded-lg text-xs items-center gap-1.5 transition-all bg-amber-950/70 text-amber-300 border border-amber-500/40 hover:bg-amber-900/60 shadow-inner';
+        btnPin.title = '目前為固定視角，點擊開啟動態巡航';
+        if (pinIcon) pinIcon.textContent = '📌';
+        if (pinText) pinText.textContent = '固定視角';
+      } else {
+        btnPin.className = 'hidden md:flex px-3 py-1.5 rounded-lg text-xs items-center gap-1.5 transition-all bg-slate-900/90 text-cyan-300 border border-cyan-500/30 hover:bg-slate-800 shadow-sm';
+        btnPin.title = '目前為動態巡航中，點擊固定視角';
+        if (pinIcon) pinIcon.textContent = '📍';
+        if (pinText) pinText.textContent = '動態巡航';
+      }
+    }
+
+    if (mBtnPin) {
+      if (isPinned) {
+        mBtnPin.className = 'px-2.5 py-1 rounded-lg text-xs flex items-center gap-1 bg-amber-950/70 text-amber-300 border border-amber-500/40 hover:bg-amber-900/60 active:scale-95 transition-all shadow-inner';
+        mBtnPin.title = '目前為固定視角，點擊開啟動態巡航';
+        if (mPinIcon) mPinIcon.textContent = '📌';
+        if (mPinText) mPinText.textContent = '固定視角';
+      } else {
+        mBtnPin.className = 'px-2.5 py-1 rounded-lg text-xs flex items-center gap-1 bg-slate-900/90 text-cyan-300 border border-cyan-500/40 hover:bg-slate-800 active:scale-95 transition-all shadow-sm';
+        mBtnPin.title = '目前為動態巡航中，點擊固定視角';
+        if (mPinIcon) mPinIcon.textContent = '📍';
+        if (mPinText) mPinText.textContent = '動態巡航';
+      }
     }
   };
 
-  btnPin?.addEventListener('click', () => {
+  const onTogglePin = () => {
     if (!scene) return;
     const isPinned = scene.togglePinView();
-    updatePinButtonUI(isPinned);
-  });
+    updatePinButtonsUI(isPinned);
+  };
+
+  btnPin?.addEventListener('click', onTogglePin);
+  mBtnPin?.addEventListener('click', onTogglePin);
+
+  const setPinButtonsVisibility = (visible) => {
+    if (btnPin) {
+      btnPin.style.display = visible ? '' : 'none';
+      btnPin.classList.toggle('hidden', !visible);
+      btnPin.classList.toggle('md:flex', visible);
+    }
+    if (mBtnPin) {
+      mBtnPin.style.display = visible ? 'flex' : 'none';
+    }
+  };
 
   floorButtons.forEach((btn) => {
     btn.addEventListener('click', () => {
@@ -609,15 +646,11 @@ async function initApp() {
       const floor = btn.dataset.floor;
       scene.setFloorFocus(floor);
 
-      if (btnPin) {
-        if (floor === 'all') {
-          btnPin.classList.remove('hidden');
-          btnPin.style.display = 'flex';
-          updatePinButtonUI(scene.isPinned);
-        } else {
-          btnPin.classList.add('hidden');
-          btnPin.style.display = 'none';
-        }
+      if (floor === 'all') {
+        setPinButtonsVisibility(true);
+        updatePinButtonsUI(scene.isPinned);
+      } else {
+        setPinButtonsVisibility(false);
       }
     });
   });
@@ -642,9 +675,8 @@ async function initApp() {
   document.getElementById('card-close-btn')?.addEventListener('click', () => {
     document.getElementById('machine-detail-card')?.classList.add('hidden');
     selectedDevice = null;
-    if (btnPin && scene?.currentFocusFloor === 'all') {
-      btnPin.classList.remove('hidden');
-      btnPin.style.display = 'flex';
+    if (scene?.currentFocusFloor === 'all') {
+      setPinButtonsVisibility(true);
     }
   });
 
@@ -708,10 +740,34 @@ async function initApp() {
     });
   }
 
-  // Register PWA Service Worker for offline shell and installability
+  // Register PWA Service Worker with auto-update detection (no stale cache / no blank pages)
   if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
-    navigator.serviceWorker.register('/sw.js').catch((err) => {
+    navigator.serviceWorker.register('/sw.js').then((reg) => {
+      // Proactively check for new deployment
+      reg.update();
+
+      reg.onupdatefound = () => {
+        const installingWorker = reg.installing;
+        if (installingWorker) {
+          installingWorker.onstatechange = () => {
+            if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              // New version deployed: reload automatically to apply latest assets
+              console.log('[PWA] New version detected, updating app...');
+              window.location.reload();
+            }
+          };
+        }
+      };
+    }).catch((err) => {
       console.warn('ServiceWorker registration note:', err);
+    });
+
+    let refreshing = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (!refreshing) {
+        refreshing = true;
+        window.location.reload();
+      }
     });
   }
 }
