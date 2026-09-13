@@ -19,9 +19,13 @@ export class LaundryScene {
       { name: '8F', y: 22.5 }
     ];
 
-    // Default to a high-angle bird's-eye 3D perspective to overlook all floors (2F~8F) and timers with full headroom
-    this.targetCameraPos = new THREE.Vector3(18.0, 30.0, 42.0);
-    this.targetLookAt = new THREE.Vector3(0, 11.5, 0);
+    this.currentFocusFloor = 'all';
+
+    // 根據當前螢幕尺寸比例精確計算全棟 3D 鏡頭最佳角度與放大比例（重心下移，更加一目了然）
+    const initialAspect = (this.container?.clientWidth || window.innerWidth) / (this.container?.clientHeight || window.innerHeight);
+    const initialCam = this.computeAllFloorsCamera(initialAspect);
+    this.targetCameraPos = initialCam.cameraPos;
+    this.targetLookAt = initialCam.lookAt;
     this.isAnimatingCamera = true;
 
     this.init();
@@ -259,15 +263,14 @@ export class LaundryScene {
       floorSignSprite.position.set(-11.8, 1.8, 0.5);
       floorGroup.add(floorSignSprite);
 
-      // Pillars
+      // Pillars (依需求移除各樓層左前方柱子 [-10.2, 3.4]，全面敞開視角，絕不遮擋機台)
       if (floor.name !== '2F') {
         const pillarGeo = new THREE.CylinderGeometry(0.15, 0.15, 7.1, 16);
         const pillarMat = new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.5 });
         const corners = [
-          [-10.2, 3.4],
-          [10.2, 3.4],
-          [-10.2, -3.4],
-          [10.2, -3.4]
+          [10.2, 3.4],   // 右前方柱子
+          [-10.2, -3.4], // 左後方柱子
+          [10.2, -3.4]   // 右後方柱子
         ];
         for (const [cx, cz] of corners) {
           const pillar = new THREE.Mesh(pillarGeo, pillarMat);
@@ -1094,6 +1097,7 @@ export class LaundryScene {
   }
 
   focusOnMachine(machineGroup) {
+    this.currentFocusFloor = 'machine';
     const worldPos = new THREE.Vector3();
     machineGroup.getWorldPosition(worldPos);
 
@@ -1102,28 +1106,52 @@ export class LaundryScene {
     this.isAnimatingCamera = true;
   }
 
+  // 根據當前螢幕長寬比動態計算「全部」全棟 3D 視角：放大畫面，重心下移，機台更清晰一目了然
+  computeAllFloorsCamera(aspect) {
+    // 樓層總高 (2F~8F) 約 22.5，加上 8F 機頂聚光燈與看板約達 y=27.6，基底 y=-0.2
+    // 視覺中心設定在 y=13.7，讓全棟大樓垂直置中偏下，完美填補原本過多的底部黑色地坪空白
+    let lookAtY = 13.7;
+    let distX, distY, distZ;
+
+    if (aspect >= 1.5) {
+      // 寬螢幕 / 電腦桌面 (16:9, 16:10, 21:9 超寬螢幕): 畫面放大約 20%~30%，重心下移
+      distX = 15.5;
+      distY = 24.5;
+      distZ = 37.0;
+      lookAtY = 13.7;
+    } else if (aspect >= 1.2) {
+      // 一般筆電 / 視窗窄化 (e.g. 1440x900, 1280x800)
+      distX = 16.5;
+      distY = 26.0;
+      distZ = 40.0;
+      lookAtY = 13.5;
+    } else if (aspect >= 0.95) {
+      // 平板電腦 / 方正螢幕 (e.g. iPad 4:3)
+      distX = 18.5;
+      distY = 28.5;
+      distZ = 45.0;
+      lookAtY = 13.2;
+    } else {
+      // 直式手機螢幕 (aspect < 0.95, 9:16 ~ 9:20): 受限於窄螢幕寬度，保持適度安全邊界
+      distX = 22.0;
+      distY = 32.0;
+      distZ = 55.0;
+      lookAtY = 12.8;
+    }
+
+    return {
+      cameraPos: new THREE.Vector3(distX, distY, distZ),
+      lookAt: new THREE.Vector3(0, lookAtY, 0)
+    };
+  }
+
   setFloorFocus(floorName) {
+    this.currentFocusFloor = floorName;
     if (floorName === 'all') {
-      // High-angle bird's-eye 3D perspective: overlook all floors (2F~8F) and timers with full headroom
-      const aspect = this.camera.aspect || (window.innerWidth / window.innerHeight);
-      let distZ = 42.0;
-      let distY = 30.0;
-      let distX = 18.0;
-
-      if (aspect < 1.0) {
-        // Portrait mobile screens
-        distZ = 58.0;
-        distY = 38.0;
-        distX = 24.0;
-      } else if (aspect < 1.4) {
-        // Tablets / narrower viewports
-        distZ = 48.0;
-        distY = 34.0;
-        distX = 20.0;
-      }
-
-      this.targetLookAt.set(0, 11.5, 0);
-      this.targetCameraPos.set(distX, distY, distZ);
+      const aspect = this.camera?.aspect || (window.innerWidth / window.innerHeight);
+      const { cameraPos, lookAt } = this.computeAllFloorsCamera(aspect);
+      this.targetLookAt.copy(lookAt);
+      this.targetCameraPos.copy(cameraPos);
     } else {
       const config = this.floorConfig.find((f) => f.name === floorName);
       if (config) {
@@ -1140,6 +1168,14 @@ export class LaundryScene {
     this.camera.aspect = width / height;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(width, height);
+
+    // 當目前處於「全部」全棟視野時，動態適應新的螢幕長寬比與縮放
+    if (this.currentFocusFloor === 'all') {
+      const { cameraPos, lookAt } = this.computeAllFloorsCamera(this.camera.aspect);
+      this.targetCameraPos.copy(cameraPos);
+      this.targetLookAt.copy(lookAt);
+      this.isAnimatingCamera = true;
+    }
   }
 
   animate() {
