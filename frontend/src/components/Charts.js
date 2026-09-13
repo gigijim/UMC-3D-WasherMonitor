@@ -9,6 +9,25 @@ let currentScope = 'floor'; // 'floor' | 'machine' | 'overall'
 let selectedFloor = '2F'; // Default '2F'
 let selectedHwid = null;
 
+function formatSyncTime(isoStr) {
+  if (!isoStr) return '最新';
+  const target = new Date(isoStr);
+  const now = new Date();
+
+  const getTaipeiDate = (d) => new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Taipei' }).format(d);
+  const isToday = getTaipeiDate(target) === getTaipeiDate(now);
+
+  const formatter = new Intl.DateTimeFormat('zh-TW', {
+    timeZone: 'Asia/Taipei',
+    hour12: true,
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+  const timeStr = formatter.format(target);
+  const prefix = isToday ? '今天' : `${target.getMonth() + 1}月${target.getDate()}日 `;
+  return `${prefix}${timeStr}分`;
+}
+
 export function renderAnalytics(data, containerEl, options = {}) {
   if (!data) {
     containerEl.innerHTML = '<div class="p-8 text-center text-slate-400">目前尚無足夠的歷史數據。</div>';
@@ -31,19 +50,23 @@ export function renderAnalytics(data, containerEl, options = {}) {
   }
 
   // Render Skeleton UI
-  const syncTimeStr = data.generatedAt
-    ? new Date(data.generatedAt).toLocaleString('zh-TW', { timeZone: 'Asia/Taipei', hour: '2-digit', minute: '2-digit' })
-    : '最新';
+  const syncTimeStr = formatSyncTime(data.generatedAt);
+  const crawlCount = data.crawlCount || 1;
+  const totalEvents = data.totalEvents || 0;
 
   containerEl.innerHTML = `
     <!-- DB Sync Info Banner -->
-    <div class="mb-3 px-3.5 py-2 rounded-xl bg-slate-950/70 border border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
-      <div class="flex items-center gap-1.5">
-        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-        <span class="text-slate-300 font-medium">10分鐘排程採集</span>
+    <div class="mb-3 p-2.5 sm:px-3.5 sm:py-2.5 rounded-xl bg-slate-950/70 border border-slate-800/80 flex flex-col md:flex-row md:items-center justify-between gap-2 text-xs text-slate-400">
+      <div class="flex items-center gap-1.5 shrink-0">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span class="text-slate-200 font-medium text-[11px] sm:text-xs">每10分鐘 GitHub Actions 排程自動爬蟲數據更新</span>
       </div>
-      <div class="font-mono text-[11px] text-slate-400">
-        彙整：<span class="text-amber-300">${syncTimeStr}</span> · 累積 <span class="text-cyan-300 font-bold">${data.totalEvents || 0}</span> 次
+      <div class="flex flex-wrap items-center gap-x-2.5 gap-y-1 font-mono text-[11px] text-slate-400">
+        <div>數據更新時間: <span class="text-amber-300 font-semibold">${syncTimeStr}</span></div>
+        <span class="text-slate-600 hidden sm:inline">·</span>
+        <div>雲端爬蟲更新次數: <span class="text-emerald-400 font-bold">${crawlCount}</span> 次</div>
+        <span class="text-slate-600 hidden sm:inline">·</span>
+        <div>累積總使用數: <span class="text-cyan-300 font-bold">${totalEvents}</span> 次</div>
       </div>
     </div>
 
