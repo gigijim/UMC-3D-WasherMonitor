@@ -629,7 +629,7 @@ async function refreshAll() {
     const analyticsModal = document.getElementById('analytics-modal');
     const analyticsContent = document.getElementById('analytics-content');
     if (analyticsModal && !analyticsModal.classList.contains('hidden') && historyData) {
-      renderAnalytics(historyData, analyticsContent);
+      renderAnalytics(historyData, analyticsContent, { preserveState: true });
     }
   } catch (err) {
     console.error('更新失敗:', err);
