@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-09-14T04:00:39.874Z",
-  "totalEvents": 122,
-  "crawlCount": 128,
+  "generatedAt": "2026-09-14T04:10:30.942Z",
+  "totalEvents": 123,
+  "crawlCount": 129,
   "floorComparison": [
     {
       "floor": "2F",
@@ -29,11 +29,11 @@
     },
     {
       "floor": "8F",
-      "cycles": 35,
-      "durationMin": 1498,
-      "cost": 750,
+      "cycles": 36,
+      "durationMin": 1597,
+      "cost": 800,
       "washerCycles": 23,
-      "dryerCycles": 12
+      "dryerCycles": 13
     }
   ],
   "overall": {
@@ -349,7 +349,7 @@
             0,
             0,
             8,
-            0,
+            21,
             0,
             0,
             0,
@@ -527,7 +527,7 @@
         0,
         17,
         15,
-        25,
+        23,
         0,
         17,
         13,
@@ -612,7 +612,7 @@
             0,
             11,
             3,
-            3,
+            10,
             0,
             0,
             0,
@@ -790,7 +790,7 @@
         14,
         15,
         12,
-        6,
+        9,
         3,
         22,
         15,
@@ -822,7 +822,7 @@
         {
           "hour": 12,
           "label": "12:00 ~ 13:00",
-          "rate": 6
+          "rate": 9
         }
       ]
     },
@@ -873,7 +873,7 @@
           0,
           11,
           3,
-          3,
+          10,
           0,
           0,
           0,
@@ -1051,7 +1051,7 @@
       14,
       15,
       12,
-      6,
+      9,
       3,
       22,
       15,
@@ -1083,7 +1083,7 @@
       {
         "hour": 12,
         "label": "12:00 ~ 13:00",
-        "rate": 6
+        "rate": 9
       }
     ]
   },
@@ -4486,11 +4486,11 @@
     },
     "8F": {
       "floor": "8F",
-      "totalCycles": 35,
-      "durationMin": 1498,
-      "cost": 750,
+      "totalCycles": 36,
+      "durationMin": 1597,
+      "cost": 800,
       "washerCycles": 23,
-      "dryerCycles": 12,
+      "dryerCycles": 13,
       "machines": [
         {
           "hwid": "CA0FCD25",
@@ -4546,10 +4546,10 @@
           "floor": "8F",
           "machine_type": "dryer",
           "machine_num": 1,
-          "total_cycles": 7,
-          "total_duration_min": 259,
-          "total_cost_ntd": 130,
-          "last_used_time": "2026-09-13T18:19:17.155Z",
+          "total_cycles": 8,
+          "total_duration_min": 358,
+          "total_cost_ntd": 180,
+          "last_used_time": "2026-09-14T05:45:32.513Z",
           "isOnline": true
         },
         {
@@ -4877,7 +4877,7 @@
               0,
               0,
               0,
-              0,
+              83,
               0,
               0,
               0,
@@ -5055,7 +5055,7 @@
           0,
           67,
           0,
-          33,
+          58,
           0,
           0,
           17,
@@ -5140,7 +5140,7 @@
               0,
               33,
               0,
-              11,
+              39,
               0,
               0,
               0,
@@ -5318,7 +5318,7 @@
           33,
           33,
           22,
-          11,
+          25,
           11,
           22,
           6,
@@ -5402,7 +5402,7 @@
             0,
             33,
             0,
-            11,
+            39,
             0,
             0,
             0,
@@ -5580,7 +5580,7 @@
         33,
         33,
         22,
-        11,
+        25,
         11,
         22,
         6,
@@ -12071,14 +12071,19 @@
       "type": "dryer",
       "num": 1,
       "isOnline": true,
-      "totalCycles": 7,
-      "totalDurationMin": 259,
-      "totalCost": 130,
-      "lastUsedTime": "2026-09-13T18:19:17.155Z",
-      "avgDurationMin": 37,
+      "totalCycles": 8,
+      "totalDurationMin": 358,
+      "totalCost": 180,
+      "lastUsedTime": "2026-09-14T05:45:32.513Z",
+      "avgDurationMin": 45,
       "rankInType": 1,
       "totalInType": 8,
       "peakSlots": [
+        {
+          "hour": 12,
+          "rate": 100,
+          "label": "12:00 ~ 13:00"
+        },
         {
           "hour": 10,
           "rate": 67,
@@ -12088,11 +12093,6 @@
           "hour": 23,
           "rate": 67,
           "label": "23:00 ~ 00:00"
-        },
-        {
-          "hour": 15,
-          "rate": 33,
-          "label": "15:00 ~ 16:00"
         }
       ],
       "capacityCount": 1,
@@ -12143,7 +12143,7 @@
             0,
             0,
             0,
-            0,
+            100,
             0,
             0,
             0,
@@ -12321,7 +12321,7 @@
         0,
         67,
         0,
-        0,
+        100,
         0,
         0,
         33,
@@ -12351,8 +12351,8 @@
           "rate": 0
         },
         {
-          "hour": 12,
-          "label": "12:00 ~ 13:00",
+          "hour": 13,
+          "label": "13:00 ~ 14:00",
           "rate": 0
         }
       ]
@@ -12922,10 +12922,10 @@
       "floor": "8F",
       "machine_type": "dryer",
       "machine_num": 1,
-      "total_cycles": 7,
-      "total_duration_min": 259,
-      "total_cost_ntd": 130,
-      "last_used_time": "2026-09-13T18:19:17.155Z",
+      "total_cycles": 8,
+      "total_duration_min": 358,
+      "total_cost_ntd": 180,
+      "last_used_time": "2026-09-14T05:45:32.513Z",
       "isOnline": true
     },
     {
@@ -12967,6 +12967,18 @@
       "isOnline": true
     },
     {
+      "hwid": "546B5886",
+      "description": "8F烘乾機1號",
+      "floor": "8F",
+      "machine_type": "dryer",
+      "machine_num": 1,
+      "total_cycles": 8,
+      "total_duration_min": 358,
+      "total_cost_ntd": 180,
+      "last_used_time": "2026-09-14T05:45:32.513Z",
+      "isOnline": true
+    },
+    {
       "hwid": "BD08FDB3",
       "description": "8F洗衣機2號",
       "floor": "8F",
@@ -12976,18 +12988,6 @@
       "total_duration_min": 280,
       "total_cost_ntd": 140,
       "last_used_time": "2026-09-14T03:20:34.346Z",
-      "isOnline": true
-    },
-    {
-      "hwid": "546B5886",
-      "description": "8F烘乾機1號",
-      "floor": "8F",
-      "machine_type": "dryer",
-      "machine_num": 1,
-      "total_cycles": 7,
-      "total_duration_min": 259,
-      "total_cost_ntd": 130,
-      "last_used_time": "2026-09-13T18:19:17.155Z",
       "isOnline": true
     },
     {
@@ -13112,7 +13112,7 @@
         0,
         11,
         3,
-        3,
+        10,
         0,
         0,
         0,
@@ -13290,7 +13290,7 @@
     14,
     15,
     12,
-    6,
+    9,
     3,
     22,
     15,
@@ -13322,7 +13322,7 @@
     {
       "hour": 12,
       "label": "12:00 ~ 13:00",
-      "rate": 6
+      "rate": 9
     }
   ]
 }

@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-09-14T04:00:38.893Z",
+  "updatedAt": "2026-09-14T04:10:29.535Z",
   "summary": {
     "total": 24,
-    "running": 1,
-    "idle": 23,
+    "running": 2,
+    "idle": 22,
     "offline": 0
   },
   "merchant": {
@@ -155,9 +155,9 @@
       "type": "dryer",
       "num": 1,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-09-13T18:19:17.155Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-09-14T05:45:32.513Z",
+      "remainingSec": 5702
     },
     {
       "hwid": "2401AC09",
@@ -217,7 +217,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-14T04:40:38.468Z",
-      "remainingSec": 2399
+      "remainingSec": 1808
     },
     {
       "hwid": "CD62093C",
