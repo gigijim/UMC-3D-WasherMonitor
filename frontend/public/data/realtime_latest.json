@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-14T15:30:34.269Z",
+  "updatedAt": "2026-09-14T15:40:22.388Z",
   "summary": {
     "total": 24,
     "running": 8,
@@ -49,7 +49,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-14T15:43:52.013Z",
-      "remainingSec": 797
+      "remainingSec": 209
     },
     {
       "hwid": "3A90E17C",
@@ -85,7 +85,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-14T16:04:05.055Z",
-      "remainingSec": 2010
+      "remainingSec": 1422
     },
     {
       "hwid": "D3F34449",
@@ -131,9 +131,9 @@
       "type": "washer",
       "num": 3,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-09-14T15:02:46.158Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-09-14T16:20:21.767Z",
+      "remainingSec": 2399
     },
     {
       "hwid": "236C6810",
@@ -145,7 +145,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-14T15:56:41.212Z",
-      "remainingSec": 1566
+      "remainingSec": 978
     },
     {
       "hwid": "546B5886",
@@ -167,9 +167,9 @@
       "type": "dryer",
       "num": 2,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-09-14T15:39:32.869Z",
-      "remainingSec": 538
+      "remainingSec": 0
     },
     {
       "hwid": "53069C9F",
@@ -229,7 +229,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-14T15:59:36.841Z",
-      "remainingSec": 1742
+      "remainingSec": 1154
     },
     {
       "hwid": "BA6539AA",
@@ -253,7 +253,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-14T15:52:29.325Z",
-      "remainingSec": 1315
+      "remainingSec": 726
     },
     {
       "hwid": "E7985177",
@@ -277,7 +277,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-14T15:59:27.009Z",
-      "remainingSec": 1732
+      "remainingSec": 1144
     },
     {
       "hwid": "0996305B",
@@ -301,7 +301,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-14T15:51:15.158Z",
-      "remainingSec": 1240
+      "remainingSec": 652
     }
   ]
 }
