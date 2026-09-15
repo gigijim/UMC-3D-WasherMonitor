@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-09-15T14:50:31.504Z",
+  "updatedAt": "2026-09-15T15:00:43.089Z",
   "summary": {
     "total": 24,
-    "running": 8,
-    "idle": 16,
+    "running": 5,
+    "idle": 19,
     "offline": 0
   },
   "merchant": {
@@ -109,7 +109,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-15T15:01:01.548Z",
-      "remainingSec": 630
+      "remainingSec": 18
     },
     {
       "hwid": "3DFD2565",
@@ -119,9 +119,9 @@
       "type": "washer",
       "num": 2,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-09-15T14:57:57.336Z",
-      "remainingSec": 445
+      "remainingSec": 0
     },
     {
       "hwid": "AD4238F4",
@@ -133,7 +133,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-15T15:20:57.807Z",
-      "remainingSec": 1826
+      "remainingSec": 1214
     },
     {
       "hwid": "236C6810",
@@ -145,7 +145,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-15T15:07:39.913Z",
-      "remainingSec": 1028
+      "remainingSec": 416
     },
     {
       "hwid": "546B5886",
@@ -157,7 +157,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-15T15:25:17.593Z",
-      "remainingSec": 2086
+      "remainingSec": 1474
     },
     {
       "hwid": "2401AC09",
@@ -167,9 +167,9 @@
       "type": "dryer",
       "num": 2,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-09-15T14:57:09.470Z",
-      "remainingSec": 397
+      "remainingSec": 0
     },
     {
       "hwid": "53069C9F",
@@ -179,9 +179,9 @@
       "type": "washer",
       "num": 4,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-09-15T15:00:09.356Z",
-      "remainingSec": 577
+      "remainingSec": 0
     },
     {
       "hwid": "BD08FDB3",
@@ -301,7 +301,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-15T15:06:53.442Z",
-      "remainingSec": 981
+      "remainingSec": 370
     }
   ]
 }
