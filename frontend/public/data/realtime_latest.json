@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-09-15T08:20:23.596Z",
+  "updatedAt": "2026-09-15T08:30:34.626Z",
   "summary": {
     "total": 24,
-    "running": 0,
-    "idle": 24,
+    "running": 1,
+    "idle": 23,
     "offline": 0
   },
   "merchant": {
@@ -47,9 +47,9 @@
       "type": "washer",
       "num": 2,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-09-14T15:43:52.013Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-09-15T09:07:25.423Z",
+      "remainingSec": 2210
     },
     {
       "hwid": "3A90E17C",
