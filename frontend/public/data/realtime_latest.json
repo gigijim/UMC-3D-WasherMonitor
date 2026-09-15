@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-09-15T12:50:23.087Z",
+  "updatedAt": "2026-09-15T13:00:39.292Z",
   "summary": {
     "total": 24,
-    "running": 6,
-    "idle": 18,
+    "running": 7,
+    "idle": 17,
     "offline": 0
   },
   "merchant": {
@@ -109,7 +109,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-15T13:23:01.202Z",
-      "remainingSec": 1958
+      "remainingSec": 1341
     },
     {
       "hwid": "3DFD2565",
@@ -121,7 +121,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-15T13:02:16.786Z",
-      "remainingSec": 713
+      "remainingSec": 97
     },
     {
       "hwid": "AD4238F4",
@@ -133,7 +133,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-15T13:25:11.211Z",
-      "remainingSec": 2088
+      "remainingSec": 1471
     },
     {
       "hwid": "236C6810",
@@ -143,9 +143,9 @@
       "type": "washer",
       "num": 3,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-09-14T15:56:41.212Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-09-15T13:34:07.569Z",
+      "remainingSec": 2008
     },
     {
       "hwid": "546B5886",
@@ -157,7 +157,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-15T13:39:46.353Z",
-      "remainingSec": 2963
+      "remainingSec": 2347
     },
     {
       "hwid": "2401AC09",
@@ -181,7 +181,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-15T13:02:02.990Z",
-      "remainingSec": 699
+      "remainingSec": 83
     },
     {
       "hwid": "BD08FDB3",
@@ -191,9 +191,9 @@
       "type": "washer",
       "num": 2,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-09-15T12:35:42.812Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-09-15T13:33:23.746Z",
+      "remainingSec": 1964
     },
     {
       "hwid": "DA450862",
@@ -275,9 +275,9 @@
       "type": "washer",
       "num": 1,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-09-15T13:00:30.767Z",
-      "remainingSec": 607
+      "remainingSec": 0
     },
     {
       "hwid": "0996305B",
