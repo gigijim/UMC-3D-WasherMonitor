@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-09-15T11:10:23.939Z",
+  "updatedAt": "2026-09-15T11:20:58.997Z",
   "summary": {
     "total": 24,
-    "running": 6,
-    "idle": 18,
+    "running": 7,
+    "idle": 17,
     "offline": 0
   },
   "merchant": {
@@ -47,9 +47,9 @@
       "type": "washer",
       "num": 2,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-09-15T11:18:34.252Z",
-      "remainingSec": 490
+      "remainingSec": 0
     },
     {
       "hwid": "3A90E17C",
@@ -61,7 +61,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-15T11:27:31.853Z",
-      "remainingSec": 1027
+      "remainingSec": 392
     },
     {
       "hwid": "4D97D1EA",
@@ -97,7 +97,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-15T11:38:10.831Z",
-      "remainingSec": 1666
+      "remainingSec": 1031
     },
     {
       "hwid": "4AFA15F3",
@@ -107,9 +107,9 @@
       "type": "washer",
       "num": 1,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-09-13T14:05:07.181Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-09-15T11:53:13.382Z",
+      "remainingSec": 1934
     },
     {
       "hwid": "3DFD2565",
@@ -121,7 +121,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-15T11:40:20.010Z",
-      "remainingSec": 1796
+      "remainingSec": 1161
     },
     {
       "hwid": "AD4238F4",
@@ -133,7 +133,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-15T11:50:05.405Z",
-      "remainingSec": 2381
+      "remainingSec": 1746
     },
     {
       "hwid": "236C6810",
@@ -179,9 +179,9 @@
       "type": "washer",
       "num": 4,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-09-14T13:51:38.356Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-09-15T12:00:45.431Z",
+      "remainingSec": 2386
     },
     {
       "hwid": "BD08FDB3",
@@ -193,7 +193,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-15T11:46:11.059Z",
-      "remainingSec": 2147
+      "remainingSec": 1512
     },
     {
       "hwid": "DA450862",
