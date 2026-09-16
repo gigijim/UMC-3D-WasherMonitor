@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-09-16T11:20:23.081Z",
+  "updatedAt": "2026-09-16T11:30:29.691Z",
   "summary": {
     "total": 24,
-    "running": 5,
-    "idle": 19,
+    "running": 6,
+    "idle": 18,
     "offline": 0
   },
   "merchant": {
@@ -47,9 +47,9 @@
       "type": "washer",
       "num": 2,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-09-16T11:25:21.214Z",
-      "remainingSec": 298
+      "remainingSec": 0
     },
     {
       "hwid": "3A90E17C",
@@ -107,9 +107,9 @@
       "type": "washer",
       "num": 1,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-09-16T11:15:56.955Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-09-16T12:03:00.482Z",
+      "remainingSec": 1950
     },
     {
       "hwid": "3DFD2565",
@@ -119,9 +119,9 @@
       "type": "washer",
       "num": 2,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-09-16T11:16:31.720Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-09-16T12:00:24.602Z",
+      "remainingSec": 1794
     },
     {
       "hwid": "AD4238F4",
@@ -133,7 +133,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-16T11:37:12.540Z",
-      "remainingSec": 1009
+      "remainingSec": 402
     },
     {
       "hwid": "236C6810",
@@ -169,7 +169,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-16T11:52:25.978Z",
-      "remainingSec": 1922
+      "remainingSec": 1316
     },
     {
       "hwid": "53069C9F",
@@ -181,7 +181,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-16T11:46:27.624Z",
-      "remainingSec": 1564
+      "remainingSec": 957
     },
     {
       "hwid": "BD08FDB3",
@@ -253,7 +253,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-16T12:29:22.548Z",
-      "remainingSec": 4139
+      "remainingSec": 3532
     },
     {
       "hwid": "E7985177",
