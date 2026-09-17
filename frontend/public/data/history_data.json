@@ -1,15 +1,15 @@
 {
-  "generatedAt": "2026-09-17T17:40:23.127Z",
-  "totalEvents": 386,
-  "crawlCount": 661,
+  "generatedAt": "2026-09-17T17:50:23.214Z",
+  "totalEvents": 387,
+  "crawlCount": 662,
   "floorComparison": [
     {
       "floor": "2F",
-      "cycles": 111,
-      "durationMin": 4659,
-      "cost": 2330,
+      "cycles": 112,
+      "durationMin": 4699,
+      "cost": 2350,
       "washerCycles": 78,
-      "dryerCycles": 33
+      "dryerCycles": 34
     },
     {
       "floor": "4F",
@@ -458,7 +458,7 @@
           "dayName": "週五",
           "hours": [
             8,
-            0,
+            8,
             0,
             0,
             0,
@@ -516,7 +516,7 @@
       ],
       "hourlyAverages": [
         25,
-        13,
+        11,
         11,
         13,
         0,
@@ -721,7 +721,7 @@
           "dayName": "週五",
           "hours": [
             11,
-            3,
+            6,
             0,
             0,
             0,
@@ -779,7 +779,7 @@
       ],
       "hourlyAverages": [
         15,
-        7,
+        8,
         5,
         4,
         0,
@@ -982,7 +982,7 @@
         "dayName": "週五",
         "hours": [
           11,
-          3,
+          6,
           0,
           0,
           0,
@@ -1040,7 +1040,7 @@
     ],
     "hourlyAverages": [
       15,
-      7,
+      8,
       5,
       4,
       0,
@@ -1090,11 +1090,11 @@
   "byFloor": {
     "2F": {
       "floor": "2F",
-      "totalCycles": 111,
-      "durationMin": 4659,
-      "cost": 2330,
+      "totalCycles": 112,
+      "durationMin": 4699,
+      "cost": 2350,
       "washerCycles": 78,
-      "dryerCycles": 33,
+      "dryerCycles": 34,
       "machines": [
         {
           "hwid": "7E9100CD",
@@ -1162,10 +1162,10 @@
           "floor": "2F",
           "machine_type": "dryer",
           "machine_num": 2,
-          "total_cycles": 18,
-          "total_duration_min": 840,
-          "total_cost_ntd": 420,
-          "last_used_time": "2026-09-17T16:21:26.112Z",
+          "total_cycles": 19,
+          "total_duration_min": 880,
+          "total_cost_ntd": 440,
+          "last_used_time": "2026-09-17T18:25:04.065Z",
           "isOnline": true
         }
       ],
@@ -1590,7 +1590,7 @@
             "dayName": "週五",
             "hours": [
               0,
-              0,
+              33,
               0,
               0,
               0,
@@ -1648,7 +1648,7 @@
         ],
         "hourlyAverages": [
           0,
-          0,
+          33,
           42,
           50,
           0,
@@ -1853,7 +1853,7 @@
             "dayName": "週五",
             "hours": [
               22,
-              0,
+              11,
               0,
               0,
               0,
@@ -2115,7 +2115,7 @@
           "dayName": "週五",
           "hours": [
             22,
-            0,
+            11,
             0,
             0,
             0,
@@ -7090,11 +7090,11 @@
       "type": "dryer",
       "num": 2,
       "isOnline": true,
-      "totalCycles": 18,
-      "totalDurationMin": 840,
-      "totalCost": 420,
-      "lastUsedTime": "2026-09-17T16:21:26.112Z",
-      "avgDurationMin": 47,
+      "totalCycles": 19,
+      "totalDurationMin": 880,
+      "totalCost": 440,
+      "lastUsedTime": "2026-09-17T18:25:04.065Z",
+      "avgDurationMin": 46,
       "rankInType": 1,
       "totalInType": 8,
       "peakSlots": [
@@ -7271,7 +7271,7 @@
           "dayName": "週五",
           "hours": [
             0,
-            0,
+            67,
             0,
             0,
             0,
@@ -7329,7 +7329,7 @@
       ],
       "hourlyAverages": [
         0,
-        0,
+        67,
         100,
         0,
         0,
@@ -12718,10 +12718,10 @@
       "floor": "2F",
       "machine_type": "dryer",
       "machine_num": 2,
-      "total_cycles": 18,
-      "total_duration_min": 840,
-      "total_cost_ntd": 420,
-      "last_used_time": "2026-09-17T16:21:26.112Z",
+      "total_cycles": 19,
+      "total_duration_min": 880,
+      "total_cost_ntd": 440,
+      "last_used_time": "2026-09-17T18:25:04.065Z",
       "isOnline": true
     },
     {
@@ -13221,7 +13221,7 @@
       "dayName": "週五",
       "hours": [
         11,
-        3,
+        6,
         0,
         0,
         0,
@@ -13279,7 +13279,7 @@
   ],
   "hourlyAverages": [
     15,
-    7,
+    8,
     5,
     4,
     0,
