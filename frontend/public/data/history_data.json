@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-09-17T14:30:34.878Z",
-  "totalEvents": 369,
-  "crawlCount": 642,
+  "generatedAt": "2026-09-17T14:40:24.030Z",
+  "totalEvents": 371,
+  "crawlCount": 643,
   "floorComparison": [
     {
       "floor": "2F",
@@ -21,19 +21,19 @@
     },
     {
       "floor": "6F",
-      "cycles": 100,
-      "durationMin": 4000,
-      "cost": 2000,
+      "cycles": 101,
+      "durationMin": 4040,
+      "cost": 2020,
       "washerCycles": 71,
-      "dryerCycles": 29
+      "dryerCycles": 30
     },
     {
       "floor": "8F",
-      "cycles": 98,
-      "durationMin": 4257,
-      "cost": 2130,
+      "cycles": 99,
+      "durationMin": 4277,
+      "cost": 2140,
       "washerCycles": 68,
-      "dryerCycles": 30
+      "dryerCycles": 31
     }
   ],
   "overall": {
@@ -449,7 +449,7 @@
             25,
             21,
             88,
-            13,
+            25,
             0
           ]
         },
@@ -537,7 +537,7 @@
         23,
         20,
         33,
-        24,
+        27,
         31
       ],
       "bestTimeWindows": [
@@ -712,7 +712,7 @@
             19,
             40,
             46,
-            7,
+            11,
             0
           ]
         },
@@ -800,7 +800,7 @@
         21,
         27,
         31,
-        27,
+        28,
         23
       ],
       "bestTimeWindows": [
@@ -973,7 +973,7 @@
           19,
           40,
           46,
-          7,
+          11,
           0
         ]
       },
@@ -1061,7 +1061,7 @@
       21,
       27,
       31,
-      27,
+      28,
       23
     ],
     "bestTimeWindows": [
@@ -3354,11 +3354,11 @@
     },
     "6F": {
       "floor": "6F",
-      "totalCycles": 100,
-      "durationMin": 4000,
-      "cost": 2000,
+      "totalCycles": 101,
+      "durationMin": 4040,
+      "cost": 2020,
       "washerCycles": 71,
-      "dryerCycles": 29,
+      "dryerCycles": 30,
       "machines": [
         {
           "hwid": "4AFA15F3",
@@ -3414,10 +3414,10 @@
           "floor": "6F",
           "machine_type": "dryer",
           "machine_num": 1,
-          "total_cycles": 11,
-          "total_duration_min": 520,
-          "total_cost_ntd": 260,
-          "last_used_time": "2026-09-17T13:56:42.452Z",
+          "total_cycles": 12,
+          "total_duration_min": 560,
+          "total_cost_ntd": 280,
+          "last_used_time": "2026-09-17T15:16:20.911Z",
           "isOnline": true
         },
         {
@@ -3845,7 +3845,7 @@
               33,
               50,
               67,
-              0,
+              33,
               0
             ]
           },
@@ -3933,7 +3933,7 @@
           50,
           34,
           50,
-          44,
+          42,
           67
         ],
         "bestTimeWindows": [
@@ -4108,7 +4108,7 @@
               22,
               61,
               67,
-              11,
+              22,
               0
             ]
           },
@@ -4196,7 +4196,7 @@
           41,
           33,
           42,
-          35,
+          38,
           19
         ],
         "bestTimeWindows": [
@@ -4370,7 +4370,7 @@
             22,
             61,
             67,
-            11,
+            22,
             0
           ]
         },
@@ -4458,7 +4458,7 @@
         41,
         33,
         42,
-        35,
+        38,
         19
       ],
       "bestTimeWindows": [
@@ -4486,11 +4486,11 @@
     },
     "8F": {
       "floor": "8F",
-      "totalCycles": 98,
-      "durationMin": 4257,
-      "cost": 2130,
+      "totalCycles": 99,
+      "durationMin": 4277,
+      "cost": 2140,
       "washerCycles": 68,
-      "dryerCycles": 30,
+      "dryerCycles": 31,
       "machines": [
         {
           "hwid": "CA0FCD25",
@@ -4558,10 +4558,10 @@
           "floor": "8F",
           "machine_type": "dryer",
           "machine_num": 2,
-          "total_cycles": 14,
-          "total_duration_min": 759,
-          "total_cost_ntd": 380,
-          "last_used_time": "2026-09-17T14:29:53.146Z",
+          "total_cycles": 15,
+          "total_duration_min": 779,
+          "total_cost_ntd": 390,
+          "last_used_time": "2026-09-17T14:52:59.644Z",
           "isOnline": true
         }
       ],
@@ -4977,7 +4977,7 @@
               33,
               0,
               100,
-              0,
+              17,
               0
             ]
           },
@@ -5065,7 +5065,7 @@
           42,
           44,
           50,
-          34,
+          28,
           67
         ],
         "bestTimeWindows": [
@@ -5240,7 +5240,7 @@
               22,
               33,
               50,
-              0,
+              6,
               0
             ]
           },
@@ -5328,7 +5328,7 @@
           24,
           42,
           28,
-          30,
+          24,
           35
         ],
         "bestTimeWindows": [
@@ -5502,7 +5502,7 @@
             22,
             33,
             50,
-            0,
+            6,
             0
           ]
         },
@@ -5590,7 +5590,7 @@
         24,
         42,
         28,
-        30,
+        24,
         35
       ],
       "bestTimeWindows": [
@@ -8560,7 +8560,7 @@
       "totalCost": 250,
       "lastUsedTime": "2026-09-17T14:09:41.728Z",
       "avgDurationMin": 45,
-      "rankInType": 6,
+      "rankInType": 7,
       "totalInType": 8,
       "peakSlots": [
         {
@@ -10313,17 +10313,17 @@
       "type": "dryer",
       "num": 1,
       "isOnline": true,
-      "totalCycles": 11,
-      "totalDurationMin": 520,
-      "totalCost": 260,
-      "lastUsedTime": "2026-09-17T13:56:42.452Z",
+      "totalCycles": 12,
+      "totalDurationMin": 560,
+      "totalCost": 280,
+      "lastUsedTime": "2026-09-17T15:16:20.911Z",
       "avgDurationMin": 47,
-      "rankInType": 7,
+      "rankInType": 6,
       "totalInType": 8,
       "peakSlots": [
         {
           "hour": 22,
-          "rate": 100,
+          "rate": 84,
           "label": "22:00 ~ 23:00"
         },
         {
@@ -10485,7 +10485,7 @@
             0,
             0,
             67,
-            0,
+            67,
             0
           ]
         },
@@ -10573,7 +10573,7 @@
         67,
         0,
         78,
-        100,
+        84,
         67
       ],
       "bestTimeWindows": [
@@ -12364,11 +12364,11 @@
       "type": "dryer",
       "num": 2,
       "isOnline": true,
-      "totalCycles": 14,
-      "totalDurationMin": 759,
-      "totalCost": 380,
-      "lastUsedTime": "2026-09-17T14:29:53.146Z",
-      "avgDurationMin": 54,
+      "totalCycles": 15,
+      "totalDurationMin": 779,
+      "totalCost": 390,
+      "lastUsedTime": "2026-09-17T14:52:59.644Z",
+      "avgDurationMin": 52,
       "rankInType": 5,
       "totalInType": 8,
       "peakSlots": [
@@ -12536,7 +12536,7 @@
             67,
             0,
             100,
-            0,
+            33,
             0
           ]
         },
@@ -12624,7 +12624,7 @@
         84,
         100,
         75,
-        0,
+        33,
         84
       ],
       "bestTimeWindows": [
@@ -12850,10 +12850,10 @@
       "floor": "6F",
       "machine_type": "dryer",
       "machine_num": 1,
-      "total_cycles": 11,
-      "total_duration_min": 520,
-      "total_cost_ntd": 260,
-      "last_used_time": "2026-09-17T13:56:42.452Z",
+      "total_cycles": 12,
+      "total_duration_min": 560,
+      "total_cost_ntd": 280,
+      "last_used_time": "2026-09-17T15:16:20.911Z",
       "isOnline": true
     },
     {
@@ -12934,10 +12934,10 @@
       "floor": "8F",
       "machine_type": "dryer",
       "machine_num": 2,
-      "total_cycles": 14,
-      "total_duration_min": 759,
-      "total_cost_ntd": 380,
-      "last_used_time": "2026-09-17T14:29:53.146Z",
+      "total_cycles": 15,
+      "total_duration_min": 779,
+      "total_cost_ntd": 390,
+      "last_used_time": "2026-09-17T14:52:59.644Z",
       "isOnline": true
     }
   ],
@@ -13053,15 +13053,15 @@
       "isOnline": true
     },
     {
-      "hwid": "DA450862",
-      "description": "6F烘乾機1號",
-      "floor": "6F",
+      "hwid": "3A90E17C",
+      "description": "4F烘乾機1號",
+      "floor": "4F",
       "machine_type": "dryer",
       "machine_num": 1,
       "total_cycles": 11,
-      "total_duration_min": 520,
-      "total_cost_ntd": 260,
-      "last_used_time": "2026-09-17T13:56:42.452Z",
+      "total_duration_min": 500,
+      "total_cost_ntd": 250,
+      "last_used_time": "2026-09-17T14:09:41.728Z",
       "isOnline": true
     }
   ],
@@ -13212,7 +13212,7 @@
         19,
         40,
         46,
-        7,
+        11,
         0
       ]
     },
@@ -13300,7 +13300,7 @@
     21,
     27,
     31,
-    27,
+    28,
     23
   ],
   "bestTimeWindows": [
