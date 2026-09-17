@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-09-17T15:10:24.412Z",
+  "updatedAt": "2026-09-17T15:20:25.616Z",
   "summary": {
     "total": 24,
-    "running": 7,
-    "idle": 17,
+    "running": 6,
+    "idle": 18,
     "offline": 0
   },
   "merchant": {
@@ -37,7 +37,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-17T15:44:01.854Z",
-      "remainingSec": 2017
+      "remainingSec": 1416
     },
     {
       "hwid": "D49E8050",
@@ -83,9 +83,9 @@
       "type": "dryer",
       "num": 2,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-09-17T15:18:42.802Z",
-      "remainingSec": 498
+      "remainingSec": 0
     },
     {
       "hwid": "D3F34449",
@@ -133,7 +133,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-17T15:48:41.465Z",
-      "remainingSec": 2297
+      "remainingSec": 1695
     },
     {
       "hwid": "236C6810",
@@ -143,9 +143,9 @@
       "type": "washer",
       "num": 3,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-09-17T13:25:59.839Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-09-17T15:54:12.689Z",
+      "remainingSec": 2027
     },
     {
       "hwid": "546B5886",
@@ -193,7 +193,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-17T15:21:38.962Z",
-      "remainingSec": 674
+      "remainingSec": 73
     },
     {
       "hwid": "DA450862",
@@ -203,9 +203,9 @@
       "type": "dryer",
       "num": 1,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-09-17T15:16:20.911Z",
-      "remainingSec": 356
+      "remainingSec": 0
     },
     {
       "hwid": "CA0FCD25",
@@ -229,7 +229,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-17T15:24:21.408Z",
-      "remainingSec": 836
+      "remainingSec": 235
     },
     {
       "hwid": "BA6539AA",
@@ -301,7 +301,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-17T15:28:23.432Z",
-      "remainingSec": 1079
+      "remainingSec": 477
     }
   ]
 }
