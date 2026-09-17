@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-09-17T13:00:46.608Z",
+  "updatedAt": "2026-09-17T13:10:23.522Z",
   "summary": {
     "total": 24,
-    "running": 9,
-    "idle": 15,
+    "running": 6,
+    "idle": 18,
     "offline": 0
   },
   "merchant": {
@@ -35,9 +35,9 @@
       "type": "washer",
       "num": 4,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-09-17T13:03:51.212Z",
-      "remainingSec": 184
+      "remainingSec": 0
     },
     {
       "hwid": "D49E8050",
@@ -59,9 +59,9 @@
       "type": "dryer",
       "num": 1,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-09-17T05:27:29.619Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-09-17T14:09:41.728Z",
+      "remainingSec": 3558
     },
     {
       "hwid": "4D97D1EA",
@@ -97,7 +97,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-17T13:17:42.220Z",
-      "remainingSec": 1015
+      "remainingSec": 438
     },
     {
       "hwid": "4AFA15F3",
@@ -107,9 +107,9 @@
       "type": "washer",
       "num": 1,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-09-17T13:07:00.628Z",
-      "remainingSec": 374
+      "remainingSec": 0
     },
     {
       "hwid": "3DFD2565",
@@ -133,7 +133,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-17T13:29:52.230Z",
-      "remainingSec": 1745
+      "remainingSec": 1168
     },
     {
       "hwid": "236C6810",
@@ -145,7 +145,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-17T13:25:59.839Z",
-      "remainingSec": 1513
+      "remainingSec": 936
     },
     {
       "hwid": "546B5886",
@@ -169,7 +169,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-17T13:50:02.184Z",
-      "remainingSec": 2955
+      "remainingSec": 2378
     },
     {
       "hwid": "53069C9F",
@@ -241,7 +241,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-17T13:25:21.783Z",
-      "remainingSec": 1475
+      "remainingSec": 898
     },
     {
       "hwid": "E0F5956E",
@@ -287,9 +287,9 @@
       "type": "washer",
       "num": 2,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-09-17T13:04:33.278Z",
-      "remainingSec": 226
+      "remainingSec": 0
     },
     {
       "hwid": "97F2A5F8",
@@ -299,9 +299,9 @@
       "type": "washer",
       "num": 3,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-09-17T13:04:35.426Z",
-      "remainingSec": 228
+      "remainingSec": 0
     }
   ]
 }
