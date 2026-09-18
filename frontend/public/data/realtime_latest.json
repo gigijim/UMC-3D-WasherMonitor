@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-09-18T18:10:25.667Z",
+  "updatedAt": "2026-09-18T18:21:03.505Z",
   "summary": {
     "total": 24,
-    "running": 1,
-    "idle": 23,
+    "running": 0,
+    "idle": 24,
     "offline": 0
   },
   "merchant": {
@@ -167,9 +167,9 @@
       "type": "dryer",
       "num": 2,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-09-18T18:13:00.127Z",
-      "remainingSec": 154
+      "remainingSec": 0
     },
     {
       "hwid": "53069C9F",
