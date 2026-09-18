@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-09-18T11:40:22.653Z",
+  "updatedAt": "2026-09-18T11:50:26.534Z",
   "summary": {
     "total": 24,
-    "running": 4,
-    "idle": 20,
+    "running": 7,
+    "idle": 17,
     "offline": 0
   },
   "merchant": {
@@ -49,7 +49,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-18T12:08:27.942Z",
-      "remainingSec": 1685
+      "remainingSec": 1081
     },
     {
       "hwid": "3A90E17C",
@@ -97,7 +97,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-18T11:56:33.554Z",
-      "remainingSec": 970
+      "remainingSec": 367
     },
     {
       "hwid": "4AFA15F3",
@@ -119,9 +119,9 @@
       "type": "washer",
       "num": 2,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-09-18T03:50:59.887Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-09-18T12:24:06.674Z",
+      "remainingSec": 2020
     },
     {
       "hwid": "AD4238F4",
@@ -143,9 +143,9 @@
       "type": "washer",
       "num": 3,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-09-18T11:26:57.157Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-09-18T12:22:18.772Z",
+      "remainingSec": 1912
     },
     {
       "hwid": "546B5886",
@@ -157,7 +157,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-18T12:40:33.052Z",
-      "remainingSec": 3610
+      "remainingSec": 3006
     },
     {
       "hwid": "2401AC09",
@@ -227,9 +227,9 @@
       "type": "dryer",
       "num": 2,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-09-17T16:40:48.294Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-09-18T12:25:52.874Z",
+      "remainingSec": 2126
     },
     {
       "hwid": "BA6539AA",
@@ -301,7 +301,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-18T12:13:04.109Z",
-      "remainingSec": 1961
+      "remainingSec": 1357
     }
   ]
 }
