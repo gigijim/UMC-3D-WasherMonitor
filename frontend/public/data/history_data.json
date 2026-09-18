@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-09-18T17:30:32.492Z",
-  "totalEvents": 424,
-  "crawlCount": 810,
+  "generatedAt": "2026-09-18T17:40:28.494Z",
+  "totalEvents": 425,
+  "crawlCount": 811,
   "floorComparison": [
     {
       "floor": "2F",
@@ -21,11 +21,11 @@
     },
     {
       "floor": "6F",
-      "cycles": 111,
-      "durationMin": 4460,
-      "cost": 2230,
+      "cycles": 112,
+      "durationMin": 4500,
+      "cost": 2250,
       "washerCycles": 80,
-      "dryerCycles": 31
+      "dryerCycles": 32
     },
     {
       "floor": "8F",
@@ -488,7 +488,7 @@
           "dayName": "週六",
           "hours": [
             4,
-            0,
+            8,
             0,
             0,
             0,
@@ -516,7 +516,7 @@
       ],
       "hourlyAverages": [
         20,
-        11,
+        10,
         11,
         13,
         0,
@@ -751,7 +751,7 @@
           "dayName": "週六",
           "hours": [
             4,
-            0,
+            3,
             0,
             0,
             0,
@@ -779,7 +779,7 @@
       ],
       "hourlyAverages": [
         12,
-        9,
+        7,
         5,
         4,
         0,
@@ -1012,7 +1012,7 @@
         "dayName": "週六",
         "hours": [
           4,
-          0,
+          3,
           0,
           0,
           0,
@@ -1040,7 +1040,7 @@
     ],
     "hourlyAverages": [
       12,
-      9,
+      7,
       5,
       4,
       0,
@@ -3354,11 +3354,11 @@
     },
     "6F": {
       "floor": "6F",
-      "totalCycles": 111,
-      "durationMin": 4460,
-      "cost": 2230,
+      "totalCycles": 112,
+      "durationMin": 4500,
+      "cost": 2250,
       "washerCycles": 80,
-      "dryerCycles": 31,
+      "dryerCycles": 32,
       "machines": [
         {
           "hwid": "4AFA15F3",
@@ -3426,10 +3426,10 @@
           "floor": "6F",
           "machine_type": "dryer",
           "machine_num": 2,
-          "total_cycles": 19,
-          "total_duration_min": 700,
-          "total_cost_ntd": 350,
-          "last_used_time": "2026-09-18T06:00:18.702Z",
+          "total_cycles": 20,
+          "total_duration_min": 740,
+          "total_cost_ntd": 370,
+          "last_used_time": "2026-09-18T18:13:00.127Z",
           "isOnline": true
         }
       ],
@@ -3884,7 +3884,7 @@
             "dayName": "週六",
             "hours": [
               0,
-              0,
+              33,
               0,
               0,
               0,
@@ -3912,7 +3912,7 @@
         ],
         "hourlyAverages": [
           58,
-          0,
+          33,
           0,
           0,
           0,
@@ -4147,7 +4147,7 @@
             "dayName": "週六",
             "hours": [
               11,
-              0,
+              11,
               0,
               0,
               0,
@@ -4409,7 +4409,7 @@
           "dayName": "週六",
           "hours": [
             11,
-            0,
+            11,
             0,
             0,
             0,
@@ -10606,12 +10606,12 @@
       "type": "dryer",
       "num": 2,
       "isOnline": true,
-      "totalCycles": 19,
-      "totalDurationMin": 700,
-      "totalCost": 350,
-      "lastUsedTime": "2026-09-18T06:00:18.702Z",
+      "totalCycles": 20,
+      "totalDurationMin": 740,
+      "totalCost": 370,
+      "lastUsedTime": "2026-09-18T18:13:00.127Z",
       "avgDurationMin": 37,
-      "rankInType": 3,
+      "rankInType": 2,
       "totalInType": 8,
       "peakSlots": [
         {
@@ -10817,7 +10817,7 @@
           "dayName": "週六",
           "hours": [
             0,
-            0,
+            67,
             0,
             0,
             0,
@@ -10845,7 +10845,7 @@
       ],
       "hourlyAverages": [
         50,
-        0,
+        67,
         0,
         0,
         0,
@@ -12369,7 +12369,7 @@
       "totalCost": 460,
       "lastUsedTime": "2026-09-18T16:47:41.486Z",
       "avgDurationMin": 46,
-      "rankInType": 2,
+      "rankInType": 3,
       "totalInType": 8,
       "peakSlots": [
         {
@@ -12862,10 +12862,10 @@
       "floor": "6F",
       "machine_type": "dryer",
       "machine_num": 2,
-      "total_cycles": 19,
-      "total_duration_min": 700,
-      "total_cost_ntd": 350,
-      "last_used_time": "2026-09-18T06:00:18.702Z",
+      "total_cycles": 20,
+      "total_duration_min": 740,
+      "total_cost_ntd": 370,
+      "last_used_time": "2026-09-18T18:13:00.127Z",
       "isOnline": true
     },
     {
@@ -13251,7 +13251,7 @@
       "dayName": "週六",
       "hours": [
         4,
-        0,
+        3,
         0,
         0,
         0,
@@ -13279,7 +13279,7 @@
   ],
   "hourlyAverages": [
     12,
-    9,
+    7,
     5,
     4,
     0,
