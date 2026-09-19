@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-09-19T06:50:27.831Z",
+  "updatedAt": "2026-09-19T07:00:36.177Z",
   "summary": {
     "total": 24,
-    "running": 2,
-    "idle": 22,
+    "running": 3,
+    "idle": 21,
     "offline": 0
   },
   "merchant": {
@@ -157,7 +157,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-19T07:03:50.139Z",
-      "remainingSec": 802
+      "remainingSec": 193
     },
     {
       "hwid": "2401AC09",
@@ -229,7 +229,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-19T08:27:23.337Z",
-      "remainingSec": 5815
+      "remainingSec": 5207
     },
     {
       "hwid": "BA6539AA",
@@ -299,9 +299,9 @@
       "type": "washer",
       "num": 3,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-09-18T12:13:04.109Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-09-19T07:39:08.336Z",
+      "remainingSec": 2312
     }
   ]
 }
