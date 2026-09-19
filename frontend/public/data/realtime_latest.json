@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-09-19T14:50:23.067Z",
+  "updatedAt": "2026-09-19T15:00:39.708Z",
   "summary": {
     "total": 24,
-    "running": 1,
-    "idle": 23,
+    "running": 2,
+    "idle": 22,
     "offline": 0
   },
   "merchant": {
@@ -109,7 +109,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-19T15:01:22.131Z",
-      "remainingSec": 659
+      "remainingSec": 42
     },
     {
       "hwid": "3DFD2565",
@@ -227,9 +227,9 @@
       "type": "dryer",
       "num": 2,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-09-19T08:27:23.337Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-09-19T15:54:02.634Z",
+      "remainingSec": 3202
     },
     {
       "hwid": "BA6539AA",
