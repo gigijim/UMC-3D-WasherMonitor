@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-09-20T03:30:29.478Z",
+  "updatedAt": "2026-09-20T03:40:23.204Z",
   "summary": {
     "total": 24,
-    "running": 4,
-    "idle": 20,
+    "running": 3,
+    "idle": 21,
     "offline": 0
   },
   "merchant": {
@@ -61,7 +61,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-20T04:08:05.706Z",
-      "remainingSec": 2256
+      "remainingSec": 1662
     },
     {
       "hwid": "4D97D1EA",
@@ -143,9 +143,9 @@
       "type": "washer",
       "num": 3,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-09-20T02:57:10.024Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-09-20T04:16:44.834Z",
+      "remainingSec": 2181
     },
     {
       "hwid": "546B5886",
@@ -193,7 +193,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-20T03:40:54.509Z",
-      "remainingSec": 625
+      "remainingSec": 31
     },
     {
       "hwid": "DA450862",
@@ -227,9 +227,9 @@
       "type": "dryer",
       "num": 2,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-09-20T03:31:46.378Z",
-      "remainingSec": 76
+      "remainingSec": 0
     },
     {
       "hwid": "BA6539AA",
@@ -287,9 +287,9 @@
       "type": "washer",
       "num": 2,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-09-20T03:32:42.414Z",
-      "remainingSec": 132
+      "remainingSec": 0
     },
     {
       "hwid": "97F2A5F8",
