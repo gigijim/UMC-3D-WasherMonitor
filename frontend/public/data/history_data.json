@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-09-20T14:40:28.044Z",
-  "totalEvents": 545,
-  "crawlCount": 1095,
+  "generatedAt": "2026-09-20T14:50:24.307Z",
+  "totalEvents": 546,
+  "crawlCount": 1096,
   "floorComparison": [
     {
       "floor": "2F",
@@ -21,10 +21,10 @@
     },
     {
       "floor": "6F",
-      "cycles": 146,
-      "durationMin": 5880,
-      "cost": 2940,
-      "washerCycles": 104,
+      "cycles": 147,
+      "durationMin": 5920,
+      "cost": 2960,
+      "washerCycles": 105,
       "dryerCycles": 42
     },
     {
@@ -66,7 +66,7 @@
             13,
             27,
             33,
-            23,
+            25,
             10
           ]
         },
@@ -592,7 +592,7 @@
             13,
             25,
             30,
-            22,
+            24,
             17
           ]
         },
@@ -800,7 +800,7 @@
         12,
         13,
         15,
-        14,
+        15,
         9
       ],
       "bestTimeWindows": [
@@ -853,7 +853,7 @@
           13,
           25,
           30,
-          22,
+          24,
           17
         ]
       },
@@ -1061,7 +1061,7 @@
       12,
       13,
       15,
-      14,
+      15,
       9
     ],
     "bestTimeWindows": [
@@ -3354,10 +3354,10 @@
     },
     "6F": {
       "floor": "6F",
-      "totalCycles": 146,
-      "durationMin": 5880,
-      "cost": 2940,
-      "washerCycles": 104,
+      "totalCycles": 147,
+      "durationMin": 5920,
+      "cost": 2960,
+      "washerCycles": 105,
       "dryerCycles": 42,
       "machines": [
         {
@@ -3390,10 +3390,10 @@
           "floor": "6F",
           "machine_type": "washer",
           "machine_num": 3,
-          "total_cycles": 30,
-          "total_duration_min": 1200,
-          "total_cost_ntd": 600,
-          "last_used_time": "2026-09-20T14:16:53.637Z",
+          "total_cycles": 31,
+          "total_duration_min": 1240,
+          "total_cost_ntd": 620,
+          "last_used_time": "2026-09-20T15:24:19.719Z",
           "isOnline": true
         },
         {
@@ -3462,7 +3462,7 @@
               8,
               25,
               50,
-              17,
+              25,
               8
             ]
           },
@@ -3670,7 +3670,7 @@
           17,
           23,
           28,
-          19,
+          20,
           13
         ],
         "bestTimeWindows": [
@@ -3988,7 +3988,7 @@
               11,
               17,
               47,
-              28,
+              33,
               6
             ]
           },
@@ -4250,7 +4250,7 @@
             11,
             17,
             47,
-            28,
+            33,
             6
           ]
         },
@@ -9439,7 +9439,7 @@
       "totalCost": 600,
       "lastUsedTime": "2026-09-20T14:25:09.787Z",
       "avgDurationMin": 40,
-      "rankInType": 4,
+      "rankInType": 5,
       "totalInType": 16,
       "peakSlots": [
         {
@@ -9727,12 +9727,12 @@
       "type": "washer",
       "num": 3,
       "isOnline": true,
-      "totalCycles": 30,
-      "totalDurationMin": 1200,
-      "totalCost": 600,
-      "lastUsedTime": "2026-09-20T14:16:53.637Z",
+      "totalCycles": 31,
+      "totalDurationMin": 1240,
+      "totalCost": 620,
+      "lastUsedTime": "2026-09-20T15:24:19.719Z",
       "avgDurationMin": 40,
-      "rankInType": 5,
+      "rankInType": 4,
       "totalInType": 16,
       "peakSlots": [
         {
@@ -9779,7 +9779,7 @@
             33,
             0,
             67,
-            0,
+            33,
             33
           ]
         },
@@ -12826,10 +12826,10 @@
       "floor": "6F",
       "machine_type": "washer",
       "machine_num": 3,
-      "total_cycles": 30,
-      "total_duration_min": 1200,
-      "total_cost_ntd": 600,
-      "last_used_time": "2026-09-20T14:16:53.637Z",
+      "total_cycles": 31,
+      "total_duration_min": 1240,
+      "total_cost_ntd": 620,
+      "last_used_time": "2026-09-20T15:24:19.719Z",
       "isOnline": true
     },
     {
@@ -12979,6 +12979,18 @@
       "isOnline": true
     },
     {
+      "hwid": "AD4238F4",
+      "description": "6F洗衣機3號",
+      "floor": "6F",
+      "machine_type": "washer",
+      "machine_num": 3,
+      "total_cycles": 31,
+      "total_duration_min": 1240,
+      "total_cost_ntd": 620,
+      "last_used_time": "2026-09-20T15:24:19.719Z",
+      "isOnline": true
+    },
+    {
       "hwid": "3DFD2565",
       "description": "6F洗衣機2號",
       "floor": "6F",
@@ -12988,18 +13000,6 @@
       "total_duration_min": 1200,
       "total_cost_ntd": 600,
       "last_used_time": "2026-09-20T14:25:09.787Z",
-      "isOnline": true
-    },
-    {
-      "hwid": "AD4238F4",
-      "description": "6F洗衣機3號",
-      "floor": "6F",
-      "machine_type": "washer",
-      "machine_num": 3,
-      "total_cycles": 30,
-      "total_duration_min": 1200,
-      "total_cost_ntd": 600,
-      "last_used_time": "2026-09-20T14:16:53.637Z",
       "isOnline": true
     }
   ],
@@ -13092,7 +13092,7 @@
         13,
         25,
         30,
-        22,
+        24,
         17
       ]
     },
@@ -13300,7 +13300,7 @@
     12,
     13,
     15,
-    14,
+    15,
     9
   ],
   "bestTimeWindows": [
