@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-09-21T05:50:27.776Z",
+  "generatedAt": "2026-09-21T06:00:36.735Z",
   "totalEvents": 585,
-  "crawlCount": 1190,
+  "crawlCount": 1191,
   "floorComparison": [
     {
       "floor": "2F",
@@ -2262,7 +2262,7 @@
           "total_duration_min": 40,
           "total_cost_ntd": 20,
           "last_used_time": "2026-09-21T06:12:10.647Z",
-          "isOnline": true
+          "isOnline": false
         },
         {
           "hwid": "D3F34449",
@@ -7968,7 +7968,7 @@
       "floor": "4F",
       "type": "washer",
       "num": 3,
-      "isOnline": true,
+      "isOnline": false,
       "totalCycles": 1,
       "totalDurationMin": 40,
       "totalCost": 20,
@@ -12758,7 +12758,7 @@
       "total_duration_min": 40,
       "total_cost_ntd": 20,
       "last_used_time": "2026-09-21T06:12:10.647Z",
-      "isOnline": true
+      "isOnline": false
     },
     {
       "hwid": "D3F34449",
@@ -13005,18 +13005,6 @@
   ],
   "coldestMachines": [
     {
-      "hwid": "4D97D1EA",
-      "description": "4F洗衣機3號",
-      "floor": "4F",
-      "machine_type": "washer",
-      "machine_num": 3,
-      "total_cycles": 1,
-      "total_duration_min": 40,
-      "total_cost_ntd": 20,
-      "last_used_time": "2026-09-21T06:12:10.647Z",
-      "isOnline": true
-    },
-    {
       "hwid": "E7985177",
       "description": "4F洗衣機1號",
       "floor": "4F",
@@ -13062,6 +13050,18 @@
       "total_duration_min": 780,
       "total_cost_ntd": 390,
       "last_used_time": "2026-09-21T05:46:17.850Z",
+      "isOnline": true
+    },
+    {
+      "hwid": "3A90E17C",
+      "description": "4F烘乾機1號",
+      "floor": "4F",
+      "machine_type": "dryer",
+      "machine_num": 1,
+      "total_cycles": 18,
+      "total_duration_min": 800,
+      "total_cost_ntd": 400,
+      "last_used_time": "2026-09-21T05:53:19.008Z",
       "isOnline": true
     }
   ],
