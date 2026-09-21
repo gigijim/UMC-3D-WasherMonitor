@@ -1,10 +1,10 @@
 {
-  "updatedAt": "2026-09-21T06:00:35.692Z",
+  "updatedAt": "2026-09-21T06:10:25.157Z",
   "summary": {
     "total": 24,
-    "running": 13,
-    "idle": 10,
-    "offline": 1
+    "running": 8,
+    "idle": 14,
+    "offline": 2
   },
   "merchant": {
     "companyName": "昶溢洗衣設備(南科聯電宿舍)",
@@ -23,9 +23,9 @@
       "type": "dryer",
       "num": 2,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-09-21T06:06:29.384Z",
-      "remainingSec": 353
+      "remainingSec": 0
     },
     {
       "hwid": "A399B0C6",
@@ -37,7 +37,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-21T06:25:59.168Z",
-      "remainingSec": 1523
+      "remainingSec": 934
     },
     {
       "hwid": "D49E8050",
@@ -49,7 +49,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-21T06:12:28.653Z",
-      "remainingSec": 712
+      "remainingSec": 123
     },
     {
       "hwid": "3A90E17C",
@@ -97,7 +97,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-21T06:13:26.690Z",
-      "remainingSec": 770
+      "remainingSec": 181
     },
     {
       "hwid": "4AFA15F3",
@@ -107,9 +107,9 @@
       "type": "washer",
       "num": 1,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-09-21T06:02:11.884Z",
-      "remainingSec": 96
+      "remainingSec": 0
     },
     {
       "hwid": "3DFD2565",
@@ -120,8 +120,8 @@
       "num": 2,
       "connection": true,
       "isRunning": true,
-      "dueTime": "2026-09-21T06:02:16.455Z",
-      "remainingSec": 100
+      "dueTime": "2026-09-21T06:42:44.060Z",
+      "remainingSec": 1938
     },
     {
       "hwid": "AD4238F4",
@@ -131,9 +131,9 @@
       "type": "washer",
       "num": 3,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-09-21T06:02:21.786Z",
-      "remainingSec": 106
+      "remainingSec": 0
     },
     {
       "hwid": "236C6810",
@@ -179,9 +179,9 @@
       "type": "washer",
       "num": 4,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-09-21T06:02:30.467Z",
-      "remainingSec": 114
+      "remainingSec": 0
     },
     {
       "hwid": "BD08FDB3",
@@ -214,7 +214,7 @@
       "floor": "8F",
       "type": "washer",
       "num": 1,
-      "connection": true,
+      "connection": false,
       "isRunning": false,
       "dueTime": "2026-09-21T05:52:50.119Z",
       "remainingSec": 0
@@ -251,9 +251,9 @@
       "type": "dryer",
       "num": 1,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-09-21T06:06:27.182Z",
-      "remainingSec": 351
+      "remainingSec": 0
     },
     {
       "hwid": "E7985177",
@@ -264,8 +264,8 @@
       "num": 1,
       "connection": true,
       "isRunning": true,
-      "dueTime": "2026-09-21T06:12:02.645Z",
-      "remainingSec": 686
+      "dueTime": "2026-09-21T06:46:35.445Z",
+      "remainingSec": 2170
     },
     {
       "hwid": "7E9100CD",
@@ -277,7 +277,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-21T06:25:29.166Z",
-      "remainingSec": 1493
+      "remainingSec": 904
     },
     {
       "hwid": "0996305B",
@@ -289,7 +289,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-21T06:25:41.165Z",
-      "remainingSec": 1505
+      "remainingSec": 916
     },
     {
       "hwid": "97F2A5F8",
@@ -301,7 +301,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-21T06:25:53.168Z",
-      "remainingSec": 1517
+      "remainingSec": 928
     }
   ]
 }
