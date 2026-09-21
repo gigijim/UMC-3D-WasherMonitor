@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-21T11:20:24.283Z",
+  "updatedAt": "2026-09-21T11:30:33.111Z",
   "summary": {
     "total": 24,
     "running": 7,
@@ -35,9 +35,9 @@
       "type": "washer",
       "num": 4,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-09-21T11:30:13.163Z",
-      "remainingSec": 588
+      "remainingSec": 0
     },
     {
       "hwid": "D49E8050",
@@ -49,7 +49,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-21T11:40:44.032Z",
-      "remainingSec": 1219
+      "remainingSec": 610
     },
     {
       "hwid": "3A90E17C",
@@ -73,7 +73,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-21T11:34:05.202Z",
-      "remainingSec": 820
+      "remainingSec": 212
     },
     {
       "hwid": "A4F474DF",
@@ -133,7 +133,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-21T11:58:00.523Z",
-      "remainingSec": 2256
+      "remainingSec": 1647
     },
     {
       "hwid": "236C6810",
@@ -157,7 +157,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-21T12:12:05.897Z",
-      "remainingSec": 3101
+      "remainingSec": 2492
     },
     {
       "hwid": "2401AC09",
@@ -193,7 +193,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-21T11:45:36.041Z",
-      "remainingSec": 1511
+      "remainingSec": 902
     },
     {
       "hwid": "DA450862",
@@ -239,9 +239,9 @@
       "type": "washer",
       "num": 4,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-09-21T05:53:07.463Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-09-21T12:04:42.076Z",
+      "remainingSec": 2048
     },
     {
       "hwid": "E0F5956E",
@@ -265,7 +265,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-21T11:32:59.238Z",
-      "remainingSec": 754
+      "remainingSec": 146
     },
     {
       "hwid": "7E9100CD",
