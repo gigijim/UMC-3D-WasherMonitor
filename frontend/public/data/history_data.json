@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-09-21T16:10:23.706Z",
-  "totalEvents": 646,
-  "crawlCount": 1254,
+  "generatedAt": "2026-09-21T16:20:23.599Z",
+  "totalEvents": 647,
+  "crawlCount": 1255,
   "floorComparison": [
     {
       "floor": "2F",
@@ -13,10 +13,10 @@
     },
     {
       "floor": "4F",
-      "cycles": 126,
-      "durationMin": 5420,
-      "cost": 2710,
-      "washerCycles": 89,
+      "cycles": 127,
+      "durationMin": 5460,
+      "cost": 2730,
+      "washerCycles": 90,
       "dryerCycles": 37
     },
     {
@@ -104,7 +104,7 @@
           "dayIndex": 2,
           "dayName": "週二",
           "hours": [
-            2,
+            4,
             0,
             0,
             0,
@@ -252,7 +252,7 @@
         }
       ],
       "hourlyAverages": [
-        3,
+        4,
         4,
         2,
         0,
@@ -630,7 +630,7 @@
           "dayIndex": 2,
           "dayName": "週二",
           "hours": [
-            1,
+            3,
             0,
             0,
             0,
@@ -891,7 +891,7 @@
         "dayIndex": 2,
         "dayName": "週二",
         "hours": [
-          1,
+          3,
           0,
           0,
           0,
@@ -2222,10 +2222,10 @@
     },
     "4F": {
       "floor": "4F",
-      "totalCycles": 126,
-      "durationMin": 5420,
-      "cost": 2710,
-      "washerCycles": 89,
+      "totalCycles": 127,
+      "durationMin": 5460,
+      "cost": 2730,
+      "washerCycles": 90,
       "dryerCycles": 37,
       "machines": [
         {
@@ -2270,10 +2270,10 @@
           "floor": "4F",
           "machine_type": "washer",
           "machine_num": 4,
-          "total_cycles": 29,
-          "total_duration_min": 1160,
-          "total_cost_ntd": 580,
-          "last_used_time": "2026-09-21T14:19:02.745Z",
+          "total_cycles": 30,
+          "total_duration_min": 1200,
+          "total_cost_ntd": 600,
+          "last_used_time": "2026-09-21T16:58:56.439Z",
           "isOnline": true
         },
         {
@@ -2368,7 +2368,7 @@
             "dayIndex": 2,
             "dayName": "週二",
             "hours": [
-              0,
+              8,
               0,
               0,
               0,
@@ -2894,7 +2894,7 @@
             "dayIndex": 2,
             "dayName": "週二",
             "hours": [
-              0,
+              6,
               0,
               0,
               0,
@@ -3042,7 +3042,7 @@
           }
         ],
         "hourlyAverages": [
-          11,
+          9,
           0,
           0,
           0,
@@ -3156,7 +3156,7 @@
           "dayIndex": 2,
           "dayName": "週二",
           "hours": [
-            0,
+            6,
             0,
             0,
             0,
@@ -3304,7 +3304,7 @@
         }
       ],
       "hourlyAverages": [
-        11,
+        9,
         0,
         0,
         0,
@@ -8262,10 +8262,10 @@
       "type": "washer",
       "num": 4,
       "isOnline": true,
-      "totalCycles": 29,
-      "totalDurationMin": 1160,
-      "totalCost": 580,
-      "lastUsedTime": "2026-09-21T14:19:02.745Z",
+      "totalCycles": 30,
+      "totalDurationMin": 1200,
+      "totalCost": 600,
+      "lastUsedTime": "2026-09-21T16:58:56.439Z",
       "avgDurationMin": 40,
       "rankInType": 9,
       "totalInType": 16,
@@ -8352,7 +8352,7 @@
           "dayIndex": 2,
           "dayName": "週二",
           "hours": [
-            0,
+            33,
             0,
             0,
             0,
@@ -8500,7 +8500,7 @@
         }
       ],
       "hourlyAverages": [
-        0,
+        33,
         0,
         0,
         0,
@@ -12766,10 +12766,10 @@
       "floor": "4F",
       "machine_type": "washer",
       "machine_num": 4,
-      "total_cycles": 29,
-      "total_duration_min": 1160,
-      "total_cost_ntd": 580,
-      "last_used_time": "2026-09-21T14:19:02.745Z",
+      "total_cycles": 30,
+      "total_duration_min": 1200,
+      "total_cost_ntd": 600,
+      "last_used_time": "2026-09-21T16:58:56.439Z",
       "isOnline": true
     },
     {
@@ -13130,7 +13130,7 @@
       "dayIndex": 2,
       "dayName": "週二",
       "hours": [
-        1,
+        3,
         0,
         0,
         0,
