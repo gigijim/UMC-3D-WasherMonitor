@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-09-22T14:50:30.758Z",
+  "updatedAt": "2026-09-22T15:00:45.053Z",
   "summary": {
     "total": 24,
-    "running": 8,
-    "idle": 15,
+    "running": 5,
+    "idle": 18,
     "offline": 1
   },
   "merchant": {
@@ -59,9 +59,9 @@
       "type": "dryer",
       "num": 1,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-09-22T14:56:30.231Z",
-      "remainingSec": 359
+      "remainingSec": 0
     },
     {
       "hwid": "4D97D1EA",
@@ -73,7 +73,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-22T15:14:05.014Z",
-      "remainingSec": 1414
+      "remainingSec": 799
     },
     {
       "hwid": "A4F474DF",
@@ -83,9 +83,9 @@
       "type": "dryer",
       "num": 2,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-09-22T14:57:07.772Z",
-      "remainingSec": 397
+      "remainingSec": 0
     },
     {
       "hwid": "D3F34449",
@@ -95,9 +95,9 @@
       "type": "washer",
       "num": 4,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-09-22T14:51:55.294Z",
-      "remainingSec": 84
+      "remainingSec": 0
     },
     {
       "hwid": "4AFA15F3",
@@ -121,7 +121,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-22T15:16:43.299Z",
-      "remainingSec": 1572
+      "remainingSec": 958
     },
     {
       "hwid": "AD4238F4",
@@ -133,7 +133,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-22T15:15:59.400Z",
-      "remainingSec": 1528
+      "remainingSec": 914
     },
     {
       "hwid": "236C6810",
@@ -169,7 +169,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-22T15:16:32.598Z",
-      "remainingSec": 1561
+      "remainingSec": 947
     },
     {
       "hwid": "53069C9F",
@@ -229,7 +229,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-22T15:28:17.218Z",
-      "remainingSec": 2266
+      "remainingSec": 1652
     },
     {
       "hwid": "BA6539AA",
