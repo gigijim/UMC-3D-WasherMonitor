@@ -1,15 +1,15 @@
 {
-  "generatedAt": "2026-09-22T16:30:34.277Z",
-  "totalEvents": 723,
-  "crawlCount": 1404,
+  "generatedAt": "2026-09-22T16:40:26.980Z",
+  "totalEvents": 724,
+  "crawlCount": 1405,
   "floorComparison": [
     {
       "floor": "2F",
-      "cycles": 187,
-      "durationMin": 7579,
-      "cost": 3790,
+      "cycles": 188,
+      "durationMin": 7619,
+      "cost": 3810,
       "washerCycles": 130,
-      "dryerCycles": 57
+      "dryerCycles": 58
     },
     {
       "floor": "4F",
@@ -397,7 +397,7 @@
           "dayIndex": 3,
           "dayName": "週三",
           "hours": [
-            4,
+            8,
             0,
             2,
             0,
@@ -515,7 +515,7 @@
         }
       ],
       "hourlyAverages": [
-        8,
+        9,
         5,
         5,
         6,
@@ -660,7 +660,7 @@
           "dayIndex": 3,
           "dayName": "週三",
           "hours": [
-            4,
+            6,
             6,
             1,
             0,
@@ -921,7 +921,7 @@
         "dayIndex": 3,
         "dayName": "週三",
         "hours": [
-          4,
+          6,
           6,
           1,
           0,
@@ -1090,11 +1090,11 @@
   "byFloor": {
     "2F": {
       "floor": "2F",
-      "totalCycles": 187,
-      "durationMin": 7579,
-      "cost": 3790,
+      "totalCycles": 188,
+      "durationMin": 7619,
+      "cost": 3810,
       "washerCycles": 130,
-      "dryerCycles": 57,
+      "dryerCycles": 58,
       "machines": [
         {
           "hwid": "7E9100CD",
@@ -1150,10 +1150,10 @@
           "floor": "2F",
           "machine_type": "dryer",
           "machine_num": 1,
-          "total_cycles": 28,
-          "total_duration_min": 1139,
-          "total_cost_ntd": 570,
-          "last_used_time": "2026-09-22T16:11:15.787Z",
+          "total_cycles": 29,
+          "total_duration_min": 1179,
+          "total_cost_ntd": 590,
+          "last_used_time": "2026-09-22T17:14:29.361Z",
           "isOnline": true
         },
         {
@@ -1529,7 +1529,7 @@
             "dayIndex": 3,
             "dayName": "週三",
             "hours": [
-              0,
+              17,
               0,
               8,
               0,
@@ -1647,7 +1647,7 @@
           }
         ],
         "hourlyAverages": [
-          8,
+          13,
           17,
           21,
           25,
@@ -1792,7 +1792,7 @@
             "dayIndex": 3,
             "dayName": "週三",
             "hours": [
-              0,
+              6,
               6,
               3,
               0,
@@ -1910,7 +1910,7 @@
           }
         ],
         "hourlyAverages": [
-          10,
+          8,
           6,
           7,
           8,
@@ -2054,7 +2054,7 @@
           "dayIndex": 3,
           "dayName": "週三",
           "hours": [
-            0,
+            6,
             6,
             3,
             0,
@@ -2172,7 +2172,7 @@
         }
       ],
       "hourlyAverages": [
-        10,
+        8,
         6,
         7,
         8,
@@ -6797,12 +6797,12 @@
       "type": "dryer",
       "num": 1,
       "isOnline": true,
-      "totalCycles": 28,
-      "totalDurationMin": 1139,
-      "totalCost": 570,
-      "lastUsedTime": "2026-09-22T16:11:15.787Z",
+      "totalCycles": 29,
+      "totalDurationMin": 1179,
+      "totalCost": 590,
+      "lastUsedTime": "2026-09-22T17:14:29.361Z",
       "avgDurationMin": 41,
-      "rankInType": 4,
+      "rankInType": 3,
       "totalInType": 8,
       "peakSlots": [
         {
@@ -6917,7 +6917,7 @@
           "dayIndex": 3,
           "dayName": "週三",
           "hours": [
-            0,
+            33,
             0,
             17,
             0,
@@ -7035,7 +7035,7 @@
         }
       ],
       "hourlyAverages": [
-        0,
+        33,
         0,
         17,
         50,
@@ -7095,7 +7095,7 @@
       "totalCost": 620,
       "lastUsedTime": "2026-09-22T15:45:19.734Z",
       "avgDurationMin": 43,
-      "rankInType": 3,
+      "rankInType": 4,
       "totalInType": 8,
       "peakSlots": [
         {
@@ -12706,10 +12706,10 @@
       "floor": "2F",
       "machine_type": "dryer",
       "machine_num": 1,
-      "total_cycles": 28,
-      "total_duration_min": 1139,
-      "total_cost_ntd": 570,
-      "last_used_time": "2026-09-22T16:11:15.787Z",
+      "total_cycles": 29,
+      "total_duration_min": 1179,
+      "total_cost_ntd": 590,
+      "last_used_time": "2026-09-22T17:14:29.361Z",
       "isOnline": true
     },
     {
@@ -13160,7 +13160,7 @@
       "dayIndex": 3,
       "dayName": "週三",
       "hours": [
-        4,
+        6,
         6,
         1,
         0,
