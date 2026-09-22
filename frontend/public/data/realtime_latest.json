@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-22T12:20:24.255Z",
+  "updatedAt": "2026-09-22T12:30:30.915Z",
   "summary": {
     "total": 24,
     "running": 7,
@@ -107,9 +107,9 @@
       "type": "washer",
       "num": 1,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-09-22T12:23:15.024Z",
-      "remainingSec": 170
+      "remainingSec": 0
     },
     {
       "hwid": "3DFD2565",
@@ -145,7 +145,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-22T12:33:33.536Z",
-      "remainingSec": 789
+      "remainingSec": 182
     },
     {
       "hwid": "546B5886",
@@ -157,7 +157,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-22T12:52:52.478Z",
-      "remainingSec": 1948
+      "remainingSec": 1341
     },
     {
       "hwid": "2401AC09",
@@ -179,9 +179,9 @@
       "type": "washer",
       "num": 4,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-09-22T12:16:45.367Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-09-22T13:01:04.946Z",
+      "remainingSec": 1834
     },
     {
       "hwid": "BD08FDB3",
@@ -193,7 +193,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-22T12:58:24.887Z",
-      "remainingSec": 2280
+      "remainingSec": 1673
     },
     {
       "hwid": "DA450862",
@@ -241,7 +241,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-22T12:56:18.894Z",
-      "remainingSec": 2154
+      "remainingSec": 1547
     },
     {
       "hwid": "E0F5956E",
@@ -253,7 +253,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-22T12:31:53.203Z",
-      "remainingSec": 688
+      "remainingSec": 82
     },
     {
       "hwid": "E7985177",
@@ -265,7 +265,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-22T12:50:45.568Z",
-      "remainingSec": 1821
+      "remainingSec": 1214
     },
     {
       "hwid": "7E9100CD",
