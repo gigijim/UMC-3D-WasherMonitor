@@ -1,15 +1,15 @@
 {
-  "generatedAt": "2026-09-23T17:10:27.348Z",
-  "totalEvents": 789,
-  "crawlCount": 1559,
+  "generatedAt": "2026-09-23T17:20:25.516Z",
+  "totalEvents": 790,
+  "crawlCount": 1560,
   "floorComparison": [
     {
       "floor": "2F",
-      "cycles": 205,
-      "durationMin": 8299,
-      "cost": 4150,
+      "cycles": 206,
+      "durationMin": 8319,
+      "cost": 4160,
       "washerCycles": 142,
-      "dryerCycles": 63
+      "dryerCycles": 64
     },
     {
       "floor": "4F",
@@ -428,7 +428,7 @@
           "dayName": "週四",
           "hours": [
             4,
-            6,
+            8,
             0,
             6,
             0,
@@ -691,7 +691,7 @@
           "dayName": "週四",
           "hours": [
             8,
-            3,
+            4,
             0,
             2,
             0,
@@ -952,7 +952,7 @@
         "dayName": "週四",
         "hours": [
           8,
-          3,
+          4,
           0,
           2,
           0,
@@ -1090,11 +1090,11 @@
   "byFloor": {
     "2F": {
       "floor": "2F",
-      "totalCycles": 205,
-      "durationMin": 8299,
-      "cost": 4150,
+      "totalCycles": 206,
+      "durationMin": 8319,
+      "cost": 4160,
       "washerCycles": 142,
-      "dryerCycles": 63,
+      "dryerCycles": 64,
       "machines": [
         {
           "hwid": "7E9100CD",
@@ -1162,10 +1162,10 @@
           "floor": "2F",
           "machine_type": "dryer",
           "machine_num": 2,
-          "total_cycles": 32,
-          "total_duration_min": 1360,
-          "total_cost_ntd": 680,
-          "last_used_time": "2026-09-23T14:42:35.914Z",
+          "total_cycles": 33,
+          "total_duration_min": 1380,
+          "total_cost_ntd": 690,
+          "last_used_time": "2026-09-23T17:33:18.444Z",
           "isOnline": true
         }
       ],
@@ -1560,7 +1560,7 @@
             "dayName": "週四",
             "hours": [
               0,
-              0,
+              8,
               0,
               25,
               0,
@@ -1648,7 +1648,7 @@
         ],
         "hourlyAverages": [
           13,
-          17,
+          13,
           21,
           25,
           0,
@@ -1823,7 +1823,7 @@
             "dayName": "週四",
             "hours": [
               0,
-              6,
+              8,
               0,
               8,
               0,
@@ -1911,7 +1911,7 @@
         ],
         "hourlyAverages": [
           8,
-          6,
+          7,
           7,
           8,
           0,
@@ -2085,7 +2085,7 @@
           "dayName": "週四",
           "hours": [
             0,
-            6,
+            8,
             0,
             8,
             0,
@@ -2173,7 +2173,7 @@
       ],
       "hourlyAverages": [
         8,
-        6,
+        7,
         7,
         8,
         0,
@@ -7090,11 +7090,11 @@
       "type": "dryer",
       "num": 2,
       "isOnline": true,
-      "totalCycles": 32,
-      "totalDurationMin": 1360,
-      "totalCost": 680,
-      "lastUsedTime": "2026-09-23T14:42:35.914Z",
-      "avgDurationMin": 43,
+      "totalCycles": 33,
+      "totalDurationMin": 1380,
+      "totalCost": 690,
+      "lastUsedTime": "2026-09-23T17:33:18.444Z",
+      "avgDurationMin": 42,
       "rankInType": 2,
       "totalInType": 8,
       "peakSlots": [
@@ -7241,7 +7241,7 @@
           "dayName": "週四",
           "hours": [
             0,
-            0,
+            17,
             0,
             0,
             0,
@@ -7329,7 +7329,7 @@
       ],
       "hourlyAverages": [
         17,
-        33,
+        25,
         67,
         0,
         0,
@@ -12718,10 +12718,10 @@
       "floor": "2F",
       "machine_type": "dryer",
       "machine_num": 2,
-      "total_cycles": 32,
-      "total_duration_min": 1360,
-      "total_cost_ntd": 680,
-      "last_used_time": "2026-09-23T14:42:35.914Z",
+      "total_cycles": 33,
+      "total_duration_min": 1380,
+      "total_cost_ntd": 690,
+      "last_used_time": "2026-09-23T17:33:18.444Z",
       "isOnline": true
     },
     {
@@ -13191,7 +13191,7 @@
       "dayName": "週四",
       "hours": [
         8,
-        3,
+        4,
         0,
         2,
         0,
