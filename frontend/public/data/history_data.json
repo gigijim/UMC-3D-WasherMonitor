@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-09-25T07:20:25.226Z",
-  "totalEvents": 868,
-  "crawlCount": 1797,
+  "generatedAt": "2026-09-25T07:30:31.648Z",
+  "totalEvents": 869,
+  "crawlCount": 1798,
   "floorComparison": [
     {
       "floor": "2F",
@@ -29,11 +29,11 @@
     },
     {
       "floor": "8F",
-      "cycles": 231,
-      "durationMin": 9956,
-      "cost": 4980,
+      "cycles": 232,
+      "durationMin": 9976,
+      "cost": 4990,
       "washerCycles": 166,
-      "dryerCycles": 65
+      "dryerCycles": 66
     }
   ],
   "overall": {
@@ -472,7 +472,7 @@
             0,
             13,
             19,
-            0,
+            2,
             0,
             0,
             0,
@@ -530,7 +530,7 @@
         9,
         8,
         15,
-        13,
+        11,
         18,
         7,
         15,
@@ -735,7 +735,7 @@
             3,
             10,
             8,
-            0,
+            1,
             0,
             0,
             6,
@@ -793,7 +793,7 @@
         7,
         9,
         10,
-        5,
+        4,
         12,
         5,
         12,
@@ -807,7 +807,7 @@
         {
           "hour": 15,
           "label": "15:00 ~ 16:00",
-          "rate": 5
+          "rate": 4
         },
         {
           "hour": 17,
@@ -996,7 +996,7 @@
           3,
           10,
           8,
-          0,
+          1,
           0,
           0,
           6,
@@ -1054,7 +1054,7 @@
       7,
       9,
       10,
-      5,
+      4,
       12,
       5,
       12,
@@ -1068,7 +1068,7 @@
       {
         "hour": 15,
         "label": "15:00 ~ 16:00",
-        "rate": 5
+        "rate": 4
       },
       {
         "hour": 17,
@@ -4486,11 +4486,11 @@
     },
     "8F": {
       "floor": "8F",
-      "totalCycles": 231,
-      "durationMin": 9956,
-      "cost": 4980,
+      "totalCycles": 232,
+      "durationMin": 9976,
+      "cost": 4990,
       "washerCycles": 166,
-      "dryerCycles": 65,
+      "dryerCycles": 66,
       "machines": [
         {
           "hwid": "CA0FCD25",
@@ -4558,10 +4558,10 @@
           "floor": "8F",
           "machine_type": "dryer",
           "machine_num": 2,
-          "total_cycles": 33,
-          "total_duration_min": 1618,
-          "total_cost_ntd": 810,
-          "last_used_time": "2026-09-25T01:47:37.437Z",
+          "total_cycles": 34,
+          "total_duration_min": 1638,
+          "total_cost_ntd": 820,
+          "last_used_time": "2026-09-25T07:48:12.690Z",
           "isOnline": true
         }
       ],
@@ -5000,7 +5000,7 @@
               0,
               0,
               0,
-              0,
+              8,
               0,
               0,
               0,
@@ -5263,7 +5263,7 @@
               0,
               6,
               6,
-              0,
+              3,
               0,
               0,
               17,
@@ -5321,7 +5321,7 @@
           19,
           12,
           13,
-          8,
+          6,
           31,
           6,
           17,
@@ -5333,14 +5333,14 @@
         ],
         "bestTimeWindows": [
           {
-            "hour": 17,
-            "label": "17:00 ~ 18:00",
+            "hour": 15,
+            "label": "15:00 ~ 16:00",
             "rate": 6
           },
           {
-            "hour": 15,
-            "label": "15:00 ~ 16:00",
-            "rate": 8
+            "hour": 17,
+            "label": "17:00 ~ 18:00",
+            "rate": 6
           },
           {
             "hour": 8,
@@ -5525,7 +5525,7 @@
             0,
             6,
             6,
-            0,
+            3,
             0,
             0,
             17,
@@ -5583,7 +5583,7 @@
         19,
         12,
         13,
-        8,
+        6,
         31,
         6,
         17,
@@ -5595,14 +5595,14 @@
       ],
       "bestTimeWindows": [
         {
-          "hour": 17,
-          "label": "17:00 ~ 18:00",
+          "hour": 15,
+          "label": "15:00 ~ 16:00",
           "rate": 6
         },
         {
-          "hour": 15,
-          "label": "15:00 ~ 16:00",
-          "rate": 8
+          "hour": 17,
+          "label": "17:00 ~ 18:00",
+          "rate": 6
         },
         {
           "hour": 8,
@@ -12364,11 +12364,11 @@
       "type": "dryer",
       "num": 2,
       "isOnline": true,
-      "totalCycles": 33,
-      "totalDurationMin": 1618,
-      "totalCost": 810,
-      "lastUsedTime": "2026-09-25T01:47:37.437Z",
-      "avgDurationMin": 49,
+      "totalCycles": 34,
+      "totalDurationMin": 1638,
+      "totalCost": 820,
+      "lastUsedTime": "2026-09-25T07:48:12.690Z",
+      "avgDurationMin": 48,
       "rankInType": 4,
       "totalInType": 8,
       "peakSlots": [
@@ -12559,7 +12559,7 @@
             0,
             0,
             0,
-            0,
+            17,
             0,
             0,
             0,
@@ -12617,7 +12617,7 @@
         33,
         50,
         83,
-        0,
+        17,
         67,
         0,
         50,
@@ -12639,14 +12639,14 @@
           "rate": 0
         },
         {
-          "hour": 15,
-          "label": "15:00 ~ 16:00",
-          "rate": 0
-        },
-        {
           "hour": 17,
           "label": "17:00 ~ 18:00",
           "rate": 0
+        },
+        {
+          "hour": 15,
+          "label": "15:00 ~ 16:00",
+          "rate": 17
         }
       ]
     }
@@ -12934,10 +12934,10 @@
       "floor": "8F",
       "machine_type": "dryer",
       "machine_num": 2,
-      "total_cycles": 33,
-      "total_duration_min": 1618,
-      "total_cost_ntd": 810,
-      "last_used_time": "2026-09-25T01:47:37.437Z",
+      "total_cycles": 34,
+      "total_duration_min": 1638,
+      "total_cost_ntd": 820,
+      "last_used_time": "2026-09-25T07:48:12.690Z",
       "isOnline": true
     }
   ],
@@ -13235,7 +13235,7 @@
         3,
         10,
         8,
-        0,
+        1,
         0,
         0,
         6,
@@ -13293,7 +13293,7 @@
     7,
     9,
     10,
-    5,
+    4,
     12,
     5,
     12,
@@ -13307,7 +13307,7 @@
     {
       "hour": 15,
       "label": "15:00 ~ 16:00",
-      "rate": 5
+      "rate": 4
     },
     {
       "hour": 17,
