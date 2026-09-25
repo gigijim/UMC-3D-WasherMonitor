@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-09-25T06:10:23.952Z",
-  "totalEvents": 865,
-  "crawlCount": 1789,
+  "generatedAt": "2026-09-25T06:20:24.358Z",
+  "totalEvents": 867,
+  "crawlCount": 1790,
   "floorComparison": [
     {
       "floor": "2F",
@@ -13,11 +13,11 @@
     },
     {
       "floor": "4F",
-      "cycles": 180,
-      "durationMin": 7739,
-      "cost": 3870,
+      "cycles": 181,
+      "durationMin": 7759,
+      "cost": 3880,
       "washerCycles": 128,
-      "dryerCycles": 52
+      "dryerCycles": 53
     },
     {
       "floor": "6F",
@@ -29,10 +29,10 @@
     },
     {
       "floor": "8F",
-      "cycles": 230,
-      "durationMin": 9916,
-      "cost": 4960,
-      "washerCycles": 165,
+      "cycles": 231,
+      "durationMin": 9956,
+      "cost": 4980,
+      "washerCycles": 166,
       "dryerCycles": 65
     }
   ],
@@ -208,7 +208,7 @@
             4,
             4,
             8,
-            0,
+            2,
             0,
             0,
             0,
@@ -266,7 +266,7 @@
         6,
         7,
         10,
-        10,
+        8,
         4,
         12,
         6,
@@ -471,7 +471,7 @@
             4,
             0,
             13,
-            12,
+            14,
             0,
             0,
             0,
@@ -529,7 +529,7 @@
         7,
         9,
         8,
-        13,
+        14,
         13,
         18,
         7,
@@ -734,7 +734,7 @@
             4,
             3,
             10,
-            4,
+            6,
             0,
             0,
             0,
@@ -792,7 +792,7 @@
         6,
         7,
         9,
-        9,
+        10,
         5,
         12,
         5,
@@ -995,7 +995,7 @@
           4,
           3,
           10,
-          4,
+          6,
           0,
           0,
           0,
@@ -1053,7 +1053,7 @@
       6,
       7,
       9,
-      9,
+      10,
       5,
       12,
       5,
@@ -2222,11 +2222,11 @@
     },
     "4F": {
       "floor": "4F",
-      "totalCycles": 180,
-      "durationMin": 7739,
-      "cost": 3870,
+      "totalCycles": 181,
+      "durationMin": 7759,
+      "cost": 3880,
       "washerCycles": 128,
-      "dryerCycles": 52,
+      "dryerCycles": 53,
       "machines": [
         {
           "hwid": "E7985177",
@@ -2282,10 +2282,10 @@
           "floor": "4F",
           "machine_type": "dryer",
           "machine_num": 1,
-          "total_cycles": 28,
-          "total_duration_min": 1319,
-          "total_cost_ntd": 660,
-          "last_used_time": "2026-09-24T18:37:59.014Z",
+          "total_cycles": 29,
+          "total_duration_min": 1339,
+          "total_cost_ntd": 670,
+          "last_used_time": "2026-09-25T06:34:12.233Z",
           "isOnline": true
         },
         {
@@ -2735,7 +2735,7 @@
               0,
               0,
               0,
-              0,
+              8,
               0,
               0,
               0,
@@ -2793,7 +2793,7 @@
           33,
           28,
           17,
-          0,
+          8,
           38,
           17,
           0,
@@ -2816,14 +2816,14 @@
             "rate": 0
           },
           {
-            "hour": 14,
-            "label": "14:00 ~ 15:00",
-            "rate": 0
-          },
-          {
             "hour": 17,
             "label": "17:00 ~ 18:00",
             "rate": 0
+          },
+          {
+            "hour": 14,
+            "label": "14:00 ~ 15:00",
+            "rate": 8
           }
         ]
       },
@@ -2998,7 +2998,7 @@
               0,
               0,
               6,
-              0,
+              3,
               0,
               0,
               0,
@@ -3056,7 +3056,7 @@
           11,
           9,
           15,
-          8,
+          7,
           18,
           9,
           7,
@@ -3079,14 +3079,14 @@
             "rate": 6
           },
           {
-            "hour": 17,
-            "label": "17:00 ~ 18:00",
+            "hour": 14,
+            "label": "14:00 ~ 15:00",
             "rate": 7
           },
           {
-            "hour": 14,
-            "label": "14:00 ~ 15:00",
-            "rate": 8
+            "hour": 17,
+            "label": "17:00 ~ 18:00",
+            "rate": 7
           }
         ]
       },
@@ -3260,7 +3260,7 @@
             0,
             0,
             6,
-            0,
+            3,
             0,
             0,
             0,
@@ -3318,7 +3318,7 @@
         11,
         9,
         15,
-        8,
+        7,
         18,
         9,
         7,
@@ -3341,14 +3341,14 @@
           "rate": 6
         },
         {
-          "hour": 17,
-          "label": "17:00 ~ 18:00",
+          "hour": 14,
+          "label": "14:00 ~ 15:00",
           "rate": 7
         },
         {
-          "hour": 14,
-          "label": "14:00 ~ 15:00",
-          "rate": 8
+          "hour": 17,
+          "label": "17:00 ~ 18:00",
+          "rate": 7
         }
       ]
     },
@@ -4486,10 +4486,10 @@
     },
     "8F": {
       "floor": "8F",
-      "totalCycles": 230,
-      "durationMin": 9916,
-      "cost": 4960,
-      "washerCycles": 165,
+      "totalCycles": 231,
+      "durationMin": 9956,
+      "cost": 4980,
+      "washerCycles": 166,
       "dryerCycles": 65,
       "machines": [
         {
@@ -4510,10 +4510,10 @@
           "floor": "8F",
           "machine_type": "washer",
           "machine_num": 2,
-          "total_cycles": 53,
-          "total_duration_min": 2120,
-          "total_cost_ntd": 1060,
-          "last_used_time": "2026-09-25T03:57:15.981Z",
+          "total_cycles": 54,
+          "total_duration_min": 2160,
+          "total_cost_ntd": 1080,
+          "last_used_time": "2026-09-25T06:59:50.286Z",
           "isOnline": true
         },
         {
@@ -4736,7 +4736,7 @@
               8,
               0,
               8,
-              0,
+              8,
               0,
               0,
               0,
@@ -4794,7 +4794,7 @@
           19,
           19,
           15,
-          17,
+          13,
           8,
           30,
           8,
@@ -4822,9 +4822,9 @@
             "rate": 13
           },
           {
-            "hour": 13,
-            "label": "13:00 ~ 14:00",
-            "rate": 15
+            "hour": 14,
+            "label": "14:00 ~ 15:00",
+            "rate": 13
           }
         ]
       },
@@ -5262,7 +5262,7 @@
               6,
               0,
               6,
-              0,
+              6,
               0,
               0,
               0,
@@ -5320,7 +5320,7 @@
           13,
           19,
           12,
-          17,
+          13,
           8,
           31,
           6,
@@ -5524,7 +5524,7 @@
             6,
             0,
             6,
-            0,
+            6,
             0,
             0,
             0,
@@ -5582,7 +5582,7 @@
         13,
         19,
         12,
-        17,
+        13,
         8,
         31,
         6,
@@ -8555,11 +8555,11 @@
       "type": "dryer",
       "num": 1,
       "isOnline": true,
-      "totalCycles": 28,
-      "totalDurationMin": 1319,
-      "totalCost": 660,
-      "lastUsedTime": "2026-09-24T18:37:59.014Z",
-      "avgDurationMin": 47,
+      "totalCycles": 29,
+      "totalDurationMin": 1339,
+      "totalCost": 670,
+      "lastUsedTime": "2026-09-25T06:34:12.233Z",
+      "avgDurationMin": 46,
       "rankInType": 6,
       "totalInType": 8,
       "peakSlots": [
@@ -8749,7 +8749,7 @@
             0,
             0,
             0,
-            0,
+            17,
             0,
             0,
             0,
@@ -8807,7 +8807,7 @@
         67,
         50,
         17,
-        0,
+        17,
         50,
         0,
         0,
@@ -8830,13 +8830,13 @@
           "rate": 0
         },
         {
-          "hour": 14,
-          "label": "14:00 ~ 15:00",
+          "hour": 16,
+          "label": "16:00 ~ 17:00",
           "rate": 0
         },
         {
-          "hour": 16,
-          "label": "16:00 ~ 17:00",
+          "hour": 17,
+          "label": "17:00 ~ 18:00",
           "rate": 0
         }
       ]
@@ -11192,10 +11192,10 @@
       "type": "washer",
       "num": 2,
       "isOnline": true,
-      "totalCycles": 53,
-      "totalDurationMin": 2120,
-      "totalCost": 1060,
-      "lastUsedTime": "2026-09-25T03:57:15.981Z",
+      "totalCycles": 54,
+      "totalDurationMin": 2160,
+      "totalCost": 1080,
+      "lastUsedTime": "2026-09-25T06:59:50.286Z",
       "avgDurationMin": 40,
       "rankInType": 2,
       "totalInType": 16,
@@ -11386,7 +11386,7 @@
             33,
             0,
             0,
-            0,
+            33,
             0,
             0,
             0,
@@ -12778,10 +12778,10 @@
       "floor": "4F",
       "machine_type": "dryer",
       "machine_num": 1,
-      "total_cycles": 28,
-      "total_duration_min": 1319,
-      "total_cost_ntd": 660,
-      "last_used_time": "2026-09-24T18:37:59.014Z",
+      "total_cycles": 29,
+      "total_duration_min": 1339,
+      "total_cost_ntd": 670,
+      "last_used_time": "2026-09-25T06:34:12.233Z",
       "isOnline": true
     },
     {
@@ -12886,10 +12886,10 @@
       "floor": "8F",
       "machine_type": "washer",
       "machine_num": 2,
-      "total_cycles": 53,
-      "total_duration_min": 2120,
-      "total_cost_ntd": 1060,
-      "last_used_time": "2026-09-25T03:57:15.981Z",
+      "total_cycles": 54,
+      "total_duration_min": 2160,
+      "total_cost_ntd": 1080,
+      "last_used_time": "2026-09-25T06:59:50.286Z",
       "isOnline": true
     },
     {
@@ -12960,10 +12960,10 @@
       "floor": "8F",
       "machine_type": "washer",
       "machine_num": 2,
-      "total_cycles": 53,
-      "total_duration_min": 2120,
-      "total_cost_ntd": 1060,
-      "last_used_time": "2026-09-25T03:57:15.981Z",
+      "total_cycles": 54,
+      "total_duration_min": 2160,
+      "total_cost_ntd": 1080,
+      "last_used_time": "2026-09-25T06:59:50.286Z",
       "isOnline": true
     },
     {
@@ -13058,10 +13058,10 @@
       "floor": "4F",
       "machine_type": "dryer",
       "machine_num": 1,
-      "total_cycles": 28,
-      "total_duration_min": 1319,
-      "total_cost_ntd": 660,
-      "last_used_time": "2026-09-24T18:37:59.014Z",
+      "total_cycles": 29,
+      "total_duration_min": 1339,
+      "total_cost_ntd": 670,
+      "last_used_time": "2026-09-25T06:34:12.233Z",
       "isOnline": true
     }
   ],
@@ -13234,7 +13234,7 @@
         4,
         3,
         10,
-        4,
+        6,
         0,
         0,
         0,
@@ -13292,7 +13292,7 @@
     6,
     7,
     9,
-    9,
+    10,
     5,
     12,
     5,
