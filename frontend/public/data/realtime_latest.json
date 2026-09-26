@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-09-26T09:10:21.919Z",
+  "updatedAt": "2026-09-26T09:20:23.220Z",
   "summary": {
     "total": 24,
-    "running": 2,
-    "idle": 21,
+    "running": 1,
+    "idle": 22,
     "offline": 1
   },
   "merchant": {
@@ -73,7 +73,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-26T09:29:35.479Z",
-      "remainingSec": 1153
+      "remainingSec": 552
     },
     {
       "hwid": "A4F474DF",
@@ -287,9 +287,9 @@
       "type": "washer",
       "num": 2,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-09-26T09:14:00.979Z",
-      "remainingSec": 219
+      "remainingSec": 0
     },
     {
       "hwid": "97F2A5F8",
