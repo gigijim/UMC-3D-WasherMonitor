@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-09-27T14:30:32.705Z",
-  "totalEvents": 938,
-  "crawlCount": 2141,
+  "generatedAt": "2026-09-27T14:40:22.304Z",
+  "totalEvents": 939,
+  "crawlCount": 2142,
   "floorComparison": [
     {
       "floor": "2F",
@@ -13,10 +13,10 @@
     },
     {
       "floor": "4F",
-      "cycles": 202,
-      "durationMin": 8698,
-      "cost": 4350,
-      "washerCycles": 138,
+      "cycles": 203,
+      "durationMin": 8738,
+      "cost": 4370,
+      "washerCycles": 139,
       "dryerCycles": 64
     },
     {
@@ -66,7 +66,7 @@
             11,
             18,
             29,
-            18,
+            19,
             14
           ]
         },
@@ -592,7 +592,7 @@
             11,
             19,
             25,
-            23,
+            24,
             17
           ]
         },
@@ -853,7 +853,7 @@
           11,
           19,
           25,
-          23,
+          24,
           17
         ]
       },
@@ -2222,10 +2222,10 @@
     },
     "4F": {
       "floor": "4F",
-      "totalCycles": 202,
-      "durationMin": 8698,
-      "cost": 4350,
-      "washerCycles": 138,
+      "totalCycles": 203,
+      "durationMin": 8738,
+      "cost": 4370,
+      "washerCycles": 139,
       "dryerCycles": 64,
       "machines": [
         {
@@ -2258,10 +2258,10 @@
           "floor": "4F",
           "machine_type": "washer",
           "machine_num": 3,
-          "total_cycles": 21,
-          "total_duration_min": 840,
-          "total_cost_ntd": 420,
-          "last_used_time": "2026-09-27T03:31:27.080Z",
+          "total_cycles": 22,
+          "total_duration_min": 880,
+          "total_cost_ntd": 440,
+          "last_used_time": "2026-09-27T15:20:19.090Z",
           "isOnline": true
         },
         {
@@ -2330,7 +2330,7 @@
               17,
               17,
               33,
-              6,
+              11,
               6
             ]
           },
@@ -2538,7 +2538,7 @@
           20,
           19,
           17,
-          11,
+          12,
           9
         ],
         "bestTimeWindows": [
@@ -2856,7 +2856,7 @@
               11,
               24,
               28,
-              9,
+              13,
               11
             ]
           },
@@ -3064,7 +3064,7 @@
           17,
           19,
           14,
-          14,
+          15,
           9
         ],
         "bestTimeWindows": [
@@ -3118,7 +3118,7 @@
             11,
             24,
             28,
-            9,
+            13,
             11
           ]
         },
@@ -3326,7 +3326,7 @@
         17,
         19,
         14,
-        14,
+        15,
         9
       ],
       "bestTimeWindows": [
@@ -7969,10 +7969,10 @@
       "type": "washer",
       "num": 3,
       "isOnline": true,
-      "totalCycles": 21,
-      "totalDurationMin": 840,
-      "totalCost": 420,
-      "lastUsedTime": "2026-09-27T03:31:27.080Z",
+      "totalCycles": 22,
+      "totalDurationMin": 880,
+      "totalCost": 440,
+      "lastUsedTime": "2026-09-27T15:20:19.090Z",
       "avgDurationMin": 40,
       "rankInType": 14,
       "totalInType": 16,
@@ -8021,7 +8021,7 @@
             0,
             0,
             0,
-            0,
+            67,
             0
           ]
         },
@@ -12754,10 +12754,10 @@
       "floor": "4F",
       "machine_type": "washer",
       "machine_num": 3,
-      "total_cycles": 21,
-      "total_duration_min": 840,
-      "total_cost_ntd": 420,
-      "last_used_time": "2026-09-27T03:31:27.080Z",
+      "total_cycles": 22,
+      "total_duration_min": 880,
+      "total_cost_ntd": 440,
+      "last_used_time": "2026-09-27T15:20:19.090Z",
       "isOnline": true
     },
     {
@@ -13022,10 +13022,10 @@
       "floor": "4F",
       "machine_type": "washer",
       "machine_num": 3,
-      "total_cycles": 21,
-      "total_duration_min": 840,
-      "total_cost_ntd": 420,
-      "last_used_time": "2026-09-27T03:31:27.080Z",
+      "total_cycles": 22,
+      "total_duration_min": 880,
+      "total_cost_ntd": 440,
+      "last_used_time": "2026-09-27T15:20:19.090Z",
       "isOnline": true
     },
     {
@@ -13092,7 +13092,7 @@
         11,
         19,
         25,
-        23,
+        24,
         17
       ]
     },
