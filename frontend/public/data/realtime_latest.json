@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-09-28T02:50:30.126Z",
+  "updatedAt": "2026-09-28T03:00:40.399Z",
   "summary": {
     "total": 24,
-    "running": 5,
-    "idle": 18,
+    "running": 6,
+    "idle": 17,
     "offline": 1
   },
   "merchant": {
@@ -47,9 +47,9 @@
       "type": "washer",
       "num": 2,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-09-28T02:51:14.649Z",
-      "remainingSec": 44
+      "remainingSec": 0
     },
     {
       "hwid": "3A90E17C",
@@ -83,9 +83,9 @@
       "type": "dryer",
       "num": 2,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-09-27T09:20:19.292Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-09-28T03:52:19.382Z",
+      "remainingSec": 3098
     },
     {
       "hwid": "D3F34449",
@@ -133,7 +133,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-28T03:07:56.748Z",
-      "remainingSec": 1046
+      "remainingSec": 436
     },
     {
       "hwid": "236C6810",
@@ -145,7 +145,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-28T03:25:30.564Z",
-      "remainingSec": 2100
+      "remainingSec": 1490
     },
     {
       "hwid": "546B5886",
@@ -169,7 +169,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-28T03:29:14.800Z",
-      "remainingSec": 2324
+      "remainingSec": 1714
     },
     {
       "hwid": "53069C9F",
@@ -191,9 +191,9 @@
       "type": "washer",
       "num": 2,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-09-28T02:38:00.285Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-09-28T03:36:45.407Z",
+      "remainingSec": 2165
     },
     {
       "hwid": "DA450862",
@@ -265,7 +265,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-28T03:23:37.227Z",
-      "remainingSec": 1987
+      "remainingSec": 1376
     },
     {
       "hwid": "7E9100CD",
