@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-09-29T14:10:23.129Z",
+  "updatedAt": "2026-09-29T14:20:26.649Z",
   "summary": {
     "total": 24,
-    "running": 5,
-    "idle": 18,
+    "running": 4,
+    "idle": 19,
     "offline": 1
   },
   "merchant": {
@@ -49,7 +49,19 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-29T14:47:50.051Z",
-      "remainingSec": 2246
+      "remainingSec": 1643
+    },
+    {
+      "hwid": "4D97D1EA",
+      "vendorHwid": "805872",
+      "description": "4F洗衣機3號",
+      "floor": "4F",
+      "type": "washer",
+      "num": 3,
+      "connection": true,
+      "isRunning": true,
+      "dueTime": "2026-09-29T14:47:44.982Z",
+      "remainingSec": 1638
     },
     {
       "hwid": "3A90E17C",
@@ -62,18 +74,6 @@
       "isRunning": false,
       "dueTime": "2026-09-29T14:03:11.755Z",
       "remainingSec": 0
-    },
-    {
-      "hwid": "4D97D1EA",
-      "vendorHwid": "805872",
-      "description": "4F洗衣機3號",
-      "floor": "4F",
-      "type": "washer",
-      "num": 3,
-      "connection": true,
-      "isRunning": true,
-      "dueTime": "2026-09-29T14:47:44.982Z",
-      "remainingSec": 2241
     },
     {
       "hwid": "A4F474DF",
@@ -121,7 +121,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-29T14:23:59.412Z",
-      "remainingSec": 816
+      "remainingSec": 212
     },
     {
       "hwid": "AD4238F4",
@@ -136,27 +136,15 @@
       "remainingSec": 0
     },
     {
-      "hwid": "236C6810",
-      "vendorHwid": "805884",
-      "description": "8F洗衣機3號",
-      "floor": "8F",
-      "type": "washer",
-      "num": 3,
-      "connection": true,
-      "isRunning": true,
-      "dueTime": "2026-09-29T14:14:50.614Z",
-      "remainingSec": 267
-    },
-    {
-      "hwid": "546B5886",
-      "vendorHwid": "805885",
-      "description": "8F烘乾機1號",
-      "floor": "8F",
+      "hwid": "DA450862",
+      "vendorHwid": "805879",
+      "description": "6F烘乾機1號",
+      "floor": "6F",
       "type": "dryer",
       "num": 1,
       "connection": true,
       "isRunning": false,
-      "dueTime": "2026-09-29T13:44:30.635Z",
+      "dueTime": "2026-09-29T13:39:18.360Z",
       "remainingSec": 0
     },
     {
@@ -184,6 +172,18 @@
       "remainingSec": 0
     },
     {
+      "hwid": "CA0FCD25",
+      "vendorHwid": "805882",
+      "description": "8F洗衣機1號",
+      "floor": "8F",
+      "type": "washer",
+      "num": 1,
+      "connection": false,
+      "isRunning": false,
+      "dueTime": "2026-09-21T05:52:50.119Z",
+      "remainingSec": 0
+    },
+    {
       "hwid": "BD08FDB3",
       "vendorHwid": "805883",
       "description": "8F洗衣機2號",
@@ -196,27 +196,27 @@
       "remainingSec": 0
     },
     {
-      "hwid": "DA450862",
-      "vendorHwid": "805879",
-      "description": "6F烘乾機1號",
-      "floor": "6F",
+      "hwid": "236C6810",
+      "vendorHwid": "805884",
+      "description": "8F洗衣機3號",
+      "floor": "8F",
+      "type": "washer",
+      "num": 3,
+      "connection": true,
+      "isRunning": false,
+      "dueTime": "2026-09-29T14:14:50.614Z",
+      "remainingSec": 0
+    },
+    {
+      "hwid": "546B5886",
+      "vendorHwid": "805885",
+      "description": "8F烘乾機1號",
+      "floor": "8F",
       "type": "dryer",
       "num": 1,
       "connection": true,
       "isRunning": false,
-      "dueTime": "2026-09-29T13:39:18.360Z",
-      "remainingSec": 0
-    },
-    {
-      "hwid": "CA0FCD25",
-      "vendorHwid": "805882",
-      "description": "8F洗衣機1號",
-      "floor": "8F",
-      "type": "washer",
-      "num": 1,
-      "connection": false,
-      "isRunning": false,
-      "dueTime": "2026-09-21T05:52:50.119Z",
+      "dueTime": "2026-09-29T13:44:30.635Z",
       "remainingSec": 0
     },
     {
@@ -239,20 +239,8 @@
       "type": "washer",
       "num": 4,
       "connection": true,
-      "isRunning": true,
-      "dueTime": "2026-09-29T14:14:45.157Z",
-      "remainingSec": 262
-    },
-    {
-      "hwid": "E0F5956E",
-      "vendorHwid": "806645",
-      "description": "2F烘乾機1號",
-      "floor": "2F",
-      "type": "dryer",
-      "num": 1,
-      "connection": true,
       "isRunning": false,
-      "dueTime": "2026-09-29T12:37:29.750Z",
+      "dueTime": "2026-09-29T14:14:45.157Z",
       "remainingSec": 0
     },
     {
@@ -287,9 +275,9 @@
       "type": "washer",
       "num": 2,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-09-29T11:15:30.476Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-09-29T14:56:09.916Z",
+      "remainingSec": 2143
     },
     {
       "hwid": "97F2A5F8",
@@ -301,6 +289,18 @@
       "connection": true,
       "isRunning": false,
       "dueTime": "2026-09-29T14:03:47.157Z",
+      "remainingSec": 0
+    },
+    {
+      "hwid": "E0F5956E",
+      "vendorHwid": "806645",
+      "description": "2F烘乾機1號",
+      "floor": "2F",
+      "type": "dryer",
+      "num": 1,
+      "connection": true,
+      "isRunning": false,
+      "dueTime": "2026-09-29T12:37:29.750Z",
       "remainingSec": 0
     }
   ]
