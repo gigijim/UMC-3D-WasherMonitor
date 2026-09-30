@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-30T13:10:22.292Z",
+  "updatedAt": "2026-09-30T13:20:22.323Z",
   "summary": {
     "total": 24,
     "running": 7,
@@ -49,7 +49,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-30T13:22:05.656Z",
-      "remainingSec": 703
+      "remainingSec": 103
     },
     {
       "hwid": "4D97D1EA",
@@ -73,7 +73,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-30T13:35:21.640Z",
-      "remainingSec": 1499
+      "remainingSec": 899
     },
     {
       "hwid": "A4F474DF",
@@ -85,7 +85,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-30T14:01:04.978Z",
-      "remainingSec": 3042
+      "remainingSec": 2442
     },
     {
       "hwid": "D3F34449",
@@ -155,9 +155,9 @@
       "type": "dryer",
       "num": 2,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-09-30T13:14:06.569Z",
-      "remainingSec": 224
+      "remainingSec": 0
     },
     {
       "hwid": "53069C9F",
@@ -193,7 +193,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-30T13:35:38.817Z",
-      "remainingSec": 1516
+      "remainingSec": 916
     },
     {
       "hwid": "236C6810",
@@ -205,7 +205,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-30T13:39:52.949Z",
-      "remainingSec": 1770
+      "remainingSec": 1170
     },
     {
       "hwid": "546B5886",
@@ -263,9 +263,9 @@
       "type": "washer",
       "num": 1,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-09-28T14:34:03.483Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-09-30T13:56:09.986Z",
+      "remainingSec": 2147
     },
     {
       "hwid": "0996305B",
@@ -277,7 +277,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-30T13:35:31.622Z",
-      "remainingSec": 1509
+      "remainingSec": 909
     },
     {
       "hwid": "97F2A5F8",
