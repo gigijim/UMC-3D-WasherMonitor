@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-09-30T23:40:21.372Z",
+  "updatedAt": "2026-09-30T23:50:22.749Z",
   "summary": {
     "total": 24,
-    "running": 2,
-    "idle": 21,
+    "running": 0,
+    "idle": 23,
     "offline": 1
   },
   "merchant": {
@@ -131,9 +131,9 @@
       "type": "washer",
       "num": 3,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-09-30T23:49:15.546Z",
-      "remainingSec": 534
+      "remainingSec": 0
     },
     {
       "hwid": "DA450862",
@@ -215,9 +215,9 @@
       "type": "dryer",
       "num": 1,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-09-30T23:40:58.696Z",
-      "remainingSec": 37
+      "remainingSec": 0
     },
     {
       "hwid": "CD62093C",
