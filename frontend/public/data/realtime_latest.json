@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-09-30T14:30:41.253Z",
+  "updatedAt": "2026-09-30T14:40:22.063Z",
   "summary": {
     "total": 24,
-    "running": 6,
-    "idle": 17,
+    "running": 5,
+    "idle": 18,
     "offline": 1
   },
   "merchant": {
@@ -23,9 +23,9 @@
       "type": "dryer",
       "num": 2,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-09-30T14:31:25.078Z",
-      "remainingSec": 43
+      "remainingSec": 0
     },
     {
       "hwid": "A399B0C6",
@@ -37,7 +37,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-30T14:53:20.422Z",
-      "remainingSec": 1359
+      "remainingSec": 778
     },
     {
       "hwid": "D49E8050",
@@ -133,7 +133,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-30T14:45:34.985Z",
-      "remainingSec": 893
+      "remainingSec": 312
     },
     {
       "hwid": "DA450862",
@@ -193,7 +193,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-30T14:43:08.637Z",
-      "remainingSec": 747
+      "remainingSec": 166
     },
     {
       "hwid": "236C6810",
@@ -229,7 +229,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-30T14:42:59.025Z",
-      "remainingSec": 737
+      "remainingSec": 156
     },
     {
       "hwid": "BA6539AA",
@@ -301,7 +301,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-30T15:04:26.816Z",
-      "remainingSec": 2025
+      "remainingSec": 1444
     }
   ]
 }
