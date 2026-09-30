@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-09-30T14:40:22.063Z",
+  "updatedAt": "2026-09-30T14:50:24.526Z",
   "summary": {
     "total": 24,
-    "running": 5,
-    "idle": 18,
+    "running": 4,
+    "idle": 19,
     "offline": 1
   },
   "merchant": {
@@ -37,7 +37,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-30T14:53:20.422Z",
-      "remainingSec": 778
+      "remainingSec": 175
     },
     {
       "hwid": "D49E8050",
@@ -71,9 +71,9 @@
       "type": "dryer",
       "num": 1,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-09-30T13:35:21.640Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-09-30T15:23:21.535Z",
+      "remainingSec": 1977
     },
     {
       "hwid": "A4F474DF",
@@ -95,9 +95,9 @@
       "type": "washer",
       "num": 4,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-09-30T12:28:19.272Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-09-30T15:29:17.814Z",
+      "remainingSec": 2333
     },
     {
       "hwid": "4AFA15F3",
@@ -131,9 +131,9 @@
       "type": "washer",
       "num": 3,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-09-30T14:45:34.985Z",
-      "remainingSec": 312
+      "remainingSec": 0
     },
     {
       "hwid": "DA450862",
@@ -191,9 +191,9 @@
       "type": "washer",
       "num": 2,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-09-30T14:43:08.637Z",
-      "remainingSec": 166
+      "remainingSec": 0
     },
     {
       "hwid": "236C6810",
@@ -227,9 +227,9 @@
       "type": "dryer",
       "num": 2,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-09-30T14:42:59.025Z",
-      "remainingSec": 156
+      "remainingSec": 0
     },
     {
       "hwid": "BA6539AA",
@@ -301,7 +301,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-09-30T15:04:26.816Z",
-      "remainingSec": 1444
+      "remainingSec": 842
     }
   ]
 }
