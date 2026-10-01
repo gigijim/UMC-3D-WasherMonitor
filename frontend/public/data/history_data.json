@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-01T17:00:43.229Z",
-  "totalEvents": 1223,
-  "crawlCount": 2748,
+  "generatedAt": "2026-10-01T17:07:30.908Z",
+  "totalEvents": 1224,
+  "crawlCount": 2749,
   "floorComparison": [
     {
       "floor": "2F",
@@ -29,10 +29,10 @@
     },
     {
       "floor": "8F",
-      "cycles": 328,
-      "durationMin": 14489,
-      "cost": 7250,
-      "washerCycles": 235,
+      "cycles": 329,
+      "durationMin": 14529,
+      "cost": 7270,
+      "washerCycles": 236,
       "dryerCycles": 93
     }
   ],
@@ -195,7 +195,7 @@
           "dayName": "週五",
           "hours": [
             8,
-            7,
+            8,
             0,
             0,
             0,
@@ -721,7 +721,7 @@
           "dayName": "週五",
           "hours": [
             7,
-            6,
+            7,
             1,
             0,
             0,
@@ -982,7 +982,7 @@
         "dayName": "週五",
         "hours": [
           7,
-          6,
+          7,
           1,
           0,
           0,
@@ -4486,10 +4486,10 @@
     },
     "8F": {
       "floor": "8F",
-      "totalCycles": 328,
-      "durationMin": 14489,
-      "cost": 7250,
-      "washerCycles": 235,
+      "totalCycles": 329,
+      "durationMin": 14529,
+      "cost": 7270,
+      "washerCycles": 236,
       "dryerCycles": 93,
       "machines": [
         {
@@ -4534,10 +4534,10 @@
           "floor": "8F",
           "machine_type": "washer",
           "machine_num": 4,
-          "total_cycles": 64,
-          "total_duration_min": 2560,
-          "total_cost_ntd": 1280,
-          "last_used_time": "2026-10-01T13:34:39.780Z",
+          "total_cycles": 65,
+          "total_duration_min": 2600,
+          "total_cost_ntd": 1300,
+          "last_used_time": "2026-10-01T17:40:45.711Z",
           "isOnline": true
         },
         {
@@ -4723,7 +4723,7 @@
             "dayName": "週五",
             "hours": [
               11,
-              11,
+              17,
               0,
               0,
               0,
@@ -4781,7 +4781,7 @@
         ],
         "hourlyAverages": [
           13,
-          11,
+          13,
           6,
           0,
           0,
@@ -5249,7 +5249,7 @@
             "dayName": "週五",
             "hours": [
               11,
-              7,
+              11,
               0,
               0,
               0,
@@ -5307,7 +5307,7 @@
         ],
         "hourlyAverages": [
           9,
-          7,
+          8,
           4,
           0,
           0,
@@ -5511,7 +5511,7 @@
           "dayName": "週五",
           "hours": [
             11,
-            7,
+            11,
             0,
             0,
             0,
@@ -5569,7 +5569,7 @@
       ],
       "hourlyAverages": [
         9,
-        7,
+        8,
         4,
         0,
         0,
@@ -11778,10 +11778,10 @@
       "type": "washer",
       "num": 4,
       "isOnline": true,
-      "totalCycles": 64,
-      "totalDurationMin": 2560,
-      "totalCost": 1280,
-      "lastUsedTime": "2026-10-01T13:34:39.780Z",
+      "totalCycles": 65,
+      "totalDurationMin": 2600,
+      "totalCost": 1300,
+      "lastUsedTime": "2026-10-01T17:40:45.711Z",
       "avgDurationMin": 40,
       "rankInType": 6,
       "totalInType": 16,
@@ -11959,7 +11959,7 @@
           "dayName": "週五",
           "hours": [
             22,
-            22,
+            44,
             0,
             0,
             0,
@@ -12017,7 +12017,7 @@
       ],
       "hourlyAverages": [
         22,
-        22,
+        28,
         22,
         0,
         0,
@@ -12910,10 +12910,10 @@
       "floor": "8F",
       "machine_type": "washer",
       "machine_num": 4,
-      "total_cycles": 64,
-      "total_duration_min": 2560,
-      "total_cost_ntd": 1280,
-      "last_used_time": "2026-10-01T13:34:39.780Z",
+      "total_cycles": 65,
+      "total_duration_min": 2600,
+      "total_cost_ntd": 1300,
+      "last_used_time": "2026-10-01T17:40:45.711Z",
       "isOnline": true
     },
     {
@@ -13221,7 +13221,7 @@
       "dayName": "週五",
       "hours": [
         7,
-        6,
+        7,
         1,
         0,
         0,
