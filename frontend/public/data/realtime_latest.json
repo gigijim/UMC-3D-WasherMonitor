@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-01T14:50:23.445Z",
+  "updatedAt": "2026-10-01T15:00:45.275Z",
   "summary": {
     "total": 24,
     "running": 7,
@@ -47,9 +47,9 @@
       "type": "washer",
       "num": 2,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-10-01T14:58:04.009Z",
-      "remainingSec": 460
+      "remainingSec": 0
     },
     {
       "hwid": "4D97D1EA",
@@ -59,9 +59,9 @@
       "type": "washer",
       "num": 3,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-10-01T13:30:16.266Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-10-01T15:36:27.737Z",
+      "remainingSec": 2142
     },
     {
       "hwid": "3A90E17C",
@@ -73,7 +73,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-01T15:18:45.011Z",
-      "remainingSec": 1701
+      "remainingSec": 1079
     },
     {
       "hwid": "A4F474DF",
@@ -85,7 +85,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-01T15:19:52.801Z",
-      "remainingSec": 1769
+      "remainingSec": 1147
     },
     {
       "hwid": "D3F34449",
@@ -109,7 +109,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-01T15:29:13.671Z",
-      "remainingSec": 2330
+      "remainingSec": 1708
     },
     {
       "hwid": "3DFD2565",
@@ -121,7 +121,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-01T15:15:52.725Z",
-      "remainingSec": 1529
+      "remainingSec": 907
     },
     {
       "hwid": "AD4238F4",
@@ -277,7 +277,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-01T15:10:30.364Z",
-      "remainingSec": 1206
+      "remainingSec": 585
     },
     {
       "hwid": "97F2A5F8",
@@ -289,7 +289,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-01T15:16:06.636Z",
-      "remainingSec": 1543
+      "remainingSec": 921
     },
     {
       "hwid": "E0F5956E",
