@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-10-02T13:51:00.676Z",
+  "updatedAt": "2026-10-02T14:00:40.176Z",
   "summary": {
     "total": 24,
-    "running": 4,
-    "idle": 19,
+    "running": 6,
+    "idle": 17,
     "offline": 1
   },
   "merchant": {
@@ -85,7 +85,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-02T14:46:48.964Z",
-      "remainingSec": 3348
+      "remainingSec": 2768
     },
     {
       "hwid": "D3F34449",
@@ -131,9 +131,9 @@
       "type": "washer",
       "num": 3,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-10-02T13:14:12.122Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-10-02T14:39:58.655Z",
+      "remainingSec": 2358
     },
     {
       "hwid": "DA450862",
@@ -143,9 +143,9 @@
       "type": "dryer",
       "num": 1,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-10-02T13:47:14.443Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-10-02T14:39:44.488Z",
+      "remainingSec": 2344
     },
     {
       "hwid": "2401AC09",
@@ -203,9 +203,9 @@
       "type": "washer",
       "num": 3,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-10-02T13:44:20.542Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-10-02T14:40:34.509Z",
+      "remainingSec": 2394
     },
     {
       "hwid": "546B5886",
@@ -217,7 +217,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-02T14:16:01.841Z",
-      "remainingSec": 1501
+      "remainingSec": 921
     },
     {
       "hwid": "CD62093C",
@@ -229,7 +229,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-02T14:24:30.284Z",
-      "remainingSec": 2009
+      "remainingSec": 1430
     },
     {
       "hwid": "BA6539AA",
@@ -239,9 +239,9 @@
       "type": "washer",
       "num": 4,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-10-02T13:52:23.099Z",
-      "remainingSec": 82
+      "remainingSec": 0
     },
     {
       "hwid": "E7985177",
