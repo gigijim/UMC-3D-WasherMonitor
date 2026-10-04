@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-10-04T03:30:33.645Z",
+  "updatedAt": "2026-10-04T03:40:22.326Z",
   "summary": {
     "total": 24,
-    "running": 11,
-    "idle": 12,
+    "running": 9,
+    "idle": 14,
     "offline": 1
   },
   "merchant": {
@@ -25,7 +25,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-04T03:49:17.820Z",
-      "remainingSec": 1124
+      "remainingSec": 535
     },
     {
       "hwid": "A399B0C6",
@@ -37,7 +37,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-04T03:49:44.289Z",
-      "remainingSec": 1150
+      "remainingSec": 561
     },
     {
       "hwid": "D49E8050",
@@ -73,7 +73,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-04T03:53:28.037Z",
-      "remainingSec": 1374
+      "remainingSec": 785
     },
     {
       "hwid": "A4F474DF",
@@ -109,7 +109,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-04T04:04:59.407Z",
-      "remainingSec": 2065
+      "remainingSec": 1477
     },
     {
       "hwid": "3DFD2565",
@@ -121,7 +121,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-04T04:05:05.701Z",
-      "remainingSec": 2072
+      "remainingSec": 1483
     },
     {
       "hwid": "AD4238F4",
@@ -145,7 +145,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-04T04:04:25.184Z",
-      "remainingSec": 2031
+      "remainingSec": 1442
     },
     {
       "hwid": "2401AC09",
@@ -193,7 +193,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-04T03:53:53.692Z",
-      "remainingSec": 1400
+      "remainingSec": 811
     },
     {
       "hwid": "236C6810",
@@ -205,7 +205,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-04T03:48:09.008Z",
-      "remainingSec": 1055
+      "remainingSec": 466
     },
     {
       "hwid": "546B5886",
@@ -241,7 +241,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-04T03:55:22.249Z",
-      "remainingSec": 1488
+      "remainingSec": 899
     },
     {
       "hwid": "E7985177",
@@ -275,9 +275,9 @@
       "type": "washer",
       "num": 2,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-10-04T03:32:59.520Z",
-      "remainingSec": 145
+      "remainingSec": 0
     },
     {
       "hwid": "97F2A5F8",
@@ -287,9 +287,9 @@
       "type": "washer",
       "num": 3,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-10-04T03:38:17.522Z",
-      "remainingSec": 463
+      "remainingSec": 0
     },
     {
       "hwid": "E0F5956E",
