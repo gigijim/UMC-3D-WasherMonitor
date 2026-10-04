@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-04T16:20:27.090Z",
-  "totalEvents": 1447,
-  "crawlCount": 3190,
+  "generatedAt": "2026-10-04T16:30:31.104Z",
+  "totalEvents": 1448,
+  "crawlCount": 3191,
   "floorComparison": [
     {
       "floor": "2F",
@@ -13,10 +13,10 @@
     },
     {
       "floor": "4F",
-      "cycles": 326,
-      "durationMin": 14118,
-      "cost": 7060,
-      "washerCycles": 226,
+      "cycles": 327,
+      "durationMin": 14158,
+      "cost": 7080,
+      "washerCycles": 227,
       "dryerCycles": 100
     },
     {
@@ -74,7 +74,7 @@
           "dayIndex": 1,
           "dayName": "週一",
           "hours": [
-            1,
+            2,
             1,
             1,
             0,
@@ -600,7 +600,7 @@
           "dayIndex": 1,
           "dayName": "週一",
           "hours": [
-            7,
+            8,
             1,
             2,
             0,
@@ -861,7 +861,7 @@
         "dayIndex": 1,
         "dayName": "週一",
         "hours": [
-          7,
+          8,
           1,
           2,
           0,
@@ -2222,10 +2222,10 @@
     },
     "4F": {
       "floor": "4F",
-      "totalCycles": 326,
-      "durationMin": 14118,
-      "cost": 7060,
-      "washerCycles": 226,
+      "totalCycles": 327,
+      "durationMin": 14158,
+      "cost": 7080,
+      "washerCycles": 227,
       "dryerCycles": 100,
       "machines": [
         {
@@ -2246,10 +2246,10 @@
           "floor": "4F",
           "machine_type": "washer",
           "machine_num": 2,
-          "total_cycles": 95,
-          "total_duration_min": 3800,
-          "total_cost_ntd": 1900,
-          "last_used_time": "2026-10-04T12:14:08.126Z",
+          "total_cycles": 96,
+          "total_duration_min": 3840,
+          "total_cost_ntd": 1920,
+          "last_used_time": "2026-10-04T17:01:14.487Z",
           "isOnline": true
         },
         {
@@ -2338,7 +2338,7 @@
             "dayIndex": 1,
             "dayName": "週一",
             "hours": [
-              0,
+              4,
               0,
               0,
               0,
@@ -2864,7 +2864,7 @@
             "dayIndex": 1,
             "dayName": "週一",
             "hours": [
-              0,
+              3,
               0,
               0,
               0,
@@ -3126,7 +3126,7 @@
           "dayIndex": 1,
           "dayName": "週一",
           "hours": [
-            0,
+            3,
             0,
             0,
             0,
@@ -7676,10 +7676,10 @@
       "type": "washer",
       "num": 2,
       "isOnline": true,
-      "totalCycles": 95,
-      "totalDurationMin": 3800,
-      "totalCost": 1900,
-      "lastUsedTime": "2026-10-04T12:14:08.126Z",
+      "totalCycles": 96,
+      "totalDurationMin": 3840,
+      "totalCost": 1920,
+      "lastUsedTime": "2026-10-04T17:01:14.487Z",
       "avgDurationMin": 40,
       "rankInType": 2,
       "totalInType": 16,
@@ -7736,7 +7736,7 @@
           "dayIndex": 1,
           "dayName": "週一",
           "hours": [
-            0,
+            17,
             0,
             0,
             0,
@@ -12742,10 +12742,10 @@
       "floor": "4F",
       "machine_type": "washer",
       "machine_num": 2,
-      "total_cycles": 95,
-      "total_duration_min": 3800,
-      "total_cost_ntd": 1900,
-      "last_used_time": "2026-10-04T12:14:08.126Z",
+      "total_cycles": 96,
+      "total_duration_min": 3840,
+      "total_cost_ntd": 1920,
+      "last_used_time": "2026-10-04T17:01:14.487Z",
       "isOnline": true
     },
     {
@@ -12960,10 +12960,10 @@
       "floor": "4F",
       "machine_type": "washer",
       "machine_num": 2,
-      "total_cycles": 95,
-      "total_duration_min": 3800,
-      "total_cost_ntd": 1900,
-      "last_used_time": "2026-10-04T12:14:08.126Z",
+      "total_cycles": 96,
+      "total_duration_min": 3840,
+      "total_cost_ntd": 1920,
+      "last_used_time": "2026-10-04T17:01:14.487Z",
       "isOnline": true
     },
     {
@@ -13100,7 +13100,7 @@
       "dayIndex": 1,
       "dayName": "週一",
       "hours": [
-        7,
+        8,
         1,
         2,
         0,
