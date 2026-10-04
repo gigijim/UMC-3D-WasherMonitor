@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-10-04T06:00:38.655Z",
+  "updatedAt": "2026-10-04T06:10:21.283Z",
   "summary": {
     "total": 24,
-    "running": 7,
-    "idle": 16,
+    "running": 8,
+    "idle": 15,
     "offline": 1
   },
   "merchant": {
@@ -47,9 +47,9 @@
       "type": "washer",
       "num": 2,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-10-04T05:56:43.776Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-10-04T06:46:24.146Z",
+      "remainingSec": 2162
     },
     {
       "hwid": "4D97D1EA",
@@ -61,7 +61,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-04T06:12:49.841Z",
-      "remainingSec": 731
+      "remainingSec": 148
     },
     {
       "hwid": "3A90E17C",
@@ -71,9 +71,9 @@
       "type": "dryer",
       "num": 1,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-10-04T03:53:28.037Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-10-04T07:01:37.953Z",
+      "remainingSec": 3076
     },
     {
       "hwid": "A4F474DF",
@@ -85,7 +85,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-04T06:15:34.449Z",
-      "remainingSec": 895
+      "remainingSec": 313
     },
     {
       "hwid": "D3F34449",
@@ -109,7 +109,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-04T06:33:00.270Z",
-      "remainingSec": 1941
+      "remainingSec": 1358
     },
     {
       "hwid": "3DFD2565",
@@ -119,9 +119,9 @@
       "type": "washer",
       "num": 2,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-10-04T06:09:40.733Z",
-      "remainingSec": 542
+      "remainingSec": 0
     },
     {
       "hwid": "AD4238F4",
@@ -205,7 +205,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-04T06:34:57.495Z",
-      "remainingSec": 2058
+      "remainingSec": 1476
     },
     {
       "hwid": "546B5886",
@@ -217,7 +217,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-04T07:10:41.983Z",
-      "remainingSec": 4203
+      "remainingSec": 3620
     },
     {
       "hwid": "CD62093C",
@@ -253,7 +253,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-04T06:12:09.284Z",
-      "remainingSec": 690
+      "remainingSec": 108
     },
     {
       "hwid": "7E9100CD",
