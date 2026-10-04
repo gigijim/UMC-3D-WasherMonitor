@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-10-04T06:30:29.802Z",
+  "updatedAt": "2026-10-04T06:40:22.862Z",
   "summary": {
     "total": 24,
-    "running": 8,
-    "idle": 15,
+    "running": 6,
+    "idle": 17,
     "offline": 1
   },
   "merchant": {
@@ -49,7 +49,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-04T06:46:24.146Z",
-      "remainingSec": 954
+      "remainingSec": 361
     },
     {
       "hwid": "4D97D1EA",
@@ -73,7 +73,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-04T07:01:37.953Z",
-      "remainingSec": 1868
+      "remainingSec": 1275
     },
     {
       "hwid": "A4F474DF",
@@ -107,9 +107,9 @@
       "type": "washer",
       "num": 1,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-10-04T06:33:00.270Z",
-      "remainingSec": 150
+      "remainingSec": 0
     },
     {
       "hwid": "3DFD2565",
@@ -145,7 +145,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-04T07:06:43.554Z",
-      "remainingSec": 2173
+      "remainingSec": 1580
     },
     {
       "hwid": "2401AC09",
@@ -157,7 +157,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-04T06:57:07.423Z",
-      "remainingSec": 1597
+      "remainingSec": 1004
     },
     {
       "hwid": "53069C9F",
@@ -203,9 +203,9 @@
       "type": "washer",
       "num": 3,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-10-04T06:34:57.495Z",
-      "remainingSec": 267
+      "remainingSec": 0
     },
     {
       "hwid": "546B5886",
@@ -217,7 +217,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-04T07:10:41.983Z",
-      "remainingSec": 2412
+      "remainingSec": 1819
     },
     {
       "hwid": "CD62093C",
@@ -301,7 +301,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-04T06:43:22.964Z",
-      "remainingSec": 773
+      "remainingSec": 180
     }
   ]
 }
