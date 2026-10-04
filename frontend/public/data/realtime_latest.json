@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-10-04T13:00:41.913Z",
+  "updatedAt": "2026-10-04T13:10:22.085Z",
   "summary": {
     "total": 24,
-    "running": 4,
-    "idle": 19,
+    "running": 7,
+    "idle": 16,
     "offline": 1
   },
   "merchant": {
@@ -119,9 +119,9 @@
       "type": "washer",
       "num": 2,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-10-04T09:52:06.551Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-10-04T13:41:21.542Z",
+      "remainingSec": 1859
     },
     {
       "hwid": "AD4238F4",
@@ -131,9 +131,9 @@
       "type": "washer",
       "num": 3,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-10-04T11:12:23.570Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-10-04T13:42:40.149Z",
+      "remainingSec": 1938
     },
     {
       "hwid": "DA450862",
@@ -167,9 +167,9 @@
       "type": "washer",
       "num": 4,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-10-04T05:31:35.716Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-10-04T13:42:50.151Z",
+      "remainingSec": 1948
     },
     {
       "hwid": "CA0FCD25",
@@ -217,7 +217,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-04T13:38:24.684Z",
-      "remainingSec": 2262
+      "remainingSec": 1682
     },
     {
       "hwid": "CD62093C",
@@ -229,7 +229,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-04T14:24:02.185Z",
-      "remainingSec": 5000
+      "remainingSec": 4420
     },
     {
       "hwid": "BA6539AA",
@@ -265,7 +265,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-04T13:33:20.636Z",
-      "remainingSec": 1958
+      "remainingSec": 1378
     },
     {
       "hwid": "0996305B",
@@ -289,7 +289,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-04T13:20:04.093Z",
-      "remainingSec": 1162
+      "remainingSec": 582
     },
     {
       "hwid": "E0F5956E",
