@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-05T12:00:41.235Z",
-  "totalEvents": 1471,
-  "crawlCount": 3312,
+  "generatedAt": "2026-10-05T12:10:25.727Z",
+  "totalEvents": 1472,
+  "crawlCount": 3313,
   "floorComparison": [
     {
       "floor": "2F",
@@ -29,11 +29,11 @@
     },
     {
       "floor": "8F",
-      "cycles": 386,
-      "durationMin": 17107,
-      "cost": 8560,
+      "cycles": 387,
+      "durationMin": 17167,
+      "cost": 8590,
       "washerCycles": 276,
-      "dryerCycles": 110
+      "dryerCycles": 111
     }
   ],
   "overall": {
@@ -357,7 +357,7 @@
             2,
             6,
             23,
-            16,
+            19,
             11,
             11,
             15
@@ -620,7 +620,7 @@
             4,
             13,
             26,
-            18,
+            19,
             14,
             12,
             11
@@ -881,7 +881,7 @@
           4,
           13,
           26,
-          18,
+          19,
           14,
           12,
           11
@@ -4486,11 +4486,11 @@
     },
     "8F": {
       "floor": "8F",
-      "totalCycles": 386,
-      "durationMin": 17107,
-      "cost": 8560,
+      "totalCycles": 387,
+      "durationMin": 17167,
+      "cost": 8590,
       "washerCycles": 276,
-      "dryerCycles": 110,
+      "dryerCycles": 111,
       "machines": [
         {
           "hwid": "CA0FCD25",
@@ -4546,10 +4546,10 @@
           "floor": "8F",
           "machine_type": "dryer",
           "machine_num": 1,
-          "total_cycles": 54,
-          "total_duration_min": 3114,
-          "total_cost_ntd": 1560,
-          "last_used_time": "2026-10-05T06:56:06.533Z",
+          "total_cycles": 55,
+          "total_duration_min": 3174,
+          "total_cost_ntd": 1590,
+          "last_used_time": "2026-10-05T13:09:46.026Z",
           "isOnline": true
         },
         {
@@ -4885,7 +4885,7 @@
               0,
               4,
               25,
-              21,
+              33,
               17,
               0,
               21
@@ -5063,7 +5063,7 @@
           0,
           17,
           26,
-          35,
+          38,
           25,
           21,
           27
@@ -5148,7 +5148,7 @@
               3,
               18,
               28,
-              21,
+              25,
               8,
               8,
               13
@@ -5326,7 +5326,7 @@
           4,
           13,
           17,
-          19,
+          20,
           19,
           14,
           17
@@ -5410,7 +5410,7 @@
             3,
             18,
             28,
-            21,
+            25,
             8,
             8,
             13
@@ -5588,7 +5588,7 @@
         4,
         13,
         17,
-        19,
+        20,
         19,
         14,
         17
@@ -12071,10 +12071,10 @@
       "type": "dryer",
       "num": 1,
       "isOnline": true,
-      "totalCycles": 54,
-      "totalDurationMin": 3114,
-      "totalCost": 1560,
-      "lastUsedTime": "2026-10-05T06:56:06.533Z",
+      "totalCycles": 55,
+      "totalDurationMin": 3174,
+      "totalCost": 1590,
+      "lastUsedTime": "2026-10-05T13:09:46.026Z",
       "avgDurationMin": 58,
       "rankInType": 5,
       "totalInType": 8,
@@ -12086,7 +12086,7 @@
         },
         {
           "hour": 20,
-          "rate": 56,
+          "rate": 48,
           "label": "20:00 ~ 21:00"
         },
         {
@@ -12151,7 +12151,7 @@
             0,
             8,
             50,
-            0,
+            25,
             0,
             0,
             0
@@ -12329,7 +12329,7 @@
         0,
         21,
         37,
-        56,
+        48,
         48,
         41,
         99
@@ -12922,10 +12922,10 @@
       "floor": "8F",
       "machine_type": "dryer",
       "machine_num": 1,
-      "total_cycles": 54,
-      "total_duration_min": 3114,
-      "total_cost_ntd": 1560,
-      "last_used_time": "2026-10-05T06:56:06.533Z",
+      "total_cycles": 55,
+      "total_duration_min": 3174,
+      "total_cost_ntd": 1590,
+      "last_used_time": "2026-10-05T13:09:46.026Z",
       "isOnline": true
     },
     {
@@ -13120,7 +13120,7 @@
         4,
         13,
         26,
-        18,
+        19,
         14,
         12,
         11
