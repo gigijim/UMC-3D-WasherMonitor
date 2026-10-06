@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-10-06T14:10:23.890Z",
+  "updatedAt": "2026-10-06T14:20:30.214Z",
   "summary": {
     "total": 24,
-    "running": 8,
-    "idle": 15,
+    "running": 7,
+    "idle": 16,
     "offline": 1
   },
   "merchant": {
@@ -48,8 +48,8 @@
       "num": 2,
       "connection": true,
       "isRunning": true,
-      "dueTime": "2026-10-06T14:14:42.005Z",
-      "remainingSec": 258
+      "dueTime": "2026-10-06T15:00:03.518Z",
+      "remainingSec": 2373
     },
     {
       "hwid": "4D97D1EA",
@@ -73,7 +73,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-06T14:30:52.219Z",
-      "remainingSec": 1228
+      "remainingSec": 622
     },
     {
       "hwid": "A4F474DF",
@@ -95,9 +95,9 @@
       "type": "washer",
       "num": 4,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-10-06T14:19:32.556Z",
-      "remainingSec": 548
+      "remainingSec": 0
     },
     {
       "hwid": "4AFA15F3",
@@ -133,7 +133,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-06T14:36:38.513Z",
-      "remainingSec": 1574
+      "remainingSec": 968
     },
     {
       "hwid": "DA450862",
@@ -167,9 +167,9 @@
       "type": "washer",
       "num": 4,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-10-06T12:41:08.249Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-10-06T14:52:31.376Z",
+      "remainingSec": 1921
     },
     {
       "hwid": "CA0FCD25",
@@ -193,7 +193,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-06T14:32:38.857Z",
-      "remainingSec": 1334
+      "remainingSec": 728
     },
     {
       "hwid": "236C6810",
@@ -203,9 +203,9 @@
       "type": "washer",
       "num": 3,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-10-06T14:14:39.309Z",
-      "remainingSec": 255
+      "remainingSec": 0
     },
     {
       "hwid": "546B5886",
@@ -241,7 +241,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-06T14:33:04.822Z",
-      "remainingSec": 1360
+      "remainingSec": 754
     },
     {
       "hwid": "E7985177",
@@ -301,7 +301,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-06T14:38:54.713Z",
-      "remainingSec": 1710
+      "remainingSec": 1104
     }
   ]
 }
