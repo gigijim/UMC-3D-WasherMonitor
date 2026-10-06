@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-10-06T15:20:23.009Z",
+  "updatedAt": "2026-10-06T15:30:31.630Z",
   "summary": {
     "total": 24,
-    "running": 4,
-    "idle": 19,
+    "running": 7,
+    "idle": 16,
     "offline": 1
   },
   "merchant": {
@@ -119,9 +119,9 @@
       "type": "washer",
       "num": 2,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-10-06T14:10:09.363Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-10-06T16:08:38.999Z",
+      "remainingSec": 2287
     },
     {
       "hwid": "AD4238F4",
@@ -155,9 +155,9 @@
       "type": "dryer",
       "num": 2,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-10-06T13:24:30.031Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-10-06T16:01:00.430Z",
+      "remainingSec": 1828
     },
     {
       "hwid": "53069C9F",
@@ -167,9 +167,9 @@
       "type": "washer",
       "num": 4,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-10-06T14:52:31.376Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-10-06T16:03:49.102Z",
+      "remainingSec": 1997
     },
     {
       "hwid": "CA0FCD25",
@@ -193,7 +193,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-06T15:36:20.999Z",
-      "remainingSec": 957
+      "remainingSec": 349
     },
     {
       "hwid": "236C6810",
@@ -205,7 +205,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-06T15:36:19.342Z",
-      "remainingSec": 956
+      "remainingSec": 347
     },
     {
       "hwid": "546B5886",
@@ -229,7 +229,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-06T15:36:25.901Z",
-      "remainingSec": 962
+      "remainingSec": 354
     },
     {
       "hwid": "BA6539AA",
@@ -241,7 +241,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-06T15:44:47.335Z",
-      "remainingSec": 1464
+      "remainingSec": 855
     },
     {
       "hwid": "E7985177",
