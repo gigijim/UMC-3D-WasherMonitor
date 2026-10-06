@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-10-06T16:00:41.488Z",
+  "updatedAt": "2026-10-06T16:10:23.227Z",
   "summary": {
     "total": 24,
-    "running": 6,
-    "idle": 17,
+    "running": 4,
+    "idle": 19,
     "offline": 1
   },
   "merchant": {
@@ -49,7 +49,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-06T16:12:49.180Z",
-      "remainingSec": 727
+      "remainingSec": 145
     },
     {
       "hwid": "4D97D1EA",
@@ -109,7 +109,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-06T16:16:55.367Z",
-      "remainingSec": 973
+      "remainingSec": 392
     },
     {
       "hwid": "3DFD2565",
@@ -119,9 +119,9 @@
       "type": "washer",
       "num": 2,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-10-06T16:08:38.999Z",
-      "remainingSec": 477
+      "remainingSec": 0
     },
     {
       "hwid": "AD4238F4",
@@ -155,9 +155,9 @@
       "type": "dryer",
       "num": 2,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-10-06T16:01:00.430Z",
-      "remainingSec": 18
+      "remainingSec": 0
     },
     {
       "hwid": "53069C9F",
@@ -167,9 +167,9 @@
       "type": "washer",
       "num": 4,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-10-06T16:03:49.102Z",
-      "remainingSec": 187
+      "remainingSec": 0
     },
     {
       "hwid": "CA0FCD25",
@@ -203,9 +203,9 @@
       "type": "washer",
       "num": 3,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-10-06T15:36:19.342Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-10-06T16:44:10.593Z",
+      "remainingSec": 2027
     },
     {
       "hwid": "546B5886",
@@ -217,7 +217,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-06T16:44:01.724Z",
-      "remainingSec": 2600
+      "remainingSec": 2018
     },
     {
       "hwid": "CD62093C",
