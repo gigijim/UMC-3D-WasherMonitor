@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-10-07T13:30:32.837Z",
+  "updatedAt": "2026-10-07T13:40:25.964Z",
   "summary": {
     "total": 24,
-    "running": 10,
-    "idle": 13,
+    "running": 13,
+    "idle": 10,
     "offline": 1
   },
   "merchant": {
@@ -25,7 +25,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-07T13:50:56.916Z",
-      "remainingSec": 1224
+      "remainingSec": 630
     },
     {
       "hwid": "A399B0C6",
@@ -59,9 +59,9 @@
       "type": "washer",
       "num": 3,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-10-07T13:07:56.626Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-10-07T14:14:46.273Z",
+      "remainingSec": 2060
     },
     {
       "hwid": "3A90E17C",
@@ -71,9 +71,9 @@
       "type": "dryer",
       "num": 1,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-10-07T13:38:40.760Z",
-      "remainingSec": 487
+      "remainingSec": 0
     },
     {
       "hwid": "A4F474DF",
@@ -85,7 +85,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-07T13:44:34.622Z",
-      "remainingSec": 841
+      "remainingSec": 248
     },
     {
       "hwid": "D3F34449",
@@ -95,9 +95,9 @@
       "type": "washer",
       "num": 4,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-10-07T12:40:18.823Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-10-07T14:14:56.628Z",
+      "remainingSec": 2070
     },
     {
       "hwid": "4AFA15F3",
@@ -107,9 +107,9 @@
       "type": "washer",
       "num": 1,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-10-07T12:30:39.516Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-10-07T14:12:19.606Z",
+      "remainingSec": 1913
     },
     {
       "hwid": "3DFD2565",
@@ -133,7 +133,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-07T13:51:34.396Z",
-      "remainingSec": 1261
+      "remainingSec": 668
     },
     {
       "hwid": "DA450862",
@@ -145,7 +145,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-07T13:49:47.472Z",
-      "remainingSec": 1154
+      "remainingSec": 561
     },
     {
       "hwid": "2401AC09",
@@ -157,7 +157,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-07T13:40:28.720Z",
-      "remainingSec": 595
+      "remainingSec": 2
     },
     {
       "hwid": "53069C9F",
@@ -169,7 +169,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-07T14:06:03.938Z",
-      "remainingSec": 2131
+      "remainingSec": 1537
     },
     {
       "hwid": "CA0FCD25",
@@ -193,7 +193,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-07T13:50:35.196Z",
-      "remainingSec": 1202
+      "remainingSec": 609
     },
     {
       "hwid": "236C6810",
@@ -229,7 +229,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-07T13:41:04.480Z",
-      "remainingSec": 631
+      "remainingSec": 38
     },
     {
       "hwid": "BA6539AA",
@@ -263,9 +263,9 @@
       "type": "washer",
       "num": 1,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-10-07T13:40:00.748Z",
-      "remainingSec": 567
+      "remainingSec": 0
     },
     {
       "hwid": "0996305B",
@@ -275,9 +275,9 @@
       "type": "washer",
       "num": 2,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-10-07T12:33:02.617Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-10-07T14:18:16.317Z",
+      "remainingSec": 2270
     },
     {
       "hwid": "97F2A5F8",
@@ -299,9 +299,9 @@
       "type": "dryer",
       "num": 1,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-10-07T13:19:02.705Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-10-07T14:16:47.607Z",
+      "remainingSec": 2181
     }
   ]
 }
