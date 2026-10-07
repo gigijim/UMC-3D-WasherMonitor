@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-10-07T11:10:20.765Z",
+  "updatedAt": "2026-10-07T11:20:22.656Z",
   "summary": {
     "total": 24,
-    "running": 5,
-    "idle": 18,
+    "running": 6,
+    "idle": 17,
     "offline": 1
   },
   "merchant": {
@@ -49,7 +49,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-07T11:42:58.114Z",
-      "remainingSec": 1957
+      "remainingSec": 1355
     },
     {
       "hwid": "4D97D1EA",
@@ -85,7 +85,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-07T11:58:11.403Z",
-      "remainingSec": 2870
+      "remainingSec": 2268
     },
     {
       "hwid": "D3F34449",
@@ -119,9 +119,9 @@
       "type": "washer",
       "num": 2,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-10-07T11:19:39.197Z",
-      "remainingSec": 558
+      "remainingSec": 0
     },
     {
       "hwid": "AD4238F4",
@@ -131,9 +131,9 @@
       "type": "washer",
       "num": 3,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-10-07T11:00:40.610Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-10-07T11:55:58.332Z",
+      "remainingSec": 2135
     },
     {
       "hwid": "DA450862",
@@ -145,7 +145,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-07T11:39:53.745Z",
-      "remainingSec": 1772
+      "remainingSec": 1171
     },
     {
       "hwid": "2401AC09",
@@ -155,9 +155,9 @@
       "type": "dryer",
       "num": 2,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-10-07T00:02:03.251Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-10-07T11:57:59.840Z",
+      "remainingSec": 2257
     },
     {
       "hwid": "53069C9F",
@@ -193,7 +193,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-07T11:32:49.258Z",
-      "remainingSec": 1348
+      "remainingSec": 746
     },
     {
       "hwid": "236C6810",
