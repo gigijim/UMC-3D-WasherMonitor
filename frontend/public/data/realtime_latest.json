@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-07T11:40:21.922Z",
+  "updatedAt": "2026-10-07T11:50:21.713Z",
   "summary": {
     "total": 24,
     "running": 7,
@@ -47,9 +47,9 @@
       "type": "washer",
       "num": 2,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-10-07T11:42:58.114Z",
-      "remainingSec": 156
+      "remainingSec": 0
     },
     {
       "hwid": "4D97D1EA",
@@ -85,7 +85,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-07T11:58:11.403Z",
-      "remainingSec": 1069
+      "remainingSec": 469
     },
     {
       "hwid": "D3F34449",
@@ -119,9 +119,9 @@
       "type": "washer",
       "num": 2,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-10-07T11:19:39.197Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-10-07T12:22:53.302Z",
+      "remainingSec": 1951
     },
     {
       "hwid": "AD4238F4",
@@ -133,7 +133,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-07T11:55:58.332Z",
-      "remainingSec": 936
+      "remainingSec": 336
     },
     {
       "hwid": "DA450862",
@@ -157,7 +157,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-07T11:57:59.840Z",
-      "remainingSec": 1057
+      "remainingSec": 458
     },
     {
       "hwid": "53069C9F",
@@ -241,7 +241,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-07T12:02:13.280Z",
-      "remainingSec": 1311
+      "remainingSec": 711
     },
     {
       "hwid": "E7985177",
@@ -253,7 +253,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-07T12:10:24.390Z",
-      "remainingSec": 1802
+      "remainingSec": 1202
     },
     {
       "hwid": "7E9100CD",
@@ -289,7 +289,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-07T12:16:28.350Z",
-      "remainingSec": 2166
+      "remainingSec": 1566
     },
     {
       "hwid": "E0F5956E",
