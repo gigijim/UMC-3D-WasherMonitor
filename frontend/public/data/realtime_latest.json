@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-10-07T15:40:26.218Z",
+  "updatedAt": "2026-10-07T15:50:26.080Z",
   "summary": {
     "total": 24,
-    "running": 4,
-    "idle": 19,
+    "running": 7,
+    "idle": 16,
     "offline": 1
   },
   "merchant": {
@@ -25,7 +25,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-07T15:53:54.953Z",
-      "remainingSec": 808
+      "remainingSec": 208
     },
     {
       "hwid": "A399B0C6",
@@ -73,7 +73,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-07T15:53:23.784Z",
-      "remainingSec": 777
+      "remainingSec": 177
     },
     {
       "hwid": "A4F474DF",
@@ -109,7 +109,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-07T15:52:29.870Z",
-      "remainingSec": 723
+      "remainingSec": 123
     },
     {
       "hwid": "3DFD2565",
@@ -143,9 +143,9 @@
       "type": "washer",
       "num": 3,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-10-07T14:38:22.464Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-10-07T16:28:35.028Z",
+      "remainingSec": 2288
     },
     {
       "hwid": "546B5886",
@@ -191,9 +191,9 @@
       "type": "washer",
       "num": 2,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-10-07T14:53:03.010Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-10-07T16:28:30.631Z",
+      "remainingSec": 2284
     },
     {
       "hwid": "DA450862",
@@ -251,9 +251,9 @@
       "type": "dryer",
       "num": 1,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-10-07T14:16:47.607Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-10-07T16:40:27.813Z",
+      "remainingSec": 3001
     },
     {
       "hwid": "E7985177",
@@ -277,7 +277,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-07T16:03:12.114Z",
-      "remainingSec": 1365
+      "remainingSec": 766
     },
     {
       "hwid": "0996305B",
