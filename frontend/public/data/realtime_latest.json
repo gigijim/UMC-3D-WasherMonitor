@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-09T05:00:36.881Z",
+  "updatedAt": "2026-10-09T05:10:22.504Z",
   "summary": {
     "total": 24,
     "running": 3,
@@ -23,9 +23,9 @@
       "type": "dryer",
       "num": 2,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-10-09T03:35:19.584Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-10-09T05:42:31.927Z",
+      "remainingSec": 1929
     },
     {
       "hwid": "A399B0C6",
@@ -71,9 +71,9 @@
       "type": "washer",
       "num": 3,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-10-09T05:02:10.102Z",
-      "remainingSec": 93
+      "remainingSec": 0
     },
     {
       "hwid": "A4F474DF",
@@ -133,7 +133,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-09T05:29:48.579Z",
-      "remainingSec": 1751
+      "remainingSec": 1166
     },
     {
       "hwid": "236C6810",
@@ -265,7 +265,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-09T05:32:29.487Z",
-      "remainingSec": 1912
+      "remainingSec": 1326
     },
     {
       "hwid": "7E9100CD",
