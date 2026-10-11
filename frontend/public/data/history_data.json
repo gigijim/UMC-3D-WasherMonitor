@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-11T14:30:32.103Z",
-  "totalEvents": 1831,
-  "crawlCount": 4206,
+  "generatedAt": "2026-10-11T14:40:29.699Z",
+  "totalEvents": 1832,
+  "crawlCount": 4207,
   "floorComparison": [
     {
       "floor": "2F",
@@ -29,10 +29,10 @@
     },
     {
       "floor": "8F",
-      "cycles": 465,
-      "durationMin": 20747,
-      "cost": 10380,
-      "washerCycles": 334,
+      "cycles": 466,
+      "durationMin": 20787,
+      "cost": 10400,
+      "washerCycles": 335,
       "dryerCycles": 131
     }
   ],
@@ -4486,10 +4486,10 @@
     },
     "8F": {
       "floor": "8F",
-      "totalCycles": 465,
-      "durationMin": 20747,
-      "cost": 10380,
-      "washerCycles": 334,
+      "totalCycles": 466,
+      "durationMin": 20787,
+      "cost": 10400,
+      "washerCycles": 335,
       "dryerCycles": 131,
       "machines": [
         {
@@ -4510,10 +4510,10 @@
           "floor": "8F",
           "machine_type": "washer",
           "machine_num": 2,
-          "total_cycles": 99,
-          "total_duration_min": 3960,
-          "total_cost_ntd": 1980,
-          "last_used_time": "2026-10-11T12:52:36.061Z",
+          "total_cycles": 100,
+          "total_duration_min": 4000,
+          "total_cost_ntd": 2000,
+          "last_used_time": "2026-10-11T15:17:22.663Z",
           "isOnline": true
         },
         {
@@ -4594,7 +4594,7 @@
               17,
               13,
               20,
-              17,
+              20,
               17
             ]
           },
@@ -4802,7 +4802,7 @@
           13,
           19,
           18,
-          12,
+          13,
           13
         ],
         "bestTimeWindows": [
@@ -5120,7 +5120,7 @@
               22,
               31,
               17,
-              25,
+              28,
               40
             ]
           },
@@ -5382,7 +5382,7 @@
             22,
             31,
             17,
-            25,
+            28,
             40
           ]
         },
@@ -11192,10 +11192,10 @@
       "type": "washer",
       "num": 2,
       "isOnline": true,
-      "totalCycles": 99,
-      "totalDurationMin": 3960,
-      "totalCost": 1980,
-      "lastUsedTime": "2026-10-11T12:52:36.061Z",
+      "totalCycles": 100,
+      "totalDurationMin": 4000,
+      "totalCost": 2000,
+      "lastUsedTime": "2026-10-11T15:17:22.663Z",
       "avgDurationMin": 40,
       "rankInType": 5,
       "totalInType": 16,
@@ -11206,14 +11206,14 @@
           "label": "23:00 ~ 00:00"
         },
         {
+          "hour": 22,
+          "rate": 29,
+          "label": "22:00 ~ 23:00"
+        },
+        {
           "hour": 19,
           "rate": 27,
           "label": "19:00 ~ 20:00"
-        },
-        {
-          "hour": 22,
-          "rate": 27,
-          "label": "22:00 ~ 23:00"
         }
       ],
       "capacityCount": 1,
@@ -11244,7 +11244,7 @@
             27,
             13,
             13,
-            13,
+            27,
             27
           ]
         },
@@ -11452,7 +11452,7 @@
         27,
         22,
         24,
-        27,
+        29,
         30
       ],
       "bestTimeWindows": [
@@ -12886,10 +12886,10 @@
       "floor": "8F",
       "machine_type": "washer",
       "machine_num": 2,
-      "total_cycles": 99,
-      "total_duration_min": 3960,
-      "total_cost_ntd": 1980,
-      "last_used_time": "2026-10-11T12:52:36.061Z",
+      "total_cycles": 100,
+      "total_duration_min": 4000,
+      "total_cost_ntd": 2000,
+      "last_used_time": "2026-10-11T15:17:22.663Z",
       "isOnline": true
     },
     {
@@ -12996,10 +12996,10 @@
       "floor": "8F",
       "machine_type": "washer",
       "machine_num": 2,
-      "total_cycles": 99,
-      "total_duration_min": 3960,
-      "total_cost_ntd": 1980,
-      "last_used_time": "2026-10-11T12:52:36.061Z",
+      "total_cycles": 100,
+      "total_duration_min": 4000,
+      "total_cost_ntd": 2000,
+      "last_used_time": "2026-10-11T15:17:22.663Z",
       "isOnline": true
     }
   ],
