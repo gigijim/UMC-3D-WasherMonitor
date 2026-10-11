@@ -1,14 +1,14 @@
 {
-  "generatedAt": "2026-10-11T10:30:31.340Z",
-  "totalEvents": 1805,
-  "crawlCount": 4181,
+  "generatedAt": "2026-10-11T10:40:21.839Z",
+  "totalEvents": 1806,
+  "crawlCount": 4182,
   "floorComparison": [
     {
       "floor": "2F",
-      "cycles": 433,
-      "durationMin": 17559,
-      "cost": 8780,
-      "washerCycles": 289,
+      "cycles": 434,
+      "durationMin": 17599,
+      "cost": 8800,
+      "washerCycles": 290,
       "dryerCycles": 144
     },
     {
@@ -62,7 +62,7 @@
             8,
             17,
             7,
-            10,
+            11,
             13,
             13,
             25,
@@ -1090,10 +1090,10 @@
   "byFloor": {
     "2F": {
       "floor": "2F",
-      "totalCycles": 433,
-      "durationMin": 17559,
-      "cost": 8780,
-      "washerCycles": 289,
+      "totalCycles": 434,
+      "durationMin": 17599,
+      "cost": 8800,
+      "washerCycles": 290,
       "dryerCycles": 144,
       "machines": [
         {
@@ -1102,10 +1102,10 @@
           "floor": "2F",
           "machine_type": "washer",
           "machine_num": 1,
-          "total_cycles": 65,
-          "total_duration_min": 2600,
-          "total_cost_ntd": 1300,
-          "last_used_time": "2026-10-11T03:45:05.303Z",
+          "total_cycles": 66,
+          "total_duration_min": 2640,
+          "total_cost_ntd": 1320,
+          "last_used_time": "2026-10-11T11:11:27.122Z",
           "isOnline": true
         },
         {
@@ -1194,7 +1194,7 @@
               7,
               20,
               3,
-              10,
+              13,
               20,
               27,
               20,
@@ -1402,7 +1402,7 @@
           4,
           12,
           6,
-          7,
+          8,
           12,
           19,
           22,
@@ -1720,7 +1720,7 @@
               6,
               14,
               6,
-              10,
+              12,
               13,
               24,
               16,
@@ -1982,7 +1982,7 @@
             6,
             14,
             6,
-            10,
+            12,
             13,
             24,
             16,
@@ -5625,28 +5625,28 @@
       "type": "washer",
       "num": 1,
       "isOnline": true,
-      "totalCycles": 65,
-      "totalDurationMin": 2600,
-      "totalCost": 1300,
-      "lastUsedTime": "2026-10-11T03:45:05.303Z",
+      "totalCycles": 66,
+      "totalDurationMin": 2640,
+      "totalCost": 1320,
+      "lastUsedTime": "2026-10-11T11:11:27.122Z",
       "avgDurationMin": 40,
-      "rankInType": 12,
+      "rankInType": 11,
       "totalInType": 16,
       "peakSlots": [
         {
           "hour": 11,
-          "rate": 34,
+          "rate": 27,
           "label": "11:00 ~ 12:00"
         },
         {
-          "hour": 12,
-          "rate": 34,
-          "label": "12:00 ~ 13:00"
+          "hour": 19,
+          "rate": 27,
+          "label": "19:00 ~ 20:00"
         },
         {
-          "hour": 19,
-          "rate": 33,
-          "label": "19:00 ~ 20:00"
+          "hour": 12,
+          "rate": 26,
+          "label": "12:00 ~ 13:00"
         }
       ],
       "capacityCount": 1,
@@ -5661,24 +5661,24 @@
             0,
             0,
             0,
-            17,
-            17,
-            17,
+            13,
+            13,
+            13,
             0,
-            17,
-            50,
-            0,
-            0,
-            17,
-            17,
-            17,
+            13,
+            40,
             0,
             0,
-            33,
-            33,
-            33,
-            33,
-            17
+            13,
+            13,
+            13,
+            0,
+            13,
+            27,
+            27,
+            27,
+            27,
+            13
           ]
         },
         {
@@ -5696,19 +5696,19 @@
             0,
             0,
             0,
-            17,
+            13,
             0,
-            17,
-            17,
-            0,
-            0,
+            13,
+            13,
             0,
             0,
             0,
-            17,
-            17,
-            17,
-            17
+            0,
+            0,
+            13,
+            13,
+            13,
+            13
           ]
         },
         {
@@ -5735,10 +5735,10 @@
             0,
             0,
             0,
-            33,
-            33,
+            27,
+            27,
             0,
-            17
+            13
           ]
         },
         {
@@ -5746,7 +5746,7 @@
           "dayName": "週三",
           "hours": [
             0,
-            17,
+            13,
             0,
             0,
             0,
@@ -5763,12 +5763,12 @@
             0,
             0,
             0,
-            17,
-            33,
-            33,
-            67,
-            33,
-            67
+            13,
+            27,
+            27,
+            53,
+            27,
+            53
           ]
         },
         {
@@ -5784,19 +5784,19 @@
             0,
             0,
             0,
-            17,
+            13,
             0,
             0,
-            17,
+            13,
             0,
             0,
             0,
             0,
-            17,
+            13,
             0,
             0,
-            17,
-            17,
+            13,
+            13,
             0,
             0
           ]
@@ -5805,7 +5805,7 @@
           "dayIndex": 5,
           "dayName": "週五",
           "hours": [
-            17,
+            13,
             0,
             0,
             0,
@@ -5817,7 +5817,7 @@
             0,
             0,
             0,
-            17,
+            13,
             0,
             0,
             0,
@@ -5826,7 +5826,7 @@
             0,
             0,
             0,
-            17,
+            13,
             0,
             0
           ]
@@ -5841,73 +5841,73 @@
             0,
             0,
             0,
-            33,
+            27,
             0,
             0,
-            17,
+            13,
             0,
             0,
-            67,
-            0,
-            0,
-            0,
+            53,
             0,
             0,
             0,
             0,
-            17,
-            17,
             0,
-            17
+            0,
+            0,
+            13,
+            13,
+            0,
+            13
           ]
         }
       ],
       "hourlyAverages": [
-        17,
-        17,
+        13,
+        13,
         0,
         0,
         0,
         0,
-        25,
-        17,
-        17,
-        17,
-        17,
-        34,
-        34,
-        17,
-        17,
-        17,
-        17,
-        17,
-        17,
-        33,
-        25,
-        29,
-        28,
-        27
+        20,
+        13,
+        13,
+        13,
+        13,
+        27,
+        26,
+        13,
+        13,
+        13,
+        13,
+        13,
+        13,
+        27,
+        20,
+        23,
+        22,
+        21
       ],
       "bestTimeWindows": [
         {
           "hour": 8,
           "label": "08:00 ~ 09:00",
-          "rate": 17
+          "rate": 13
         },
         {
           "hour": 9,
           "label": "09:00 ~ 10:00",
-          "rate": 17
+          "rate": 13
         },
         {
           "hour": 10,
           "label": "10:00 ~ 11:00",
-          "rate": 17
+          "rate": 13
         },
         {
           "hour": 13,
           "label": "13:00 ~ 14:00",
-          "rate": 17
+          "rate": 13
         }
       ]
     },
@@ -7974,7 +7974,7 @@
       "totalCost": 1320,
       "lastUsedTime": "2026-10-11T06:41:19.254Z",
       "avgDurationMin": 40,
-      "rankInType": 11,
+      "rankInType": 12,
       "totalInType": 16,
       "peakSlots": [
         {
@@ -12658,10 +12658,10 @@
       "floor": "2F",
       "machine_type": "washer",
       "machine_num": 1,
-      "total_cycles": 65,
-      "total_duration_min": 2600,
-      "total_cost_ntd": 1300,
-      "last_used_time": "2026-10-11T03:45:05.303Z",
+      "total_cycles": 66,
+      "total_duration_min": 2640,
+      "total_cost_ntd": 1320,
+      "last_used_time": "2026-10-11T11:11:27.122Z",
       "isOnline": true
     },
     {
