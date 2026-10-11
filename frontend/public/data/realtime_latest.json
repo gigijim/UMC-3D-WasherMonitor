@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-10-11T11:10:21.927Z",
+  "updatedAt": "2026-10-11T11:20:21.027Z",
   "summary": {
     "total": 24,
-    "running": 5,
-    "idle": 18,
+    "running": 6,
+    "idle": 17,
     "offline": 1
   },
   "merchant": {
@@ -25,7 +25,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-11T11:38:49.472Z",
-      "remainingSec": 1707
+      "remainingSec": 1108
     },
     {
       "hwid": "A399B0C6",
@@ -109,7 +109,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-11T11:41:54.329Z",
-      "remainingSec": 1892
+      "remainingSec": 1293
     },
     {
       "hwid": "3DFD2565",
@@ -121,7 +121,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-11T11:43:43.053Z",
-      "remainingSec": 2001
+      "remainingSec": 1402
     },
     {
       "hwid": "AD4238F4",
@@ -131,9 +131,9 @@
       "type": "washer",
       "num": 3,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-10-11T08:57:20.786Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-10-11T11:53:28.149Z",
+      "remainingSec": 1987
     },
     {
       "hwid": "236C6810",
@@ -157,7 +157,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-11T11:39:25.042Z",
-      "remainingSec": 1743
+      "remainingSec": 1144
     },
     {
       "hwid": "2401AC09",
@@ -251,9 +251,9 @@
       "type": "dryer",
       "num": 1,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-10-11T10:06:27.505Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-10-11T11:52:19.083Z",
+      "remainingSec": 1918
     },
     {
       "hwid": "E7985177",
@@ -275,9 +275,9 @@
       "type": "washer",
       "num": 1,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-10-11T11:11:27.122Z",
-      "remainingSec": 65
+      "remainingSec": 0
     },
     {
       "hwid": "0996305B",
