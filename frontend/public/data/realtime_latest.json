@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-13T14:30:33.779Z",
+  "updatedAt": "2026-10-13T14:40:23.749Z",
   "summary": {
     "total": 24,
     "running": 7,
@@ -47,9 +47,9 @@
       "type": "washer",
       "num": 2,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-10-13T14:31:48.387Z",
-      "remainingSec": 74
+      "remainingSec": 0
     },
     {
       "hwid": "3A90E17C",
@@ -121,7 +121,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-13T15:05:10.947Z",
-      "remainingSec": 2077
+      "remainingSec": 1487
     },
     {
       "hwid": "AD4238F4",
@@ -133,7 +133,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-13T14:58:06.331Z",
-      "remainingSec": 1652
+      "remainingSec": 1062
     },
     {
       "hwid": "236C6810",
@@ -145,7 +145,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-13T15:01:17.419Z",
-      "remainingSec": 1843
+      "remainingSec": 1253
     },
     {
       "hwid": "546B5886",
@@ -193,7 +193,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-13T14:45:32.266Z",
-      "remainingSec": 898
+      "remainingSec": 308
     },
     {
       "hwid": "DA450862",
@@ -229,7 +229,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-13T14:41:39.936Z",
-      "remainingSec": 666
+      "remainingSec": 76
     },
     {
       "hwid": "BA6539AA",
@@ -240,8 +240,8 @@
       "num": 4,
       "connection": true,
       "isRunning": true,
-      "dueTime": "2026-10-13T14:35:32.620Z",
-      "remainingSec": 298
+      "dueTime": "2026-10-13T15:19:56.950Z",
+      "remainingSec": 2373
     },
     {
       "hwid": "E0F5956E",
@@ -299,9 +299,9 @@
       "type": "washer",
       "num": 3,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-10-13T13:38:10.196Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-10-13T15:10:53.180Z",
+      "remainingSec": 1829
     }
   ]
 }
