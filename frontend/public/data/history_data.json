@@ -1,14 +1,14 @@
 {
-  "generatedAt": "2026-10-13T17:50:23.518Z",
-  "totalEvents": 1953,
-  "crawlCount": 4522,
+  "generatedAt": "2026-10-13T18:00:44.120Z",
+  "totalEvents": 1955,
+  "crawlCount": 4523,
   "floorComparison": [
     {
       "floor": "2F",
-      "cycles": 463,
-      "durationMin": 18759,
-      "cost": 9380,
-      "washerCycles": 311,
+      "cycles": 465,
+      "durationMin": 18839,
+      "cost": 9420,
+      "washerCycles": 313,
       "dryerCycles": 152
     },
     {
@@ -135,7 +135,7 @@
           "dayName": "週三",
           "hours": [
             7,
-            7,
+            8,
             0,
             1,
             0,
@@ -661,7 +661,7 @@
           "dayName": "週三",
           "hours": [
             8,
-            6,
+            8,
             0,
             1,
             1,
@@ -922,7 +922,7 @@
         "dayName": "週三",
         "hours": [
           8,
-          6,
+          8,
           0,
           1,
           1,
@@ -1090,10 +1090,10 @@
   "byFloor": {
     "2F": {
       "floor": "2F",
-      "totalCycles": 463,
-      "durationMin": 18759,
-      "cost": 9380,
-      "washerCycles": 311,
+      "totalCycles": 465,
+      "durationMin": 18839,
+      "cost": 9420,
+      "washerCycles": 313,
       "dryerCycles": 152,
       "machines": [
         {
@@ -1102,10 +1102,10 @@
           "floor": "2F",
           "machine_type": "washer",
           "machine_num": 1,
-          "total_cycles": 70,
-          "total_duration_min": 2800,
-          "total_cost_ntd": 1400,
-          "last_used_time": "2026-10-13T16:49:42.609Z",
+          "total_cycles": 71,
+          "total_duration_min": 2840,
+          "total_cost_ntd": 1420,
+          "last_used_time": "2026-10-13T18:35:57.024Z",
           "isOnline": true
         },
         {
@@ -1126,10 +1126,10 @@
           "floor": "2F",
           "machine_type": "washer",
           "machine_num": 3,
-          "total_cycles": 84,
-          "total_duration_min": 3360,
-          "total_cost_ntd": 1680,
-          "last_used_time": "2026-10-13T16:15:15.316Z",
+          "total_cycles": 85,
+          "total_duration_min": 3400,
+          "total_cost_ntd": 1700,
+          "last_used_time": "2026-10-13T18:35:00.897Z",
           "isOnline": true
         },
         {
@@ -1267,7 +1267,7 @@
             "dayName": "週三",
             "hours": [
               10,
-              7,
+              13,
               0,
               0,
               0,
@@ -1385,7 +1385,7 @@
         ],
         "hourlyAverages": [
           6,
-          7,
+          10,
           0,
           3,
           0,
@@ -1793,7 +1793,7 @@
             "dayName": "週三",
             "hours": [
               11,
-              9,
+              13,
               1,
               0,
               0,
@@ -1911,7 +1911,7 @@
         ],
         "hourlyAverages": [
           6,
-          6,
+          7,
           3,
           4,
           3,
@@ -2055,7 +2055,7 @@
           "dayName": "週三",
           "hours": [
             11,
-            9,
+            13,
             1,
             0,
             0,
@@ -2173,7 +2173,7 @@
       ],
       "hourlyAverages": [
         6,
-        6,
+        7,
         3,
         4,
         3,
@@ -5625,12 +5625,12 @@
       "type": "washer",
       "num": 1,
       "isOnline": true,
-      "totalCycles": 70,
-      "totalDurationMin": 2800,
-      "totalCost": 1400,
-      "lastUsedTime": "2026-10-13T16:49:42.609Z",
+      "totalCycles": 71,
+      "totalDurationMin": 2840,
+      "totalCost": 1420,
+      "lastUsedTime": "2026-10-13T18:35:57.024Z",
       "avgDurationMin": 40,
-      "rankInType": 13,
+      "rankInType": 11,
       "totalInType": 16,
       "peakSlots": [
         {
@@ -5746,7 +5746,7 @@
           "dayName": "週三",
           "hours": [
             13,
-            13,
+            27,
             0,
             0,
             0,
@@ -5864,7 +5864,7 @@
       ],
       "hourlyAverages": [
         13,
-        13,
+        27,
         0,
         0,
         0,
@@ -6211,10 +6211,10 @@
       "type": "washer",
       "num": 3,
       "isOnline": true,
-      "totalCycles": 84,
-      "totalDurationMin": 3360,
-      "totalCost": 1680,
-      "lastUsedTime": "2026-10-13T16:15:15.316Z",
+      "totalCycles": 85,
+      "totalDurationMin": 3400,
+      "totalCost": 1700,
+      "lastUsedTime": "2026-10-13T18:35:00.897Z",
       "avgDurationMin": 40,
       "rankInType": 8,
       "totalInType": 16,
@@ -6332,7 +6332,7 @@
           "dayName": "週三",
           "hours": [
             13,
-            13,
+            27,
             0,
             0,
             0,
@@ -6450,7 +6450,7 @@
       ],
       "hourlyAverages": [
         13,
-        20,
+        27,
         0,
         13,
         0,
@@ -8267,7 +8267,7 @@
       "totalCost": 1420,
       "lastUsedTime": "2026-10-13T16:05:13.941Z",
       "avgDurationMin": 40,
-      "rankInType": 11,
+      "rankInType": 12,
       "totalInType": 16,
       "peakSlots": [
         {
@@ -10025,7 +10025,7 @@
       "totalCost": 1420,
       "lastUsedTime": "2026-10-13T13:36:34.731Z",
       "avgDurationMin": 40,
-      "rankInType": 12,
+      "rankInType": 13,
       "totalInType": 16,
       "peakSlots": [
         {
@@ -12658,10 +12658,10 @@
       "floor": "2F",
       "machine_type": "washer",
       "machine_num": 1,
-      "total_cycles": 70,
-      "total_duration_min": 2800,
-      "total_cost_ntd": 1400,
-      "last_used_time": "2026-10-13T16:49:42.609Z",
+      "total_cycles": 71,
+      "total_duration_min": 2840,
+      "total_cost_ntd": 1420,
+      "last_used_time": "2026-10-13T18:35:57.024Z",
       "isOnline": true
     },
     {
@@ -12682,10 +12682,10 @@
       "floor": "2F",
       "machine_type": "washer",
       "machine_num": 3,
-      "total_cycles": 84,
-      "total_duration_min": 3360,
-      "total_cost_ntd": 1680,
-      "last_used_time": "2026-10-13T16:15:15.316Z",
+      "total_cycles": 85,
+      "total_duration_min": 3400,
+      "total_cost_ntd": 1700,
+      "last_used_time": "2026-10-13T18:35:00.897Z",
       "isOnline": true
     },
     {
@@ -13161,7 +13161,7 @@
       "dayName": "週三",
       "hours": [
         8,
-        6,
+        8,
         0,
         1,
         1,
