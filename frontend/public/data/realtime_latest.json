@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-10-14T11:40:22.175Z",
+  "updatedAt": "2026-10-14T11:50:21.506Z",
   "summary": {
     "total": 24,
-    "running": 4,
-    "idle": 19,
+    "running": 6,
+    "idle": 17,
     "offline": 1
   },
   "merchant": {
@@ -121,7 +121,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-14T11:58:59.933Z",
-      "remainingSec": 1117
+      "remainingSec": 518
     },
     {
       "hwid": "AD4238F4",
@@ -131,9 +131,9 @@
       "type": "washer",
       "num": 3,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-10-14T11:41:54.079Z",
-      "remainingSec": 91
+      "remainingSec": 0
     },
     {
       "hwid": "236C6810",
@@ -143,9 +143,9 @@
       "type": "washer",
       "num": 3,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-10-14T02:55:08.295Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-10-14T12:22:31.768Z",
+      "remainingSec": 1930
     },
     {
       "hwid": "546B5886",
@@ -203,9 +203,9 @@
       "type": "dryer",
       "num": 1,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-10-13T16:52:15.297Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-10-14T12:21:38.201Z",
+      "remainingSec": 1876
     },
     {
       "hwid": "CA0FCD25",
@@ -275,9 +275,9 @@
       "type": "washer",
       "num": 1,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-10-14T10:43:02.316Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-10-14T12:21:09.536Z",
+      "remainingSec": 1848
     },
     {
       "hwid": "0996305B",
@@ -289,7 +289,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-14T12:07:39.448Z",
-      "remainingSec": 1637
+      "remainingSec": 1037
     },
     {
       "hwid": "97F2A5F8",
@@ -301,7 +301,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-14T12:08:27.459Z",
-      "remainingSec": 1685
+      "remainingSec": 1085
     }
   ]
 }
