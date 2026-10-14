@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-14T17:40:24.882Z",
-  "totalEvents": 2020,
-  "crawlCount": 4669,
+  "generatedAt": "2026-10-14T17:50:24.228Z",
+  "totalEvents": 2021,
+  "crawlCount": 4670,
   "floorComparison": [
     {
       "floor": "2F",
@@ -29,10 +29,10 @@
     },
     {
       "floor": "8F",
-      "cycles": 513,
-      "durationMin": 22807,
-      "cost": 11410,
-      "washerCycles": 369,
+      "cycles": 514,
+      "durationMin": 22847,
+      "cost": 11430,
+      "washerCycles": 370,
       "dryerCycles": 144
     }
   ],
@@ -165,7 +165,7 @@
           "dayName": "週四",
           "hours": [
             6,
-            4,
+            5,
             0,
             0,
             0,
@@ -691,7 +691,7 @@
           "dayName": "週四",
           "hours": [
             4,
-            5,
+            6,
             1,
             2,
             0,
@@ -952,7 +952,7 @@
         "dayName": "週四",
         "hours": [
           4,
-          5,
+          6,
           1,
           2,
           0,
@@ -4486,10 +4486,10 @@
     },
     "8F": {
       "floor": "8F",
-      "totalCycles": 513,
-      "durationMin": 22807,
-      "cost": 11410,
-      "washerCycles": 369,
+      "totalCycles": 514,
+      "durationMin": 22847,
+      "cost": 11430,
+      "washerCycles": 370,
       "dryerCycles": 144,
       "machines": [
         {
@@ -4534,10 +4534,10 @@
           "floor": "8F",
           "machine_type": "washer",
           "machine_num": 4,
-          "total_cycles": 105,
-          "total_duration_min": 4200,
-          "total_cost_ntd": 2100,
-          "last_used_time": "2026-10-14T14:32:55.498Z",
+          "total_cycles": 106,
+          "total_duration_min": 4240,
+          "total_cost_ntd": 2120,
+          "last_used_time": "2026-10-14T18:27:20.169Z",
           "isOnline": true
         },
         {
@@ -4693,7 +4693,7 @@
             "dayName": "週四",
             "hours": [
               13,
-              7,
+              10,
               0,
               0,
               0,
@@ -5219,7 +5219,7 @@
             "dayName": "週四",
             "hours": [
               9,
-              8,
+              10,
               0,
               0,
               0,
@@ -5481,7 +5481,7 @@
           "dayName": "週四",
           "hours": [
             9,
-            8,
+            10,
             0,
             0,
             0,
@@ -11778,10 +11778,10 @@
       "type": "washer",
       "num": 4,
       "isOnline": true,
-      "totalCycles": 105,
-      "totalDurationMin": 4200,
-      "totalCost": 2100,
-      "lastUsedTime": "2026-10-14T14:32:55.498Z",
+      "totalCycles": 106,
+      "totalDurationMin": 4240,
+      "totalCost": 2120,
+      "lastUsedTime": "2026-10-14T18:27:20.169Z",
       "avgDurationMin": 40,
       "rankInType": 6,
       "totalInType": 16,
@@ -11929,7 +11929,7 @@
           "dayName": "週四",
           "hours": [
             0,
-            0,
+            13,
             0,
             0,
             0,
@@ -12017,7 +12017,7 @@
       ],
       "hourlyAverages": [
         20,
-        19,
+        18,
         13,
         13,
         0,
@@ -12910,10 +12910,10 @@
       "floor": "8F",
       "machine_type": "washer",
       "machine_num": 4,
-      "total_cycles": 105,
-      "total_duration_min": 4200,
-      "total_cost_ntd": 2100,
-      "last_used_time": "2026-10-14T14:32:55.498Z",
+      "total_cycles": 106,
+      "total_duration_min": 4240,
+      "total_cost_ntd": 2120,
+      "last_used_time": "2026-10-14T18:27:20.169Z",
       "isOnline": true
     },
     {
@@ -13191,7 +13191,7 @@
       "dayName": "週四",
       "hours": [
         4,
-        5,
+        6,
         1,
         2,
         0,
