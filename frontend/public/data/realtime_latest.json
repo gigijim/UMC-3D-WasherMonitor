@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-10-15T16:10:24.378Z",
+  "updatedAt": "2026-10-15T16:20:23.047Z",
   "summary": {
     "total": 24,
-    "running": 8,
-    "idle": 15,
+    "running": 6,
+    "idle": 17,
     "offline": 1
   },
   "merchant": {
@@ -25,7 +25,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-15T16:48:57.784Z",
-      "remainingSec": 2313
+      "remainingSec": 1714
     },
     {
       "hwid": "A399B0C6",
@@ -73,7 +73,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-15T16:26:44.271Z",
-      "remainingSec": 979
+      "remainingSec": 381
     },
     {
       "hwid": "A4F474DF",
@@ -97,7 +97,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-15T16:26:38.422Z",
-      "remainingSec": 974
+      "remainingSec": 375
     },
     {
       "hwid": "4AFA15F3",
@@ -107,9 +107,9 @@
       "type": "washer",
       "num": 1,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-10-15T16:15:27.867Z",
-      "remainingSec": 303
+      "remainingSec": 0
     },
     {
       "hwid": "3DFD2565",
@@ -157,7 +157,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-15T16:56:41.780Z",
-      "remainingSec": 2777
+      "remainingSec": 2178
     },
     {
       "hwid": "2401AC09",
@@ -229,7 +229,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-15T16:55:28.465Z",
-      "remainingSec": 2704
+      "remainingSec": 2105
     },
     {
       "hwid": "BA6539AA",
@@ -251,9 +251,9 @@
       "type": "dryer",
       "num": 1,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-10-15T16:19:45.876Z",
-      "remainingSec": 561
+      "remainingSec": 0
     },
     {
       "hwid": "E7985177",
@@ -265,7 +265,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-15T16:26:50.389Z",
-      "remainingSec": 986
+      "remainingSec": 387
     },
     {
       "hwid": "7E9100CD",
