@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-10-15T15:50:22.503Z",
+  "updatedAt": "2026-10-15T16:00:43.610Z",
   "summary": {
     "total": 24,
-    "running": 9,
-    "idle": 14,
+    "running": 10,
+    "idle": 13,
     "offline": 1
   },
   "merchant": {
@@ -25,7 +25,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-15T16:48:57.784Z",
-      "remainingSec": 3515
+      "remainingSec": 2894
     },
     {
       "hwid": "A399B0C6",
@@ -61,7 +61,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-15T16:02:23.109Z",
-      "remainingSec": 720
+      "remainingSec": 99
     },
     {
       "hwid": "4D97D1EA",
@@ -73,7 +73,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-15T16:26:44.271Z",
-      "remainingSec": 2181
+      "remainingSec": 1560
     },
     {
       "hwid": "A4F474DF",
@@ -97,7 +97,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-15T16:26:38.422Z",
-      "remainingSec": 2175
+      "remainingSec": 1554
     },
     {
       "hwid": "4AFA15F3",
@@ -109,7 +109,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-15T16:15:27.867Z",
-      "remainingSec": 1505
+      "remainingSec": 884
     },
     {
       "hwid": "3DFD2565",
@@ -155,9 +155,9 @@
       "type": "dryer",
       "num": 1,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-10-15T14:32:32.719Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-10-15T16:56:41.780Z",
+      "remainingSec": 3358
     },
     {
       "hwid": "2401AC09",
@@ -227,9 +227,9 @@
       "type": "dryer",
       "num": 2,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-10-15T11:52:59.259Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-10-15T16:55:28.465Z",
+      "remainingSec": 3284
     },
     {
       "hwid": "BA6539AA",
@@ -239,9 +239,9 @@
       "type": "washer",
       "num": 4,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-10-15T15:52:15.282Z",
-      "remainingSec": 112
+      "remainingSec": 0
     },
     {
       "hwid": "E0F5956E",
@@ -252,8 +252,8 @@
       "num": 1,
       "connection": true,
       "isRunning": true,
-      "dueTime": "2026-10-15T15:54:39.906Z",
-      "remainingSec": 257
+      "dueTime": "2026-10-15T16:19:45.876Z",
+      "remainingSec": 1142
     },
     {
       "hwid": "E7985177",
@@ -265,7 +265,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-15T16:26:50.389Z",
-      "remainingSec": 2187
+      "remainingSec": 1566
     },
     {
       "hwid": "7E9100CD",
@@ -289,7 +289,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-15T16:04:15.567Z",
-      "remainingSec": 833
+      "remainingSec": 211
     },
     {
       "hwid": "97F2A5F8",
