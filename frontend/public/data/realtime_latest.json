@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-10-15T15:00:44.675Z",
+  "updatedAt": "2026-10-15T15:10:24.446Z",
   "summary": {
     "total": 24,
-    "running": 4,
-    "idle": 19,
+    "running": 8,
+    "idle": 15,
     "offline": 1
   },
   "merchant": {
@@ -25,7 +25,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-15T15:12:29.952Z",
-      "remainingSec": 705
+      "remainingSec": 125
     },
     {
       "hwid": "A399B0C6",
@@ -59,9 +59,9 @@
       "type": "dryer",
       "num": 1,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-10-15T14:41:28.816Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-10-15T16:02:23.109Z",
+      "remainingSec": 3118
     },
     {
       "hwid": "4D97D1EA",
@@ -73,7 +73,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-15T15:30:06.399Z",
-      "remainingSec": 1761
+      "remainingSec": 1181
     },
     {
       "hwid": "A4F474DF",
@@ -97,7 +97,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-15T15:30:18.398Z",
-      "remainingSec": 1773
+      "remainingSec": 1193
     },
     {
       "hwid": "4AFA15F3",
@@ -121,7 +121,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-15T15:19:52.432Z",
-      "remainingSec": 1147
+      "remainingSec": 567
     },
     {
       "hwid": "AD4238F4",
@@ -143,9 +143,9 @@
       "type": "washer",
       "num": 3,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-10-15T13:21:33.239Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-10-15T15:43:44.980Z",
+      "remainingSec": 2000
     },
     {
       "hwid": "546B5886",
@@ -191,9 +191,9 @@
       "type": "washer",
       "num": 2,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-10-15T14:43:00.886Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-10-15T15:43:46.979Z",
+      "remainingSec": 2002
     },
     {
       "hwid": "DA450862",
@@ -275,9 +275,9 @@
       "type": "washer",
       "num": 1,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-10-15T14:45:20.951Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-10-15T15:48:31.148Z",
+      "remainingSec": 2286
     },
     {
       "hwid": "0996305B",
