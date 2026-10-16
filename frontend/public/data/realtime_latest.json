@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-16T03:30:31.367Z",
+  "updatedAt": "2026-10-16T03:40:21.797Z",
   "summary": {
     "total": 24,
     "running": 2,
@@ -59,9 +59,9 @@
       "type": "dryer",
       "num": 1,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-10-16T03:31:33.504Z",
-      "remainingSec": 62
+      "remainingSec": 0
     },
     {
       "hwid": "4D97D1EA",
@@ -145,7 +145,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-16T04:07:52.220Z",
-      "remainingSec": 2240
+      "remainingSec": 1650
     },
     {
       "hwid": "546B5886",
@@ -227,9 +227,9 @@
       "type": "dryer",
       "num": 2,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-10-15T18:35:19.219Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-10-16T04:30:39.804Z",
+      "remainingSec": 3018
     },
     {
       "hwid": "BA6539AA",
