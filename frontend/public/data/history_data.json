@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-16T13:10:27.833Z",
-  "totalEvents": 2131,
-  "crawlCount": 4941,
+  "generatedAt": "2026-10-16T13:20:23.352Z",
+  "totalEvents": 2132,
+  "crawlCount": 4942,
   "floorComparison": [
     {
       "floor": "2F",
@@ -13,10 +13,10 @@
     },
     {
       "floor": "4F",
-      "cycles": 505,
-      "durationMin": 22095,
-      "cost": 11050,
-      "washerCycles": 355,
+      "cycles": 506,
+      "durationMin": 22135,
+      "cost": 11070,
+      "washerCycles": 356,
       "dryerCycles": 150
     },
     {
@@ -215,7 +215,7 @@
             8,
             11,
             8,
-            12,
+            13,
             11,
             3
           ]
@@ -2222,10 +2222,10 @@
     },
     "4F": {
       "floor": "4F",
-      "totalCycles": 505,
-      "durationMin": 22095,
-      "cost": 11050,
-      "washerCycles": 355,
+      "totalCycles": 506,
+      "durationMin": 22135,
+      "cost": 11070,
+      "washerCycles": 356,
       "dryerCycles": 150,
       "machines": [
         {
@@ -2246,10 +2246,10 @@
           "floor": "4F",
           "machine_type": "washer",
           "machine_num": 2,
-          "total_cycles": 137,
-          "total_duration_min": 5480,
-          "total_cost_ntd": 2740,
-          "last_used_time": "2026-10-16T02:52:32.007Z",
+          "total_cycles": 138,
+          "total_duration_min": 5520,
+          "total_cost_ntd": 2760,
+          "last_used_time": "2026-10-16T13:58:09.467Z",
           "isOnline": true
         },
         {
@@ -2479,7 +2479,7 @@
               0,
               13,
               17,
-              7,
+              10,
               10,
               7
             ]
@@ -2537,7 +2537,7 @@
           13,
           17,
           24,
-          26,
+          27,
           18,
           12
         ],
@@ -3005,7 +3005,7 @@
               0,
               13,
               12,
-              11,
+              13,
               10,
               8
             ]
@@ -3063,7 +3063,7 @@
           13,
           18,
           26,
-          24,
+          25,
           18,
           12
         ],
@@ -3267,7 +3267,7 @@
             0,
             13,
             12,
-            11,
+            13,
             10,
             8
           ]
@@ -3325,7 +3325,7 @@
         13,
         18,
         26,
-        24,
+        25,
         18,
         12
       ],
@@ -7676,17 +7676,17 @@
       "type": "washer",
       "num": 2,
       "isOnline": true,
-      "totalCycles": 137,
-      "totalDurationMin": 5480,
-      "totalCost": 2740,
-      "lastUsedTime": "2026-10-16T02:52:32.007Z",
+      "totalCycles": 138,
+      "totalDurationMin": 5520,
+      "totalCost": 2760,
+      "lastUsedTime": "2026-10-16T13:58:09.467Z",
       "avgDurationMin": 40,
       "rankInType": 2,
       "totalInType": 16,
       "peakSlots": [
         {
           "hour": 21,
-          "rate": 44,
+          "rate": 47,
           "label": "21:00 ~ 22:00"
         },
         {
@@ -7877,7 +7877,7 @@
             0,
             13,
             0,
-            13,
+            27,
             0,
             27
           ]
@@ -7935,7 +7935,7 @@
         24,
         33,
         40,
-        44,
+        47,
         27,
         27
       ],
@@ -12742,10 +12742,10 @@
       "floor": "4F",
       "machine_type": "washer",
       "machine_num": 2,
-      "total_cycles": 137,
-      "total_duration_min": 5480,
-      "total_cost_ntd": 2740,
-      "last_used_time": "2026-10-16T02:52:32.007Z",
+      "total_cycles": 138,
+      "total_duration_min": 5520,
+      "total_cost_ntd": 2760,
+      "last_used_time": "2026-10-16T13:58:09.467Z",
       "isOnline": true
     },
     {
@@ -12960,10 +12960,10 @@
       "floor": "4F",
       "machine_type": "washer",
       "machine_num": 2,
-      "total_cycles": 137,
-      "total_duration_min": 5480,
-      "total_cost_ntd": 2740,
-      "last_used_time": "2026-10-16T02:52:32.007Z",
+      "total_cycles": 138,
+      "total_duration_min": 5520,
+      "total_cost_ntd": 2760,
+      "last_used_time": "2026-10-16T13:58:09.467Z",
       "isOnline": true
     },
     {
