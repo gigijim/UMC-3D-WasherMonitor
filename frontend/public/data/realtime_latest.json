@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-17T02:40:20.836Z",
+  "updatedAt": "2026-10-17T02:50:23.190Z",
   "summary": {
     "total": 24,
     "running": 2,
@@ -107,9 +107,9 @@
       "type": "washer",
       "num": 1,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-10-17T00:03:31.112Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-10-17T03:27:55.358Z",
+      "remainingSec": 2252
     },
     {
       "hwid": "3DFD2565",
@@ -157,7 +157,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-17T03:30:28.822Z",
-      "remainingSec": 3007
+      "remainingSec": 2405
     },
     {
       "hwid": "2401AC09",
@@ -287,9 +287,9 @@
       "type": "washer",
       "num": 2,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-10-17T02:47:41.908Z",
-      "remainingSec": 441
+      "remainingSec": 0
     },
     {
       "hwid": "97F2A5F8",
