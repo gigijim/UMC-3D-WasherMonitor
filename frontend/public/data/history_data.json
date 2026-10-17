@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-17T07:20:23.652Z",
-  "totalEvents": 2185,
-  "crawlCount": 5056,
+  "generatedAt": "2026-10-17T07:30:31.364Z",
+  "totalEvents": 2186,
+  "crawlCount": 5057,
   "floorComparison": [
     {
       "floor": "2F",
@@ -29,11 +29,11 @@
     },
     {
       "floor": "8F",
-      "cycles": 558,
-      "durationMin": 24687,
-      "cost": 12350,
+      "cycles": 559,
+      "durationMin": 24747,
+      "cost": 12380,
       "washerCycles": 401,
-      "dryerCycles": 157
+      "dryerCycles": 158
     }
   ],
   "overall": {
@@ -502,7 +502,7 @@
             13,
             9,
             22,
-            12,
+            14,
             5,
             6,
             5,
@@ -765,7 +765,7 @@
             12,
             11,
             13,
-            9,
+            10,
             4,
             4,
             7,
@@ -1026,7 +1026,7 @@
           12,
           11,
           13,
-          9,
+          10,
           4,
           4,
           7,
@@ -4486,11 +4486,11 @@
     },
     "8F": {
       "floor": "8F",
-      "totalCycles": 558,
-      "durationMin": 24687,
-      "cost": 12350,
+      "totalCycles": 559,
+      "durationMin": 24747,
+      "cost": 12380,
       "washerCycles": 401,
-      "dryerCycles": 157,
+      "dryerCycles": 158,
       "machines": [
         {
           "hwid": "CA0FCD25",
@@ -4546,10 +4546,10 @@
           "floor": "8F",
           "machine_type": "dryer",
           "machine_num": 1,
-          "total_cycles": 81,
-          "total_duration_min": 4594,
-          "total_cost_ntd": 2300,
-          "last_used_time": "2026-10-17T03:30:28.822Z",
+          "total_cycles": 82,
+          "total_duration_min": 4654,
+          "total_cost_ntd": 2330,
+          "last_used_time": "2026-10-17T08:21:14.545Z",
           "isOnline": true
         },
         {
@@ -5030,7 +5030,7 @@
               13,
               0,
               47,
-              10,
+              20,
               0,
               0,
               13,
@@ -5058,7 +5058,7 @@
           17,
           25,
           22,
-          9,
+          12,
           18,
           0,
           18,
@@ -5080,14 +5080,14 @@
             "rate": 7
           },
           {
-            "hour": 15,
-            "label": "15:00 ~ 16:00",
-            "rate": 9
-          },
-          {
             "hour": 11,
             "label": "11:00 ~ 12:00",
             "rate": 11
+          },
+          {
+            "hour": 9,
+            "label": "09:00 ~ 10:00",
+            "rate": 12
           }
         ]
       },
@@ -5293,7 +5293,7 @@
               11,
               11,
               22,
-              6,
+              9,
               2,
               4,
               11,
@@ -5555,7 +5555,7 @@
             11,
             11,
             22,
-            6,
+            9,
             2,
             4,
             11,
@@ -12071,10 +12071,10 @@
       "type": "dryer",
       "num": 1,
       "isOnline": true,
-      "totalCycles": 81,
-      "totalDurationMin": 4594,
-      "totalCost": 2300,
-      "lastUsedTime": "2026-10-17T03:30:28.822Z",
+      "totalCycles": 82,
+      "totalDurationMin": 4654,
+      "totalCost": 2330,
+      "lastUsedTime": "2026-10-17T08:21:14.545Z",
       "avgDurationMin": 57,
       "rankInType": 4,
       "totalInType": 8,
@@ -12296,7 +12296,7 @@
             0,
             0,
             40,
-            20,
+            40,
             0,
             0,
             0,
@@ -12324,7 +12324,7 @@
         31,
         30,
         27,
-        24,
+        34,
         27,
         0,
         30,
@@ -12922,10 +12922,10 @@
       "floor": "8F",
       "machine_type": "dryer",
       "machine_num": 1,
-      "total_cycles": 81,
-      "total_duration_min": 4594,
-      "total_cost_ntd": 2300,
-      "last_used_time": "2026-10-17T03:30:28.822Z",
+      "total_cycles": 82,
+      "total_duration_min": 4654,
+      "total_cost_ntd": 2330,
+      "last_used_time": "2026-10-17T08:21:14.545Z",
       "isOnline": true
     },
     {
@@ -13265,7 +13265,7 @@
         12,
         11,
         13,
-        9,
+        10,
         4,
         4,
         7,
