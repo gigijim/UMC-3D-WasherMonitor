@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-10-17T15:30:32.960Z",
+  "updatedAt": "2026-10-17T15:40:22.037Z",
   "summary": {
     "total": 24,
-    "running": 6,
-    "idle": 17,
+    "running": 4,
+    "idle": 19,
     "offline": 1
   },
   "merchant": {
@@ -25,7 +25,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-17T16:08:17.929Z",
-      "remainingSec": 2264
+      "remainingSec": 1675
     },
     {
       "hwid": "A399B0C6",
@@ -107,9 +107,9 @@
       "type": "washer",
       "num": 1,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-10-17T15:39:54.088Z",
-      "remainingSec": 561
+      "remainingSec": 0
     },
     {
       "hwid": "3DFD2565",
@@ -119,9 +119,9 @@
       "type": "washer",
       "num": 2,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-10-17T15:39:59.927Z",
-      "remainingSec": 566
+      "remainingSec": 0
     },
     {
       "hwid": "AD4238F4",
@@ -157,7 +157,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-17T15:56:56.292Z",
-      "remainingSec": 1583
+      "remainingSec": 994
     },
     {
       "hwid": "2401AC09",
@@ -179,9 +179,9 @@
       "type": "washer",
       "num": 4,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-10-17T15:39:50.767Z",
-      "remainingSec": 557
+      "remainingSec": 0
     },
     {
       "hwid": "BD08FDB3",
@@ -227,9 +227,9 @@
       "type": "dryer",
       "num": 2,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-10-17T14:27:24.599Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-10-17T16:32:19.115Z",
+      "remainingSec": 3117
     },
     {
       "hwid": "BA6539AA",
@@ -253,7 +253,7 @@
       "connection": true,
       "isRunning": true,
       "dueTime": "2026-10-17T15:42:07.101Z",
-      "remainingSec": 694
+      "remainingSec": 105
     },
     {
       "hwid": "E7985177",
