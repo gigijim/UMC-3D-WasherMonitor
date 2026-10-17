@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-17T14:20:23.085Z",
+  "updatedAt": "2026-10-17T14:30:32.515Z",
   "summary": {
     "total": 24,
     "running": 1,
@@ -227,9 +227,9 @@
       "type": "dryer",
       "num": 2,
       "connection": true,
-      "isRunning": true,
+      "isRunning": false,
       "dueTime": "2026-10-17T14:27:24.599Z",
-      "remainingSec": 421
+      "remainingSec": 0
     },
     {
       "hwid": "BA6539AA",
@@ -275,9 +275,9 @@
       "type": "washer",
       "num": 1,
       "connection": true,
-      "isRunning": false,
-      "dueTime": "2026-10-17T07:09:46.890Z",
-      "remainingSec": 0
+      "isRunning": true,
+      "dueTime": "2026-10-17T15:00:46.414Z",
+      "remainingSec": 1813
     },
     {
       "hwid": "0996305B",
