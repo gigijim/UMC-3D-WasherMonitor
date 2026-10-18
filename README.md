@@ -4,7 +4,7 @@
 
 - **專案名稱**：`UMC-3D-WasherMonitor`
 - **線上站點**：[https://umc-3d-washermonitor.vercel.app](https://umc-3d-washermonitor.vercel.app)
-- **最新版本**：`v2.4.1` (Release 2026.09.13)
+- **最新版本**：`v2.5.0` (Release 2026.10.18) · [版本修改紀錄 CHANGELOG](./CHANGELOG.md)
 - **維護聲明**：看我心情~和下班有沒有空
 - **版權宣告**：Copyright © 2026 UMC_IT-Jimmy
 
@@ -25,7 +25,7 @@ flowchart TD
     subgraph Vercel ["Vercel 雲端邊緣伺服器"]
         RT_API["/api/realtime<br/>(即時機況代理端點)"]
         Trigger_API["/api/trigger-crawl<br/>(外部 Webhook 喚醒端點)"]
-        StaticData["靜態數據快取<br/>(/data/history_data.json)"]
+        DataAPI["/api/data<br/>(最新分析資料讀取端點)"]
     end
 
     subgraph IoT ["Alfaloop 物聯網雲端平台"]
@@ -37,7 +37,11 @@ flowchart TD
         GHA["GitHub Actions Runner<br/>(Ubuntu 雲端工作流程)"]
         Crawler["Node.js 爬蟲核心<br/>(collector.js / dueTime 自癒偵測)"]
         Analyzer["統計分析引擎<br/>(analyzer.js / Asia/Taipei UTC+8)"]
-        DB[("SQLite 關聯資料庫<br/>(backend/laundry.db)")]
+    end
+
+    subgraph DataBranch ["GitHub data 分支 (只保留最新一份)"]
+        DB[("SQLite 關聯資料庫<br/>(laundry.db)")]
+        StaticData["分析結果 JSON<br/>(history_data.json / realtime_latest.json)"]
     end
 
     %% 即時動態流 (軌道一)
@@ -53,8 +57,9 @@ flowchart TD
     Crawler -- "事件去重與自癒補登" --> DB
     DB --> Analyzer
     Analyzer -- "產生統計與熱度矩陣" --> StaticData
-    GHA -- "自動 Commit & Push" --> StaticData
-    Report -- "讀取分析快取" --> StaticData
+    GHA -- "推送至 data 分支 (不觸發網站部署)" --> StaticData
+    Report -- "讀取最新分析" --> DataAPI
+    DataAPI -- "讀取 data 分支" --> StaticData
 ```
 
 ---
@@ -75,9 +80,15 @@ flowchart TD
 - **定時喚醒機制**：
   - 採用 **`cron-job.org`** 外部 Webhook 服務，每 10 分鐘自動對 `/api/trigger-crawl` 發送 HTTP GET Ping。
   - Vercel API 收到後透過 GitHub REST API 即時觸發 GitHub Actions 工作流程（`workflow_dispatch`），**5~8 秒內即時喚醒爬蟲**，徹底擺脫 GitHub 自身 cron 佇列在尖峰期延遲或被丟棄的限制。
+- **資料與網站部署分離 (v2.5.0)**：
+  - 爬蟲產生的資料庫與分析 JSON 存放在獨立的 `data` 分支，網站透過 `/api/data` 讀取，資料更新不會觸發 Vercel 重新部署（Vercel 免費方案每日部署上限 100 次）。
+  - `data` 分支永遠只保留最新一個 commit；每天自動備份資料庫至 GitHub Actions Artifacts（保留 90 天）。
+  - GitHub Actions 以 `concurrency` 確保同一時間只有一個爬蟲執行。
 - **基於硬體 dueTime 戳記的自我修復補登**：
   - 即使雲端排程中斷數小時，機台硬體端洗完後仍會保留最後一次運轉的 `dueTime` 戳記。
   - 爬蟲再次啟動時，會自動比對資料庫歷史，若偵測到新的結束時間戳記，**自動回溯起始時間與金額補登入 SQLite 資料庫**，達成離線自癒容錯。
+  - 運轉中結束時間被延後：烘衣機視為投幣加時並合併為同一次；洗衣機視為機台校正剩餘時間（只有上一輪即將結束、新一輪完整開始才記為新的一次）。
+  - 計價規則集中於 `shared/pricing.js`（6F烘乾機2號為特例：NT$10 / 40 分鐘，最多 NT$30 / 99 分鐘）。
 - **時區統一治理 (Asia/Taipei UTC+8)**：
   - 分析核心內建台灣時區座標轉換函式，消除 GitHub Actions 預設 Ubuntu UTC+0 環境帶來的 8 小時偏差，確保熱度矩陣的 24 小時時段完全精確。
 - **物理分母容量模型 (Physical Capacity Denominators)**：
@@ -101,14 +112,21 @@ UMC-3D-WasherMonitor/
 │       └── crawl.yml           # GitHub Actions 10 分鐘爬蟲工作流程
 │
 ├── api/                        # Vercel Serverless Functions 根端點
-│   ├── realtime.js             # 即時機況代理端點
-│   └── trigger-crawl.js        # 外部 Webhook 爬蟲喚醒端點
+│   ├── realtime.js             # 即時機況代理端點 (20 秒邊緣快取)
+│   ├── data.js                 # 讀取 data 分支最新分析資料
+│   └── trigger-crawl.js        # 外部排程爬蟲喚醒端點
+│
+├── shared/                     # 前後端共用模組
+│   ├── device.js               # 機台描述解析與即時狀態格式
+│   └── pricing.js              # 計價規則 (含特例機台)
 │
 ├── backend/                    # 爬蟲與 SQLite 歷史庫後端
-│   ├── collector.js            # Alfaloop IoT 爬蟲與事件偵測
+│   ├── collector.js            # Alfaloop IoT 爬蟲 (狀態改變才寫入快照)
+│   ├── events.js               # 使用事件偵測 (新增 / 加時合併 / 時間校正)
 │   ├── analyzer.js             # 台灣時區熱度矩陣、樓層對比與天梯榜計算
-│   ├── export_data.js          # 將 SQLite 資料庫匯出為前端靜態 JSON
+│   ├── export_data.js          # 將 SQLite 資料庫匯出為分析 JSON
 │   ├── db.js                   # Node.js 原生 SQLite 連線與資料表結構 (DatabaseSync)
+│   ├── migrate_v2_5_0.js       # v2.5.0 一次性資料遷移 (快照壓縮 + 重算)
 │   ├── daemon.js               # 本機 24H 背景守護程式 (每 3 分鐘)
 │   └── start_daemon.bat        # Windows 一鍵啟動守護腳本
 │
@@ -116,10 +134,6 @@ UMC-3D-WasherMonitor/
 │   ├── index.html              # 主畫面 (3D Canvas + 直立式樓層選單 + 版本資訊)
 │   ├── manifest.json           # PWA Web App 清單 (支援 iOS 加入主畫面)
 │   ├── sw.js                   # Service Worker (離線快取與 Network-First 策略)
-│   ├── api/                    # 前端同步 Serverless 端點
-│   ├── public/data/
-│   │   ├── realtime_latest.json # 最新即時機況快照備份
-│   │   └── history_data.json    # 歷史大數據規律與熱度圖分析檔
 │   └── src/
 │       ├── main.js             # 前端核心邏輯、視角導航、資料同步
 │       ├── three/
@@ -127,8 +141,11 @@ UMC-3D-WasherMonitor/
 │       └── components/
 │           └── Charts.js       # Chart.js 視覺化、每週熱度矩陣看板
 │
-├── vercel.json                 # Vercel 建置與路由配置
+├── vercel.json                 # Vercel 建置設定 (data 分支不部署)
+├── CHANGELOG.md                # 版本修改紀錄
 └── README.md                   # 系統架構與說明文件
+
+(data 分支) laundry.db · history_data.json · realtime_latest.json · last_backup_date
 ```
 
 ---
@@ -152,6 +169,14 @@ UMC-3D-WasherMonitor/
 
 ## 📜 版本演進歷史
 
+> 完整內容請見 [CHANGELOG.md](./CHANGELOG.md)
+
+- **`v2.5.0` (2026.10.18)**
+  - **資料更新與網站部署分離**：解決每日更新次數上限造成網站停止更新的問題。
+  - **統計修正並重算全部歷史數據**：烘衣機投幣加時、洗衣機時間校正不再重複計算；離峰推薦改採一週 7 天平均。
+  - **6F烘乾機2號特殊計價**、資料庫瘦身、每日自動備份、即時機況快取、全站版本號統一。
+- **`v2.4.2` (2026.09.13)**
+  - 數據分析視角重整、樓層排名看板、機台清單依樓層排序、單機每週熱度矩陣。
 - **`v2.4.1` (2026.09.13)**
   - **點擊機台顯示最後使用時間**：機台資訊卡新增最後一次使用時間與經過時長（如：今天下午06:27，約2小時前）。
   - **剛洗完滾筒衣物取留提醒**：剛洗完 15 分鐘內自動標註「⚠️ 剛洗完 (留意衣物)」，提醒投幣前先確認滾筒是否清空。

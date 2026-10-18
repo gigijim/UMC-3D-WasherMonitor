@@ -209,7 +209,7 @@
   <button id="btn-version-desktop" title="點擊查看歷史版本更新紀錄與版權資訊" class="hidden sm:flex absolute bottom-3 right-4 z-10 pointer-events-auto select-none text-[11px] font-mono text-slate-400/80 hover:text-cyan-300 bg-slate-950/60 hover:bg-slate-900/90 px-2.5 py-1 rounded-lg border border-slate-800/60 hover:border-slate-700/80 transition-all items-center gap-1.5 cursor-pointer backdrop-blur-xs">
     <span>Copyright © 2026 UMC_IT-Jimmy</span>
     <span class="text-slate-600">·</span>
-    <span class="text-cyan-400 font-semibold">v2.4.1</span>
+    <span class="text-cyan-400 font-semibold">v2.5.0</span>
     <span class="w-3.5 h-3.5 rounded-full bg-slate-800 border border-slate-700 text-[9px] flex items-center justify-center text-cyan-300 font-serif font-bold">i</span>
   </button>
 
@@ -353,7 +353,7 @@
           <div>
             <h3 class="text-base font-bold text-white flex items-center gap-2">
               系統版本與資訊
-              <span class="px-2 py-0.5 rounded-md bg-cyan-950 text-cyan-300 border border-cyan-800 text-[10px] font-mono font-bold">v2.4.1</span>
+              <span class="px-2 py-0.5 rounded-md bg-cyan-950 text-cyan-300 border border-cyan-800 text-[10px] font-mono font-bold">v2.5.0</span>
             </h3>
             <p class="text-[11px] text-slate-400">聯苑二期 3D 洗衣監控分析平台</p>
           </div>
@@ -369,7 +369,7 @@
         <div class="bg-slate-950/70 p-3.5 rounded-2xl border border-slate-800 space-y-2">
           <div class="flex justify-between items-center text-[11px]">
             <span class="text-slate-400">系統版本</span>
-            <span class="font-mono text-cyan-300 font-bold">v2.4.2 (Release 2026.09.13)</span>
+            <span class="font-mono text-cyan-300 font-bold">v2.5.0 (Release 2026.10.18)</span>
           </div>
           <div class="flex justify-between items-center text-[11px]">
             <span class="text-slate-400">架構引擎</span>
@@ -391,13 +391,33 @@
             <span>歷史版本修改紀錄</span>
           </h4>
           <div class="space-y-3">
-            <!-- v2.4.2 -->
+            <!-- v2.5.0 -->
             <div class="border-l-2 border-cyan-400 pl-3 py-0.5 space-y-1">
               <div class="flex items-center justify-between">
-                <span class="font-mono font-bold text-cyan-300 text-xs">v2.4.2</span>
-                <span class="text-[10px] text-slate-500 font-mono">2026-09-13 21:05</span>
+                <span class="font-mono font-bold text-cyan-300 text-xs">v2.5.0</span>
+                <span class="text-[10px] text-slate-500 font-mono">2026-10-18</span>
               </div>
               <ul class="text-[11px] text-slate-300 space-y-1 list-disc list-inside">
+                <li>資料更新與網站部署分離：爬蟲資料改存於獨立 data 分支，解決每日更新次數上限造成網站停止更新的問題</li>
+                <li>資料庫瘦身：機台狀態僅在改變時記錄，歷史快照無損壓縮（約 12.5 萬筆 ➔ 4,400 筆，14MB ➔ 0.9MB）</li>
+                <li>烘衣機運轉中投幣加時合併為同一次使用，不再重複計算次數與金額</li>
+                <li>洗衣機運轉中剩餘時間校正不再被誤判為新的一次使用</li>
+                <li>6F烘乾機2號特殊計價：NT$10 可運轉 40 分鐘，一次最多 NT$30（99 分鐘）</li>
+                <li>離峰推薦與 24H 使用走勢改採一週 7 天平均使用率（無人使用的日子以 0% 計入），並以新算法重算 9/13 至今全部歷史數據</li>
+                <li>即時機況加入短暫快取，分頁切到背景時暫停自動刷新、回到畫面立即同步</li>
+                <li>排程觸發流程調整，雲端爬蟲同一時間僅執行一個，避免資料互相覆蓋</li>
+                <li>每日自動備份資料庫（保留 90 天）</li>
+                <li>全站版本號統一</li>
+              </ul>
+            </div>
+
+            <!-- v2.4.2 -->
+            <div class="border-l-2 border-slate-700 pl-3 py-0.5 space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="font-mono font-bold text-slate-400 text-xs">v2.4.2</span>
+                <span class="text-[10px] text-slate-500 font-mono">2026-09-13 21:05</span>
+              </div>
+              <ul class="text-[11px] text-slate-400 space-y-1 list-disc list-inside">
                 <li>數據分析視角重整：分類順序更新為「🌐 全棟 ➔ 🏢 樓層 ➔ 🧺 機台」，打開數據分析預設選取「🏢 樓層」分析</li>
                 <li>樓層智慧預設與全棟排名看板：預設直接聚焦「最高使用率樓層」，提供全棟 8F~2F 樓層使用率金銀銅牌排名與即時切換晶片</li>
                 <li>機台下拉清單依宿舍樓層由高至低（8F ➔ 6F ➔ 4F ➔ 2F）嚴格排序，進入機台分析預設選取「最高使用率機台」</li>
