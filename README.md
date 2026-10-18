@@ -83,12 +83,14 @@ flowchart TD
 - **資料與網站部署分離 (v2.5.0)**：
   - 爬蟲產生的資料庫與分析 JSON 存放在獨立的 `data` 分支，網站透過 `/api/data` 讀取，資料更新不會觸發 Vercel 重新部署（Vercel 免費方案每日部署上限 100 次）。
   - `data` 分支永遠只保留最新一個 commit；每天自動備份資料庫至 GitHub Actions Artifacts（保留 90 天）。
-  - GitHub Actions 以 `concurrency` 確保同一時間只有一個爬蟲執行。
+  - GitHub Actions 以 `concurrency` 確保同一時間只有一個爬蟲執行；GitHub 自身排程與 cron-job.org 錯開 5 分鐘作為備援。
+  - `data` 分支自帶 `vercel.json`（`deploymentEnabled: false`），Vercel 不會為資料更新建立部署。
 - **基於硬體 dueTime 戳記的自我修復補登**：
   - 即使雲端排程中斷數小時，機台硬體端洗完後仍會保留最後一次運轉的 `dueTime` 戳記。
   - 爬蟲再次啟動時，會自動比對資料庫歷史，若偵測到新的結束時間戳記，**自動回溯起始時間與金額補登入 SQLite 資料庫**，達成離線自癒容錯。
-  - 運轉中結束時間被延後：烘衣機視為投幣加時並合併為同一次；洗衣機視為機台校正剩餘時間（只有上一輪即將結束、新一輪完整開始才記為新的一次）。
+  - 運轉中結束時間被延後：烘衣機視為投幣加時並合併為同一次（時長與金額累加）；洗衣機視為機台校正剩餘時間（只有上一輪即將結束、新一輪完整開始才記為新的一次）。
   - 計價規則集中於 `shared/pricing.js`（6F烘乾機2號為特例：NT$10 / 40 分鐘，最多 NT$30 / 99 分鐘）。
+- **平均使用率分母**：以觀察期間（自開始採集至今）內每個「星期幾 × 小時」時段實際出現的次數為分母，熱度矩陣、24H 走勢與離峰推薦一致。
 - **時區統一治理 (Asia/Taipei UTC+8)**：
   - 分析核心內建台灣時區座標轉換函式，消除 GitHub Actions 預設 Ubuntu UTC+0 環境帶來的 8 小時偏差，確保熱度矩陣的 24 小時時段完全精確。
 - **物理分母容量模型 (Physical Capacity Denominators)**：
@@ -147,6 +149,25 @@ UMC-3D-WasherMonitor/
 
 (data 分支) laundry.db · history_data.json · realtime_latest.json · last_backup_date
 ```
+
+---
+
+## 🛠️ data 分支維運
+
+**初始化或從備份還原**（`data` 分支遺失、資料損毀時；爬蟲遇到 `data` 分支缺少 `laundry.db` 會直接停止，不會覆蓋歷史）：
+
+1. 到 GitHub → Actions → 任一次爬蟲執行頁面下方的 Artifacts，下載最近一天的 `laundry-db-YYYY-MM-DD`，解壓出 `laundry.db` 放到暫存資料夾（例如 `D:/restore`）。
+2. 產生分析 JSON：`LAUNDRY_DATA_DIR=D:/restore node backend/export_data.js`
+3. 推送為單一 commit 的 `data` 分支：
+
+```bash
+git checkout --orphan data-restore && git rm -rfq .
+cp D:/restore/laundry.db D:/restore/history_data.json .
+echo '{"git":{"deploymentEnabled":false}}' > vercel.json
+git add -A && git commit -m "data: restore" && git push -f origin data-restore:data
+```
+
+斷線期間每台機台最後一次使用會由 dueTime 自癒機制補登。
 
 ---
 

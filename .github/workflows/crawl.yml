@@ -1,9 +1,10 @@
 name: 10-Minute IoT Laundry Monitor Crawler
 
-# 主要由 cron-job.org 每 10 分鐘經 /api/trigger-crawl 觸發；GitHub 自身排程每小時一次作為備援
+# 主要由 cron-job.org 每 10 分鐘經 /api/trigger-crawl 觸發；
+# GitHub 自身排程錯開 5 分鐘作為備援（GitHub 排程常延遲或略過，不能單獨依賴）
 on:
   schedule:
-    - cron: '7 * * * *'
+    - cron: '5,15,25,35,45,55 * * * *'
   workflow_dispatch:
   repository_dispatch:
     types: [crawl]
@@ -40,6 +41,14 @@ jobs:
         with:
           node-version: 22
 
+      # 防呆：data 分支必須帶著既有資料庫，避免建出空資料庫並覆蓋掉全部歷史
+      - name: Verify Data Branch
+        run: |
+          if [ ! -f _data/laundry.db ]; then
+            echo "::error::data 分支缺少 laundry.db，請先依 README「data 分支維運」初始化或從備份還原"
+            exit 1
+          fi
+
       - name: Run Crawler & Update Analysis
         run: |
           node backend/collector.js
@@ -75,6 +84,8 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          # data 分支自帶 vercel.json 停用部署（Vercel 讀取的是被推送分支上的設定，不是 main 的）
+          echo '{"git":{"deploymentEnabled":false}}' > vercel.json
           git add -A
           git commit --amend --allow-empty --date=now -m "data: latest laundry status & history"
           git push --force-with-lease origin HEAD:data

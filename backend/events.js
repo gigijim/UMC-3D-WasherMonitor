@@ -22,7 +22,8 @@ function estimateDryerDuration(remainingSec) {
  * - 上一輪尚未結束、dueTime 只差 1 分鐘內 → 時間微調，僅更新結束時間
  * - 洗衣機上一輪剩 ≤ 5 分、新剩餘 ≥ 30 分 → 上一輪提早結束、下一位開始洗 → 新增事件
  * - 洗衣機其他變動 → 機台校正剩餘時間，同一次使用，僅更新結束時間
- * - 烘衣機 dueTime 變晚 → 投幣加時，合併為同一次並依總時長重算金額
+ * - 烘衣機 dueTime 變晚 → 投幣加時，合併為同一次：時長與金額皆「累加」本次加購的部分
+ *   （99 分是單次購買 / 機台剩餘時間的上限，不是整次使用的上限，累計時長不截斷）
  *
  * @returns {Function} detect(machine, state, nowMs) → 'new' | 'extend' | 'adjust' | null
  */
@@ -30,7 +31,7 @@ function createEventDetector(db) {
   const trackingStartMs = new Date(getTrackingStartTime(db)).getTime();
 
   const lastEventStmt = db.prepare(`
-    SELECT id, start_time, end_time, duration_min FROM usage_events
+    SELECT id, start_time, end_time, duration_min, estimated_cost FROM usage_events
     WHERE hwid = ?
     ORDER BY end_time DESC
     LIMIT 1
@@ -70,8 +71,9 @@ function createEventDetector(db) {
       if (prevStillRunning && dueMs > lastEndMs) {
         if (machine.machine_type === 'dryer') {
           const extendMin = Math.round((dueMs - lastEndMs) / MIN_MS);
-          const durationMin = Math.min(DRYER_MAX_MIN, last.duration_min + extendMin);
-          updateEventStmt.run(dueTime, durationMin, calculateCost(machine, durationMin), last.id);
+          const durationMin = last.duration_min + extendMin;
+          const cost = last.estimated_cost + calculateCost(machine, Math.min(DRYER_MAX_MIN, extendMin));
+          updateEventStmt.run(dueTime, durationMin, cost, last.id);
           return 'extend';
         }
 

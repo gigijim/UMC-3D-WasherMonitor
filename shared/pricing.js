@@ -29,8 +29,16 @@ function calculateCost(machine, durationMin) {
   return Math.min(rate.maxCost, coins * COIN);
 }
 
+// 機台資訊卡顯示用的價目文字
+function getPriceLabel(machine) {
+  if (machine.machine_type === 'washer') return '洗衣機 (投幣 20 元 / 40 分鐘)';
+  const rate = getDryerRate(machine);
+  return `烘衣機 (10元${rate.minutesPerCoin}分~${rate.maxCost}元${DRYER_MAX_MIN}分)`;
+}
+
 module.exports = {
   DRYER_MAX_MIN,
   calculateCost,
-  getDryerRate
+  getDryerRate,
+  getPriceLabel
 };

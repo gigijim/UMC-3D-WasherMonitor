@@ -9,6 +9,7 @@ let timerInterval = null;
 let isDemoMode = false; // 預設 100% 真實即時 IoT 數據
 let demoStartTime = null;
 let autoRefreshRemaining = 30;
+let lastRefreshAt = 0;
 
 function resetRefreshCountdown() {
   autoRefreshRemaining = 30;
@@ -246,7 +247,7 @@ function showMachineDetail(device) {
   const isDryer = device.type === 'dryer';
   document.getElementById('card-type-icon').textContent = isDryer ? '💨' : '🧺';
   document.getElementById('card-title').textContent = device.description;
-  document.getElementById('card-floor-desc').textContent = `${device.floor} · ${isDryer ? '烘衣機 (10元20分~50元99分)' : '洗衣機 (投幣 20 元 / 40 分鐘)'}`;
+  document.getElementById('card-floor-desc').textContent = `${device.floor} · ${device.priceLabel || (isDryer ? '烘衣機 (10元20分~50元99分)' : '洗衣機 (投幣 20 元 / 40 分鐘)')}`;
 
   const statusBox = document.getElementById('card-status-box');
   const statusDot = document.getElementById('card-status-dot');
@@ -595,6 +596,7 @@ function renderListView(devices) {
 }
 
 async function refreshAll() {
+  lastRefreshAt = Date.now();
   resetRefreshCountdown();
   const btn = document.getElementById('btn-refresh');
   const icon = document.getElementById('btn-refresh-icon');
@@ -750,13 +752,9 @@ async function initApp() {
     }
   }, 1000);
 
-  // 從背景回到前景：離開超過 30 秒就立即同步最新狀態
-  let hiddenAt = null;
+  // 從背景回到前景：距離上次同步超過 30 秒就立即同步最新狀態
   document.addEventListener('visibilitychange', () => {
-    if (document.hidden) {
-      hiddenAt = Date.now();
-    } else if (hiddenAt && Date.now() - hiddenAt > 30000) {
-      hiddenAt = null;
+    if (!document.hidden && Date.now() - lastRefreshAt > 30000) {
       refreshAll();
     }
   });
@@ -889,7 +887,8 @@ async function initApp() {
   const analyticsContent = document.getElementById('analytics-content');
   const openAnalytics = async () => {
     analyticsModal?.classList.remove('hidden');
-    historyData = await fetchHistory();
+    const hist = await fetchHistory();
+    if (hist) historyData = hist;
     renderAnalytics(historyData, analyticsContent);
   };
   document.getElementById('btn-open-analytics')?.addEventListener('click', openAnalytics);

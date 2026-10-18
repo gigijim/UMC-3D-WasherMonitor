@@ -372,7 +372,7 @@ function renderOverallView(data, body) {
       </div>
       <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
         <div class="text-[11px] text-slate-400">熱度計算依據</div>
-        <div class="text-xs sm:text-sm font-bold font-mono text-amber-300 mt-0.5">近 30 天數據</div>
+        <div class="text-xs sm:text-sm font-bold font-mono text-amber-300 mt-0.5">${data.observedDays ? `近 ${data.observedDays} 天數據` : '近 30 天數據'}</div>
       </div>
       <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
         <div class="text-[11px] text-slate-400">推估投幣營收</div>

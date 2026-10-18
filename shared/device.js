@@ -1,3 +1,5 @@
+const { getPriceLabel } = require('./pricing');
+
 // 機台描述解析（後端爬蟲、Vercel API、Vite 本機開發伺服器共用的唯一版本）
 // 例：「6F烘乾機2號」→ { floor: '6F', machine_type: 'dryer', machine_num: 2 }
 const FLOORS = ['2F', '4F', '6F', '8F'];
@@ -48,6 +50,7 @@ function toRealtimeDevice(device, nowMs = Date.now()) {
     floor,
     type: machine_type,
     num: machine_num,
+    priceLabel: getPriceLabel({ floor, machine_type, machine_num }),
     connection,
     isRunning,
     dueTime,

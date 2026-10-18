@@ -21,7 +21,7 @@ export default async function handler(req, res) {
     }
 
     res.setHeader('Content-Type', 'application/json; charset=utf-8');
-    res.setHeader('Cache-Control', 'public, s-maxage=120, stale-while-revalidate=600');
+    res.setHeader('Cache-Control', 'public, s-maxage=120, stale-while-revalidate=600, stale-if-error=86400');
     return res.status(200).send(await response.text());
   } catch (err) {
     return res.status(502).json({ error: err.message });
