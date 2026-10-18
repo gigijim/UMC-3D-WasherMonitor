@@ -1,4 +1,4 @@
-const CACHE_NAME = 'umc-washer-v3';
+const CACHE_NAME = 'umc-washer-v4';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
@@ -44,7 +44,7 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
   // Skip non-GET and cross-origin
-  if (event.request.method !== 'GET' || !url.origin.includes(self.location.origin)) {
+  if (event.request.method !== 'GET' || url.origin !== self.location.origin) {
     return;
   }
 

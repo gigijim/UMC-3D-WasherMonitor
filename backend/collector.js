@@ -1,4 +1,6 @@
-const { getDb, initDb, upsertDevice, parseDeviceInfo, calculateCost, getTrackingStartTime } = require('./db');
+const { DATA_DIR, getDb, initDb, upsertDevice } = require('./db');
+const { createEventDetector } = require('./events');
+const { toRealtimeDevice, summarize } = require('../shared/device');
 const fs = require('node:fs');
 const path = require('node:path');
 
@@ -52,27 +54,25 @@ async function fetchPlaceStatus(retries = 3, delay = 2000) {
 
 async function collectOnce(options = { exportRealtime: true }) {
   initDb();
-  const db = getDb();
   const now = new Date();
+  const nowMs = now.getTime();
   const nowIso = now.toISOString();
 
   console.log(`[Collector] Starting crawl at ${now.toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' })}...`);
   const placeData = await fetchPlaceStatus();
   const devices = (placeData.devices || []).filter((d) => !d.testmode);
+  const realtimeList = devices.map((d) => toRealtimeDevice(d, nowMs));
+  const summary = summarize(realtimeList);
+  const eventResults = { new: 0, extend: 0, adjust: 0 };
+  let snapshotCount = 0;
 
-  let runningCount = 0;
-  let idleCount = 0;
-  let offlineCount = 0;
-  let newEventsCount = 0;
+  const db = getDb();
+  const detectEvent = createEventDetector(db);
 
-  const realtimeList = [];
-
-  const trackingStartTime = getTrackingStartTime(db);
-  const trackingStartMs = new Date(trackingStartTime).getTime();
-
-  const checkEventStmt = db.prepare(`
-    SELECT id FROM usage_events 
-    WHERE hwid = ? AND end_time = ? 
+  const lastSnapshotStmt = db.prepare(`
+    SELECT connection, is_running, due_time FROM device_snapshots
+    WHERE hwid = ?
+    ORDER BY timestamp DESC
     LIMIT 1
   `);
 
@@ -81,126 +81,46 @@ async function collectOnce(options = { exportRealtime: true }) {
     VALUES (?, ?, ?, ?, ?, ?)
   `);
 
-  const insertEventStmt = db.prepare(`
-    INSERT INTO usage_events (hwid, floor, machine_type, machine_num, start_time, end_time, duration_min, estimated_cost, created_at)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-  `);
+  db.exec('BEGIN');
+  try {
+    // Record crawl count in system_config
+    db.prepare(`
+      INSERT INTO system_config (key, value) VALUES ('crawl_count', '1')
+      ON CONFLICT(key) DO UPDATE SET value = CAST(value AS INTEGER) + 1
+    `).run();
 
-  // Record crawl count in system_config
-  const currentCountRow = db.prepare(`SELECT value FROM system_config WHERE key = 'crawl_count'`).get();
-  let crawlCount = 1;
-  if (currentCountRow) {
-    crawlCount = parseInt(currentCountRow.value, 10) + 1;
-    db.prepare(`UPDATE system_config SET value = ? WHERE key = 'crawl_count'`).run(crawlCount.toString());
-  } else {
-    const distinctSnapshots = db.prepare(`SELECT COUNT(DISTINCT timestamp) as c FROM device_snapshots`).get();
-    crawlCount = Math.max(1, (distinctSnapshots?.c || 0) + 1);
-    db.prepare(`INSERT INTO system_config (key, value) VALUES ('crawl_count', ?)`).run(crawlCount.toString());
-  }
+    for (let i = 0; i < devices.length; i++) {
+      const rt = realtimeList[i];
+      upsertDevice(db, devices[i]);
 
-  for (const device of devices) {
-    upsertDevice(db, device);
-    const { floor, machine_type, machine_num } = parseDeviceInfo(device.description);
+      const machine = { hwid: rt.hwid, floor: rt.floor, machine_type: rt.type, machine_num: rt.num };
+      const result = detectEvent(machine, rt, nowMs);
+      if (result) eventResults[result]++;
 
-    const connection = device.connection ? 1 : 0;
-    const dueTime = device.modelStatus?.operationStatus?.dueTime || null;
-    let remainingSec = 0;
-    let isRunning = 0;
-
-    if (connection && dueTime) {
-      const dueTimestamp = new Date(dueTime).getTime();
-      remainingSec = Math.max(0, Math.floor((dueTimestamp - now.getTime()) / 1000));
-      if (remainingSec > 0) {
-        isRunning = 1;
+      // 只在機台狀態（連線 / 運轉 / dueTime）改變時寫入快照，避免資料庫無限膨脹
+      const connection = rt.connection ? 1 : 0;
+      const isRunning = rt.isRunning ? 1 : 0;
+      const last = lastSnapshotStmt.get(rt.hwid);
+      if (!last || last.connection !== connection || last.is_running !== isRunning || last.due_time !== rt.dueTime) {
+        insertSnapshotStmt.run(nowIso, rt.hwid, connection, isRunning, rt.dueTime, rt.remainingSec);
+        snapshotCount++;
       }
     }
-
-    if (!connection) {
-      offlineCount++;
-    } else if (isRunning) {
-      runningCount++;
-    } else {
-      idleCount++;
-    }
-
-    // 關鍵優化：基於 IoT 設備 dueTime 戳記的自我修復式精準事件偵測
-    // 只要是在追蹤啟動時間之後發生的全新使用週期（無論爬蟲當下機台正在運轉，或是已在爬蟲間隔中剛好洗完），
-    // 只要 usage_events 資料庫尚未記錄該次 (hwid, end_time)，即 100% 準確補入，絕不遺漏任何一次洗衣/烘衣！
-    if (dueTime) {
-      const dueMs = new Date(dueTime).getTime();
-      if (dueMs > trackingStartMs) {
-        const existingEvent = checkEventStmt.get(device.hwid, dueTime);
-        if (!existingEvent) {
-          let durationMin = 40;
-          if (machine_type === 'dryer') {
-            if (isRunning && remainingSec > 0) {
-              const mins = Math.round(remainingSec / 60);
-              if (mins <= 20) durationMin = 20;
-              else if (mins <= 40) durationMin = 40;
-              else if (mins <= 60) durationMin = 60;
-              else if (mins <= 80) durationMin = 80;
-              else durationMin = 99;
-            } else {
-              durationMin = 40; // 烘衣機標準預設運轉 40 分鐘
-            }
-          }
-
-          const startTime = new Date(dueMs - durationMin * 60 * 1000).toISOString();
-          const cost = calculateCost(machine_type, durationMin);
-
-          insertEventStmt.run(
-            device.hwid,
-            floor,
-            machine_type,
-            machine_num,
-            startTime,
-            dueTime,
-            durationMin,
-            cost,
-            nowIso
-          );
-          newEventsCount++;
-        }
-      }
-    }
-
-    // Insert snapshot
-    insertSnapshotStmt.run(
-      nowIso,
-      device.hwid,
-      connection,
-      isRunning,
-      dueTime,
-      remainingSec
-    );
-
-    realtimeList.push({
-      hwid: device.hwid,
-      vendorHwid: device.vendorHwid,
-      description: device.description,
-      floor,
-      type: machine_type,
-      num: machine_num,
-      connection: Boolean(connection),
-      isRunning: Boolean(isRunning),
-      dueTime,
-      remainingSec
-    });
+    db.exec('COMMIT');
+  } catch (err) {
+    db.exec('ROLLBACK');
+    db.close();
+    throw err;
   }
 
   db.close();
 
-  console.log(`[Collector] Finished crawl. Total: ${devices.length}, Running: ${runningCount}, Idle: ${idleCount}, Offline: ${offlineCount}, New Events: ${newEventsCount}`);
+  console.log(`[Collector] Finished crawl. Total: ${summary.total}, Running: ${summary.running}, Idle: ${summary.idle}, Offline: ${summary.offline}, New Events: ${eventResults.new}, Extended: ${eventResults.extend}, Adjusted: ${eventResults.adjust}, Snapshots: ${snapshotCount}`);
 
   if (options.exportRealtime) {
     const realtimePayload = {
       updatedAt: nowIso,
-      summary: {
-        total: devices.length,
-        running: runningCount,
-        idle: idleCount,
-        offline: offlineCount
-      },
+      summary,
       merchant: placeData.merchant,
       place: {
         title: placeData.title,
@@ -209,17 +129,14 @@ async function collectOnce(options = { exportRealtime: true }) {
       devices: realtimeList
     };
 
-    const outPath = path.resolve(__dirname, '../frontend/public/data/realtime_latest.json');
+    const outPath = path.join(DATA_DIR, 'realtime_latest.json');
     fs.mkdirSync(path.dirname(outPath), { recursive: true });
-    fs.writeFileSync(outPath, JSON.stringify(realtimePayload, null, 2), 'utf-8');
+    fs.writeFileSync(outPath, JSON.stringify(realtimePayload), 'utf-8');
   }
 
   return {
-    total: devices.length,
-    running: runningCount,
-    idle: idleCount,
-    offline: offlineCount,
-    newEventsCount
+    ...summary,
+    newEventsCount: eventResults.new
   };
 }
 

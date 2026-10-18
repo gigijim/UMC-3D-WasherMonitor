@@ -34,9 +34,9 @@ async function fetchRealtime() {
     // fallback
   }
 
-  // 2. Fallback to static snapshot JSON if API is offline
+  // 2. Fallback to the crawler's latest snapshot (data branch) if the live API is offline
   if (!data || !data.devices) {
-    const resFallback = await fetch('/data/realtime_latest.json');
+    const resFallback = await fetch('/api/data?name=realtime');
     if (resFallback.ok) {
       data = await resFallback.json();
     }
@@ -119,7 +119,7 @@ async function fetchRealtime() {
 
 async function fetchHistory() {
   try {
-    const res = await fetch(`/data/history_data.json?t=${Date.now()}`);
+    const res = await fetch('/api/data?name=history');
     if (res.ok) {
       return await res.json();
     }
@@ -668,6 +668,9 @@ async function initApp() {
   // Timer interval for real-time second ticking & auto-refresh countdown
   if (timerInterval) clearInterval(timerInterval);
   timerInterval = setInterval(() => {
+    // 分頁在背景時暫停倒數與輪詢，節省流量與免費額度
+    if (document.hidden) return;
+
     // 1. 頁面自動刷新倒數提示 (每 30 秒自動向雲端同步一次最新數據)
     autoRefreshRemaining--;
     if (autoRefreshRemaining <= 0) {
@@ -746,6 +749,17 @@ async function initApp() {
       }
     }
   }, 1000);
+
+  // 從背景回到前景：離開超過 30 秒就立即同步最新狀態
+  let hiddenAt = null;
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      hiddenAt = Date.now();
+    } else if (hiddenAt && Date.now() - hiddenAt > 30000) {
+      hiddenAt = null;
+      refreshAll();
+    }
+  });
 
   // Bind Floor Buttons & Independent Cruise / Pin View Toggle (桌機頂部與手機第二排)
   const floorButtons = document.querySelectorAll('.floor-btn');

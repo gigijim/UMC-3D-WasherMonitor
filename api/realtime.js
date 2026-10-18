@@ -1,3 +1,8 @@
+import { toRealtimeDevice, summarize } from '../shared/device.js';
+
+const ALFALOOP_URL = 'https://app.alfaloop.com/ndr/fn/api/v1/web';
+const PLACE_ID = '67359cb42f71210375a69599';
+
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -9,9 +14,7 @@ export default async function handler(req, res) {
 
   try {
     const ts = Math.floor(Date.now() / 1000);
-    const url = `https://app.alfaloop.com/ndr/fn/api/v1/web?tz=Asia/Taipei&timestamp=${ts}`;
-
-    const response = await fetch(url, {
+    const response = await fetch(`${ALFALOOP_URL}?tz=Asia/Taipei&timestamp=${ts}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -19,8 +22,9 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         action: 'checkoutPlaceStatus',
-        placeId: '67359cb42f71210375a69599'
-      })
+        placeId: PLACE_ID
+      }),
+      signal: AbortSignal.timeout(8000)
     });
 
     if (!response.ok) {
@@ -33,48 +37,14 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'Invalid response from alfaloop' });
     }
 
-    const now = new Date();
-    const devices = (place.devices || []).filter((d) => !d.testmode).map((d) => {
-      let floor = 'Unknown';
-      for (const f of ['2F', '4F', '6F', '8F']) {
-        if (d.description.includes(f)) { floor = f; break; }
-      }
-      const type = d.description.includes('烘') ? 'dryer' : 'washer';
-      let num = 1;
-      const match = d.description.match(/(\d+)號/);
-      if (match) num = parseInt(match[1], 10);
+    const now = Date.now();
+    const devices = (place.devices || []).filter((d) => !d.testmode).map((d) => toRealtimeDevice(d, now));
 
-      const connection = Boolean(d.connection);
-      const dueTime = d.modelStatus?.operationStatus?.dueTime || null;
-      let remainingSec = 0;
-      let isRunning = false;
-
-      if (connection && dueTime) {
-        remainingSec = Math.max(0, Math.floor((new Date(dueTime).getTime() - now.getTime()) / 1000));
-        isRunning = remainingSec > 0;
-      }
-
-      return {
-        hwid: d.hwid,
-        vendorHwid: d.vendorHwid,
-        description: d.description,
-        floor,
-        type,
-        num,
-        connection,
-        isRunning,
-        dueTime,
-        remainingSec
-      };
-    });
-
-    const running = devices.filter((d) => d.isRunning).length;
-    const idle = devices.filter((d) => d.connection && !d.isRunning).length;
-    const offline = devices.filter((d) => !d.connection).length;
-
+    // 邊緣快取 20 秒：多位使用者同時開啟時，最多每 20 秒才向 Alfaloop 查詢一次
+    res.setHeader('Cache-Control', 'public, s-maxage=20, stale-while-revalidate=30');
     return res.status(200).json({
-      updatedAt: now.toISOString(),
-      summary: { total: devices.length, running, idle, offline },
+      updatedAt: new Date(now).toISOString(),
+      summary: summarize(devices),
       merchant: place.merchant,
       place: { title: place.title, address: place.address },
       devices

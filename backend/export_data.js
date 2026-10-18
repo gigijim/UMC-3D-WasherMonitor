@@ -1,4 +1,4 @@
-const { getDb } = require('./db');
+const { DATA_DIR, getDb } = require('./db');
 const { analyzeHistory } = require('./analyzer');
 const fs = require('node:fs');
 const path = require('node:path');
@@ -9,14 +9,9 @@ function exportData() {
   const analysisResult = analyzeHistory(db);
   db.close();
 
-  const outPath = path.resolve(__dirname, '../frontend/public/data/history_data.json');
+  const outPath = path.join(DATA_DIR, 'history_data.json');
   fs.mkdirSync(path.dirname(outPath), { recursive: true });
-  fs.writeFileSync(outPath, JSON.stringify(analysisResult, null, 2), 'utf-8');
-
-  const distPath = path.resolve(__dirname, '../frontend/dist/data/history_data.json');
-  if (fs.existsSync(path.dirname(distPath))) {
-    fs.writeFileSync(distPath, JSON.stringify(analysisResult, null, 2), 'utf-8');
-  }
+  fs.writeFileSync(outPath, JSON.stringify(analysisResult), 'utf-8');
 
   console.log(`[Export] Successfully exported history analysis (${analysisResult.totalEvents} events) to ${outPath}`);
   return analysisResult;

@@ -1,4 +1,5 @@
-const { getDb, initDb, calculateCost } = require('./db');
+const { getDb, initDb } = require('./db');
+const { calculateCost } = require('../shared/pricing');
 
 function seedRealisticHistory(daysBack = 30) {
   initDb();
@@ -72,7 +73,7 @@ function seedRealisticHistory(daysBack = 30) {
           }
 
           const endTime = new Date(startTime.getTime() + durationMin * 60 * 1000);
-          const cost = calculateCost(dev.machine_type, durationMin);
+          const cost = calculateCost(dev, durationMin);
 
           insertEventStmt.run(
             dev.hwid,

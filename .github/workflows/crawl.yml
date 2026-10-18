@@ -1,8 +1,9 @@
 name: 10-Minute IoT Laundry Monitor Crawler
 
+# 主要由 cron-job.org 每 10 分鐘經 /api/trigger-crawl 觸發；GitHub 自身排程每小時一次作為備援
 on:
   schedule:
-    - cron: '2,12,22,32,42,52 * * * *'
+    - cron: '7 * * * *'
   workflow_dispatch:
   repository_dispatch:
     types: [crawl]
@@ -10,17 +11,32 @@ on:
 permissions:
   contents: write
 
+# 同一時間只跑一個爬蟲，避免兩個 run 同時推送資料而互相覆蓋
+concurrency:
+  group: crawl
+  cancel-in-progress: false
+
 jobs:
   crawl:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     env:
       TZ: 'Asia/Taipei'
+      LAUNDRY_DATA_DIR: ${{ github.workspace }}/_data
+
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+      - name: Checkout Code (main)
+        uses: actions/checkout@v5
+
+      # 資料存放在獨立的 data 分支，推送資料不會觸發網站重新部署
+      - name: Checkout Data (data branch)
+        uses: actions/checkout@v5
+        with:
+          ref: data
+          path: _data
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 22
 
@@ -29,14 +45,36 @@ jobs:
           node backend/collector.js
           node backend/export_data.js
 
-      - name: Commit and Push if Changed
+      - name: Check Daily Backup
+        id: backup
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add backend/laundry.db frontend/public/data/
-          if git diff --staged --quiet; then
-            echo "No changes in machine data. Skipping commit."
-          else
-            git commit -m "chore(data): auto-update laundry status & history"
-            git push
+          today=$(date +%F)
+          if [ "$(cat _data/last_backup_date 2>/dev/null)" != "$today" ]; then
+            echo "needed=true" >> "$GITHUB_OUTPUT"
+            echo "date=$today" >> "$GITHUB_OUTPUT"
           fi
+
+      # 每天第一次執行時備份資料庫（保留 90 天），可於 Actions 頁面下載還原
+      - name: Upload Daily Database Backup
+        id: upload
+        if: steps.backup.outputs.needed == 'true'
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: laundry-db-${{ steps.backup.outputs.date }}
+          path: _data/laundry.db
+          retention-days: 90
+
+      - name: Mark Backup Done
+        if: steps.upload.outcome == 'success'
+        run: echo "${{ steps.backup.outputs.date }}" > _data/last_backup_date
+
+      # data 分支永遠只保留最新一個 commit，repo 不會隨時間膨脹
+      - name: Publish Data Branch
+        working-directory: _data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit --amend --allow-empty --date=now -m "data: latest laundry status & history"
+          git push --force-with-lease origin HEAD:data

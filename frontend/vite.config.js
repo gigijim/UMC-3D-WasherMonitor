@@ -1,4 +1,17 @@
 import { defineConfig } from 'vite';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { toRealtimeDevice, summarize } from '../shared/device.js';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+// 本機開發讀取 backend/（或 LAUNDRY_DATA_DIR）內由 daemon 產生的資料，沒有則改抓 data 分支
+const LOCAL_DATA_DIR = path.resolve(process.env.LAUNDRY_DATA_DIR || path.join(__dirname, '../backend'));
+const DATA_BASE_URL = 'https://raw.githubusercontent.com/gigijim/UMC-3D-WasherMonitor/data/';
+const DATA_FILES = {
+  history: 'history_data.json',
+  realtime: 'realtime_latest.json'
+};
 
 export default defineConfig({
   root: './',
@@ -9,8 +22,34 @@ export default defineConfig({
   },
   plugins: [
     {
-      name: 'api-realtime-dev',
+      name: 'api-dev',
       configureServer(server) {
+        server.middlewares.use('/api/data', async (req, res) => {
+          const name = new URL(req.url, 'http://localhost').searchParams.get('name');
+          const file = DATA_FILES[name];
+          res.setHeader('Content-Type', 'application/json');
+          if (!file) {
+            res.statusCode = 400;
+            res.end(JSON.stringify({ error: 'Unknown data name' }));
+            return;
+          }
+
+          const localPath = path.join(LOCAL_DATA_DIR, file);
+          if (fs.existsSync(localPath)) {
+            res.end(fs.readFileSync(localPath, 'utf-8'));
+            return;
+          }
+
+          try {
+            const response = await fetch(DATA_BASE_URL + file);
+            res.statusCode = response.status;
+            res.end(await response.text());
+          } catch (err) {
+            res.statusCode = 502;
+            res.end(JSON.stringify({ error: err.message }));
+          }
+        });
+
         server.middlewares.use('/api/realtime', async (req, res) => {
           try {
             const ts = Math.floor(Date.now() / 1000);
@@ -41,49 +80,13 @@ export default defineConfig({
               return;
             }
 
-            const now = new Date();
-            const devices = (place.devices || []).filter((d) => !d.testmode).map((d) => {
-              let floor = 'Unknown';
-              for (const f of ['2F', '4F', '6F', '8F']) {
-                if (d.description.includes(f)) { floor = f; break; }
-              }
-              const type = d.description.includes('烘') ? 'dryer' : 'washer';
-              let num = 1;
-              const match = d.description.match(/(\d+)號/);
-              if (match) num = parseInt(match[1], 10);
-
-              const connection = Boolean(d.connection);
-              const dueTime = d.modelStatus?.operationStatus?.dueTime || null;
-              let remainingSec = 0;
-              let isRunning = false;
-
-              if (connection && dueTime) {
-                remainingSec = Math.max(0, Math.floor((new Date(dueTime).getTime() - now.getTime()) / 1000));
-                isRunning = remainingSec > 0;
-              }
-
-              return {
-                hwid: d.hwid,
-                vendorHwid: d.vendorHwid,
-                description: d.description,
-                floor,
-                type,
-                num,
-                connection,
-                isRunning,
-                dueTime,
-                remainingSec
-              };
-            });
-
-            const running = devices.filter((d) => d.isRunning).length;
-            const idle = devices.filter((d) => d.connection && !d.isRunning).length;
-            const offline = devices.filter((d) => !d.connection).length;
+            const now = Date.now();
+            const devices = (place.devices || []).filter((d) => !d.testmode).map((d) => toRealtimeDevice(d, now));
 
             res.setHeader('Content-Type', 'application/json');
             res.end(JSON.stringify({
-              updatedAt: now.toISOString(),
-              summary: { total: devices.length, running, idle, offline },
+              updatedAt: new Date(now).toISOString(),
+              summary: summarize(devices),
               merchant: place.merchant,
               place: { title: place.title, address: place.address },
               devices

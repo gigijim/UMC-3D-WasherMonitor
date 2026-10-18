@@ -1,4 +1,4 @@
-﻿# Dependencies
+# Dependencies
 node_modules/
 frontend/node_modules/
 backend/node_modules/
@@ -7,6 +7,14 @@ backend/node_modules/
 dist/
 frontend/dist/
 .vercel/
+
+# Crawler data (lives on the data branch, not on main)
+backend/laundry.db
+backend/history_data.json
+backend/realtime_latest.json
+backend/last_backup_date
+frontend/public/data/
+_data/
 
 # Environment and local configs
 .env

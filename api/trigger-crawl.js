@@ -1,35 +1,26 @@
-﻿export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+const WORKFLOW_DISPATCH_URL = 'https://api.github.com/repos/gigijim/UMC-3D-WasherMonitor/actions/workflows/crawl.yml/dispatches';
 
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
+function getCallerKey(req) {
+  const auth = req.headers.authorization || '';
+  const match = auth.match(/^bearer\s+(.+)$/i);
+  return match ? match[1] : req.query.key;
+}
+
+export default async function handler(req, res) {
+  res.setHeader('Cache-Control', 'no-store');
+
+  const secret = process.env.CRON_SECRET;
+  if (secret && getCallerKey(req) !== secret) {
+    return res.status(401).json({ success: false, error: 'Unauthorized' });
   }
 
-  let token = process.env.GH_TOKEN || process.env.GITHUB_TOKEN;
-
-  if (!token && req.headers.authorization) {
-    const parts = req.headers.authorization.split(' ');
-    if (parts.length === 2 && /^bearer$/i.test(parts[0])) {
-      token = parts[1];
-    }
-  }
-
+  const token = process.env.GH_TOKEN || process.env.GITHUB_TOKEN;
   if (!token) {
-    token = req.query.token || req.query.key;
-  }
-
-  if (!token) {
-    return res.status(401).json({
-      success: false,
-      error: 'Missing GitHub Token. Please set GH_TOKEN environment variable in Vercel, or pass ?token=ghp_xxx query parameter.',
-      usage: 'GET https://umc-3d-washermonitor.vercel.app/api/trigger-crawl?token=YOUR_GITHUB_TOKEN'
-    });
+    return res.status(500).json({ success: false, error: 'Trigger is not configured' });
   }
 
   try {
-    const ghRes = await fetch('https://api.github.com/repos/gigijim/UMC-3D-WasherMonitor/actions/workflows/crawl.yml/dispatches', {
+    const ghRes = await fetch(WORKFLOW_DISPATCH_URL, {
       method: 'POST',
       headers: {
         'Accept': 'application/vnd.github+json',
@@ -37,20 +28,20 @@
         'User-Agent': 'UMC-3D-WasherMonitor-Cron-Webhook',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ ref: 'main' })
+      body: JSON.stringify({ ref: 'main' }),
+      signal: AbortSignal.timeout(10000)
     });
 
     if (!ghRes.ok) {
-      const errText = await ghRes.text();
-      return res.status(ghRes.status).json({
+      return res.status(502).json({
         success: false,
-        error: `GitHub API error (${ghRes.status}): ${errText}`
+        error: `GitHub API error (${ghRes.status})`
       });
     }
 
     return res.status(200).json({
       success: true,
-      message: '✅ GitHub Actions 10-Minute IoT Laundry Monitor Crawler 爬蟲排程已成功即時喚醒觸發！',
+      message: '✅ 爬蟲排程已觸發',
       timestamp: new Date().toISOString()
     });
   } catch (err) {

@@ -1,7 +1,10 @@
 const { DatabaseSync } = require('node:sqlite');
 const path = require('node:path');
+const { parseDeviceInfo } = require('../shared/device');
 
-const DB_PATH = path.join(__dirname, 'laundry.db');
+// 資料目錄：GitHub Actions 指向 data 分支的 checkout（_data），本機預設為 backend/
+const DATA_DIR = path.resolve(process.env.LAUNDRY_DATA_DIR || __dirname);
+const DB_PATH = path.join(DATA_DIR, 'laundry.db');
 
 function getDb() {
   const db = new DatabaseSync(DB_PATH);
@@ -66,32 +69,6 @@ function initDb() {
   db.close();
 }
 
-function parseDeviceInfo(description) {
-  let floor = 'Unknown';
-  let machine_type = 'unknown';
-  let machine_num = 1;
-
-  for (const f of ['2F', '4F', '6F', '8F']) {
-    if (description.includes(f)) {
-      floor = f;
-      break;
-    }
-  }
-
-  if (description.includes('洗')) {
-    machine_type = 'washer';
-  } else if (description.includes('烘')) {
-    machine_type = 'dryer';
-  }
-
-  const match = description.match(/(\d+)號/);
-  if (match) {
-    machine_num = parseInt(match[1], 10);
-  }
-
-  return { floor, machine_type, machine_num };
-}
-
 function upsertDevice(db, device) {
   const { floor, machine_type, machine_num } = parseDeviceInfo(device.description);
   const now = new Date().toISOString();
@@ -121,20 +98,6 @@ function upsertDevice(db, device) {
   );
 }
 
-function calculateCost(machineType, durationMin) {
-  if (machineType === 'washer') {
-    const cycles = Math.max(1, Math.round(durationMin / 40));
-    return cycles * 20;
-  } else {
-    // 烘衣機: 10元20分, 20元40分, 30元60分, 40元80分, 50元99分
-    if (durationMin <= 25) return 10;
-    if (durationMin <= 45) return 20;
-    if (durationMin <= 65) return 30;
-    if (durationMin <= 85) return 40;
-    return 50;
-  }
-}
-
 function getTrackingStartTime(db) {
   try {
     const row = db.prepare(`SELECT value FROM system_config WHERE key = 'tracking_start_time'`).get();
@@ -156,12 +119,12 @@ function setTrackingStartTime(db, isoString) {
 }
 
 module.exports = {
+  DATA_DIR,
   DB_PATH,
   getDb,
   initDb,
   parseDeviceInfo,
   upsertDevice,
-  calculateCost,
   getTrackingStartTime,
   setTrackingStartTime
 };
