@@ -3,7 +3,7 @@ const WORKFLOW_DISPATCH_URL = 'https://api.github.com/repos/gigijim/UMC-3D-Washe
 function getCallerKey(req) {
   const auth = req.headers.authorization || '';
   const match = auth.match(/^bearer\s+(.+)$/i);
-  return match ? match[1] : req.query.key;
+  return (match ? match[1] : null) || req.query.token || req.query.key;
 }
 
 export default async function handler(req, res) {
