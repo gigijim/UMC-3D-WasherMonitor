@@ -152,6 +152,7 @@ UMC-3D-WasherMonitor/
 ├── start_all.bat               # Windows 一鍵啟動本機守護程式 + 前端開發伺服器
 ├── vercel.json                 # Vercel 建置設定
 ├── CHANGELOG.md                # 版本修改紀錄
+├── UMC-v2.5.0-交接與維運.md     # v2.5.0 交接與維運手冊 (排程設定、備份與災難復原)
 └── README.md                   # 系統架構與說明文件
 
 (data 分支，只保留最新一個 commit)
