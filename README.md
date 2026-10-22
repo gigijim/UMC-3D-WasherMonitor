@@ -129,13 +129,18 @@ UMC-3D-WasherMonitor/
 │   ├── export_data.js          # 將 SQLite 資料庫匯出為分析 JSON
 │   ├── db.js                   # Node.js 原生 SQLite 連線與資料表結構 (DatabaseSync)
 │   ├── migrate_v2_5_0.js       # v2.5.0 一次性資料遷移 (快照壓縮 + 重算)
-│   ├── daemon.js               # 本機 24H 背景守護程式 (每 3 分鐘)
+│   ├── daemon.js               # 本機 24H 背景守護程式 (每 3 分鐘爬取、每 15 分鐘匯出)
+│   ├── reset_db.js             # 本機清空歷史並重新開始採集 (開發用)
+│   ├── seed_mock_history.js    # 產生模擬歷史資料 (開發用)
 │   └── start_daemon.bat        # Windows 一鍵啟動守護腳本
 │
-├── frontend/                   # 現代化 3D 前端與 PWA
+├── frontend/                   # 現代化 3D 前端與 PWA (Vite)
 │   ├── index.html              # 主畫面 (3D Canvas + 直立式樓層選單 + 版本資訊)
-│   ├── manifest.json           # PWA Web App 清單 (支援 iOS 加入主畫面)
-│   ├── sw.js                   # Service Worker (離線快取與 Network-First 策略)
+│   ├── vite.config.js          # Vite 設定 (含本機 /api/realtime、/api/data 開發代理)
+│   ├── public/
+│   │   ├── manifest.webmanifest # PWA Web App 清單 (支援 iOS 加入主畫面)
+│   │   ├── sw.js               # Service Worker (離線快取與 Network-First 策略)
+│   │   └── icon-*.png …        # App 圖示與 favicon
 │   └── src/
 │       ├── main.js             # 前端核心邏輯、視角導航、資料同步
 │       ├── three/
@@ -143,12 +148,34 @@ UMC-3D-WasherMonitor/
 │       └── components/
 │           └── Charts.js       # Chart.js 視覺化、每週熱度矩陣看板
 │
-├── vercel.json                 # Vercel 建置設定 (data 分支不部署)
+├── package.json                # 根目錄指令 (npm run build / npm run crawl)
+├── start_all.bat               # Windows 一鍵啟動本機守護程式 + 前端開發伺服器
+├── vercel.json                 # Vercel 建置設定
 ├── CHANGELOG.md                # 版本修改紀錄
 └── README.md                   # 系統架構與說明文件
 
-(data 分支) laundry.db · history_data.json · realtime_latest.json · last_backup_date
+(data 分支，只保留最新一個 commit)
+├── laundry.db                  # SQLite 歷史資料庫
+├── history_data.json           # 歷史分析結果 (/api/data?name=history)
+├── realtime_latest.json        # 最新一次爬取的機況 (/api/data?name=realtime)
+├── last_backup_date            # 每日備份標記
+└── vercel.json                 # 停用此分支的 Vercel 部署
 ```
+
+---
+
+## 💻 本機開發
+
+需求：Node.js 22 以上（使用內建 `node:sqlite`）。
+
+```bash
+cd frontend && npm install && npm run dev      # 前端開發伺服器 http://localhost:3000
+npm run crawl                                  # 在 repo 根目錄手動爬取一次並匯出分析
+```
+
+- 本機資料預設存放在 `backend/`（`laundry.db`、`history_data.json`、`realtime_latest.json`，已列入 `.gitignore`）；可用環境變數 `LAUNDRY_DATA_DIR` 指定其他資料夾。
+- 開發伺服器的 `/api/data` 會優先讀取本機資料，沒有時改讀線上 `data` 分支。
+- Windows 可直接執行 `start_all.bat`，同時啟動本機守護爬蟲與前端。
 
 ---
 
@@ -181,7 +208,7 @@ git add -A && git commit -m "data: restore" && git push -f origin data-restore:d
 | **第 2 台** | 洗衣機 2 號 | 水洗脫水機 | 投幣 NT$ 20 / 40 分鐘 |
 | **第 3 台** | 洗衣機 3 號 | 水洗脫水機 | 投幣 NT$ 20 / 40 分鐘 |
 | **第 4 台** | 烘衣機 1 號 | 熱風烘乾機 | 投幣 NT$ 10 / 20 分鐘 (可累投至 99 分鐘) |
-| **第 5 台** | 烘衣機 2 號 | 熱風烘乾機 | 投幣 NT$ 10 / 20 分鐘 (可累投至 99 分鐘) |
+| **第 5 台** | 烘衣機 2 號 | 熱風烘乾機 | 投幣 NT$ 10 / 20 分鐘 (可累投至 99 分鐘)；**6F 特例：NT$ 10 / 40 分鐘，最多 NT$ 30 / 99 分鐘** |
 | **第 6 台（最內側）**| 洗衣機 4 號 | 水洗脫水機 | 投幣 NT$ 20 / 40 分鐘 |
 
 *(全棟 4 個樓層共 24 台聯網設備，完整納入 3D 視覺化與規律統計)*
@@ -194,8 +221,8 @@ git add -A && git commit -m "data: restore" && git push -f origin data-restore:d
 
 - **`v2.5.0` (2026.10.18)**
   - **資料更新與網站部署分離**：解決每日更新次數上限造成網站停止更新的問題。
-  - **統計修正並重算全部歷史數據**：烘衣機投幣加時、洗衣機時間校正不再重複計算；離峰推薦改採一週 7 天平均。
-  - **6F烘乾機2號特殊計價**、資料庫瘦身、每日自動備份、即時機況快取、全站版本號統一。
+  - **統計修正並重算全部歷史數據**：烘衣機投幣加時合併（時長與金額累加）、洗衣機時間校正不再重複計算；熱度矩陣、24H 走勢與離峰推薦改以各時段實際出現次數為分母計算平均使用率。
+  - **6F烘乾機2號特殊計價**、資料庫瘦身（14MB ➔ 0.9MB）、每日自動備份、即時機況快取、數據分析顯示實際觀察天數、全站版本號統一。
 - **`v2.4.2` (2026.09.13)**
   - 數據分析視角重整、樓層排名看板、機台清單依樓層排序、單機每週熱度矩陣。
 - **`v2.4.1` (2026.09.13)**
@@ -226,5 +253,11 @@ git add -A && git commit -m "data: restore" && git push -f origin data-restore:d
   - 機台選取視角中心下移，機台與倒數看板完美避開資訊小窗。
   - 全棟視角微縮並導入微微俯瞰視角，層次更完美。
   - 底部選單防折行與防跑版調優，全面鎖定單行排版。
+- **`v2.1.0` (2026.09.13)**
+  - 3D 倒數看板每秒跳秒倒數修復、巡航視角校正、背景告示純化、右上直立式樓層切換按鈕、效能優化。
+- **`v2.0.0` (2026.09.13)**
+  - PWA 支援、24H 數據分析、熱度矩陣、使用率排名與智慧離峰時段推薦、樓層 3D 立體告示。
+- **`v1.0.0` (2026.09.12)**
+  - 聯苑二期 2F/4F/6F/8F 24 台洗衣機/烘衣機 3D 即時 IoT 監控系統發布。
 - **`v0.0.9 beta` (2026.09.12)**
   - 專案初衷發軔：因為太討厭每週下班搶洗衣機，索性開始實驗逆向分析這棟樓的洗衣機 IoT API 傳輸方式，預計做長期分析與數據收集，目標是要改善下班洗衣效率和學習 AI 工具開發。
