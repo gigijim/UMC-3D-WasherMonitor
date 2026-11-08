@@ -2,6 +2,15 @@
 
 本檔記錄 UMC-3D-WasherMonitor 每個版本的修改內容，格式參考 [Keep a Changelog](https://keepachangelog.com/zh-TW/1.1.0/)，版本號遵循 [語意化版本](https://semver.org/lang/zh-TW/)。
 
+## [v2.5.1] - 2026-11-08
+
+### 修正
+- **改用廠商新版機況 API**：2026-11-05 起廠商換裝新一代連網模組，機況改由新 API 提供；舊 API 的資料停在換裝當下、全部顯示離線，造成網站 24 台機台持續顯示離線。爬蟲、`/api/realtime` 與本機開發伺服器改用新 API（共用 `shared/alfaloop.js`）。
+- **機台編號延續**：換裝後每台機台的編號都變了，依機台名稱對應回原本的編號，歷史紀錄與每台機台的分析不中斷。
+
+### 已知限制
+- 2026-11-05 13:50 ~ 2026-11-08 期間無法取得機況，該期間只補登到每台機台最後一次使用。
+
 ## [v2.5.0] - 2026-10-18
 
 ### 修正
@@ -83,4 +92,5 @@
 ## [v0.0.9 beta] - 2026-09-12
 - 專案初衷：因為太討厭每週下班搶洗衣機，開始實驗分析這棟樓的洗衣機 IoT API 傳輸方式，做長期分析與數據收集，目標是改善下班洗衣效率和學習 AI 工具開發。
 
+[v2.5.1]: https://github.com/gigijim/UMC-3D-WasherMonitor/releases/tag/v2.5.1
 [v2.5.0]: https://github.com/gigijim/UMC-3D-WasherMonitor/releases/tag/v2.5.0

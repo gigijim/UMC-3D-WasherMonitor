@@ -1,7 +1,5 @@
 import { toRealtimeDevice, summarize } from '../shared/device.js';
-
-const ALFALOOP_URL = 'https://app.alfaloop.com/ndr/fn/api/v1/web';
-const PLACE_ID = '67359cb42f71210375a69599';
+import { fetchPlace } from '../shared/alfaloop.js';
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -13,30 +11,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const ts = Math.floor(Date.now() / 1000);
-    const response = await fetch(`${ALFALOOP_URL}?tz=Asia/Taipei&timestamp=${ts}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
-      },
-      body: JSON.stringify({
-        action: 'checkoutPlaceStatus',
-        placeId: PLACE_ID
-      }),
-      signal: AbortSignal.timeout(8000)
-    });
-
-    if (!response.ok) {
-      return res.status(response.status).json({ error: 'Failed to fetch from alfaloop' });
-    }
-
-    const data = await response.json();
-    const place = data?.message?.place;
-    if (!place) {
-      return res.status(500).json({ error: 'Invalid response from alfaloop' });
-    }
-
+    const place = await fetchPlace({ timeoutMs: 8000 });
     const now = Date.now();
     const devices = (place.devices || []).filter((d) => !d.testmode).map((d) => toRealtimeDevice(d, now));
 
@@ -50,6 +25,6 @@ export default async function handler(req, res) {
       devices
     });
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    return res.status(502).json({ error: err.message });
   }
 }

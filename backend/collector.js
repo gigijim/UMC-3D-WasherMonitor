@@ -1,46 +1,14 @@
 const { DATA_DIR, getDb, initDb, upsertDevice } = require('./db');
 const { createEventDetector } = require('./events');
 const { toRealtimeDevice, summarize } = require('../shared/device');
+const { fetchPlace } = require('../shared/alfaloop');
 const fs = require('node:fs');
 const path = require('node:path');
 
-const PLACE_ID = '67359cb42f71210375a69599';
-const API_URL = 'https://app.alfaloop.com/ndr/fn/api/v1/web';
-
 async function fetchPlaceStatus(retries = 3, delay = 2000) {
-  const ts = Math.floor(Date.now() / 1000);
-  const url = `${API_URL}?tz=Asia/Taipei&timestamp=${ts}`;
-
   for (let i = 0; i < retries; i++) {
     try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 10000);
-
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-        },
-        body: JSON.stringify({
-          action: 'checkoutPlaceStatus',
-          placeId: PLACE_ID
-        }),
-        signal: controller.signal
-      });
-
-      clearTimeout(timeoutId);
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      if (data?.message?.result?.toLowerCase() === 'ok') {
-        return data.message.place;
-      } else {
-        throw new Error(`API returned non-ok result: ${JSON.stringify(data?.message || data)}`);
-      }
+      return await fetchPlace();
     } catch (err) {
       console.warn(`[Collector] Attempt ${i + 1}/${retries} failed: ${err.message}`);
       if (i < retries - 1) {

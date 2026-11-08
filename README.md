@@ -4,7 +4,7 @@
 
 - **專案名稱**：`UMC-3D-WasherMonitor`
 - **線上站點**：[https://umc-3d-washermonitor.vercel.app](https://umc-3d-washermonitor.vercel.app)
-- **最新版本**：`v2.5.0` (Release 2026.10.18) · [版本修改紀錄 CHANGELOG](./CHANGELOG.md)
+- **最新版本**：`v2.5.1` (Release 2026.11.08) · [版本修改紀錄 CHANGELOG](./CHANGELOG.md)
 - **維護聲明**：看我心情~和下班有沒有空
 - **版權宣告**：Copyright © 2026 UMC_IT-Jimmy
 
@@ -28,7 +28,7 @@ flowchart TD
         DataAPI["/api/data<br/>(最新分析資料讀取端點)"]
     end
 
-    subgraph IoT ["Alfaloop 物聯網雲端平台"]
+    subgraph IoT ["Alfaloop 物聯網雲端平台 (service.alfaloop.com)"]
         Hardware["聯苑二期 24 台洗衣/烘衣機<br/>(2F / 4F / 6F / 8F 現場硬體晶片)"]
     end
 
@@ -119,6 +119,7 @@ UMC-3D-WasherMonitor/
 │   └── trigger-crawl.js        # 外部排程爬蟲喚醒端點
 │
 ├── shared/                     # 前後端共用模組
+│   ├── alfaloop.js             # 廠商機況 API 查詢與機台編號對應
 │   ├── device.js               # 機台描述解析與即時狀態格式
 │   └── pricing.js              # 計價規則 (含特例機台)
 │
@@ -220,6 +221,8 @@ git add -A && git commit -m "data: restore" && git push -f origin data-restore:d
 
 > 完整內容請見 [CHANGELOG.md](./CHANGELOG.md)
 
+- **`v2.5.1` (2026.11.08)**
+  - **改用廠商新版機況 API**：修正 11/5 廠商換裝新一代連網模組後，24 台機台持續顯示離線的問題；機台編號依名稱對應回原編號，歷史紀錄不中斷。
 - **`v2.5.0` (2026.10.18)**
   - **資料更新與網站部署分離**：解決每日更新次數上限造成網站停止更新的問題。
   - **統計修正並重算全部歷史數據**：烘衣機投幣加時合併（時長與金額累加）、洗衣機時間校正不再重複計算；熱度矩陣、24H 走勢與離峰推薦改以各時段實際出現次數為分母計算平均使用率。

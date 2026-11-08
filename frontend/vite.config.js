@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { toRealtimeDevice, summarize } from '../shared/device.js';
+import { fetchPlace } from '../shared/alfaloop.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // 本機開發讀取 backend/（或 LAUNDRY_DATA_DIR）內由 daemon 產生的資料，沒有則改抓 data 分支
@@ -52,33 +53,7 @@ export default defineConfig({
 
         server.middlewares.use('/api/realtime', async (req, res) => {
           try {
-            const ts = Math.floor(Date.now() / 1000);
-            const url = `https://app.alfaloop.com/ndr/fn/api/v1/web?tz=Asia/Taipei&timestamp=${ts}`;
-            const response = await fetch(url, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
-              },
-              body: JSON.stringify({
-                action: 'checkoutPlaceStatus',
-                placeId: '67359cb42f71210375a69599'
-              })
-            });
-
-            if (!response.ok) {
-              res.statusCode = response.status;
-              res.end(JSON.stringify({ error: 'Failed to fetch from alfaloop' }));
-              return;
-            }
-
-            const data = await response.json();
-            const place = data?.message?.place;
-            if (!place) {
-              res.statusCode = 500;
-              res.end(JSON.stringify({ error: 'Invalid response from alfaloop' }));
-              return;
-            }
+            const place = await fetchPlace();
 
             const now = Date.now();
             const devices = (place.devices || []).filter((d) => !d.testmode).map((d) => toRealtimeDevice(d, now));
