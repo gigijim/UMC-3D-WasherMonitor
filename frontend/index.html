@@ -209,7 +209,7 @@
   <button id="btn-version-desktop" title="點擊查看歷史版本更新紀錄與版權資訊" class="hidden sm:flex absolute bottom-3 right-4 z-10 pointer-events-auto select-none text-[11px] font-mono text-slate-400/80 hover:text-cyan-300 bg-slate-950/60 hover:bg-slate-900/90 px-2.5 py-1 rounded-lg border border-slate-800/60 hover:border-slate-700/80 transition-all items-center gap-1.5 cursor-pointer backdrop-blur-xs">
     <span>Copyright © 2026 UMC_IT-Jimmy</span>
     <span class="text-slate-600">·</span>
-    <span class="text-cyan-400 font-semibold">v2.5.1</span>
+    <span class="text-cyan-400 font-semibold">v2.5.2</span>
     <span class="w-3.5 h-3.5 rounded-full bg-slate-800 border border-slate-700 text-[9px] flex items-center justify-center text-cyan-300 font-serif font-bold">i</span>
   </button>
 
@@ -353,7 +353,7 @@
           <div>
             <h3 class="text-base font-bold text-white flex items-center gap-2">
               系統版本與資訊
-              <span class="px-2 py-0.5 rounded-md bg-cyan-950 text-cyan-300 border border-cyan-800 text-[10px] font-mono font-bold">v2.5.1</span>
+              <span class="px-2 py-0.5 rounded-md bg-cyan-950 text-cyan-300 border border-cyan-800 text-[10px] font-mono font-bold">v2.5.2</span>
             </h3>
             <p class="text-[11px] text-slate-400">聯苑二期 3D 洗衣監控分析平台</p>
           </div>
@@ -369,7 +369,7 @@
         <div class="bg-slate-950/70 p-3.5 rounded-2xl border border-slate-800 space-y-2">
           <div class="flex justify-between items-center text-[11px]">
             <span class="text-slate-400">系統版本</span>
-            <span class="font-mono text-cyan-300 font-bold">v2.5.1 (Release 2026.11.08)</span>
+            <span class="font-mono text-cyan-300 font-bold">v2.5.2 (Release 2026.11.08)</span>
           </div>
           <div class="flex justify-between items-center text-[11px]">
             <span class="text-slate-400">架構引擎</span>
@@ -391,13 +391,25 @@
             <span>歷史版本修改紀錄</span>
           </h4>
           <div class="space-y-3">
-            <!-- v2.5.1 -->
+            <!-- v2.5.2 -->
             <div class="border-l-2 border-cyan-400 pl-3 py-0.5 space-y-1">
               <div class="flex items-center justify-between">
-                <span class="font-mono font-bold text-cyan-300 text-xs">v2.5.1</span>
+                <span class="font-mono font-bold text-cyan-300 text-xs">v2.5.2</span>
                 <span class="text-[10px] text-slate-500 font-mono">2026-11-08</span>
               </div>
               <ul class="text-[11px] text-slate-300 space-y-1 list-disc list-inside">
+                <li>3D 場景縮小時不再漸層淡出，模型保持清楚</li>
+                <li>限制縮小極限（電腦版 / 手機版分別計算），避免縮太小看不到模型</li>
+              </ul>
+            </div>
+
+            <!-- v2.5.1 -->
+            <div class="border-l-2 border-slate-700 pl-3 py-0.5 space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="font-mono font-bold text-slate-400 text-xs">v2.5.1</span>
+                <span class="text-[10px] text-slate-500 font-mono">2026-11-08</span>
+              </div>
+              <ul class="text-[11px] text-slate-400 space-y-1 list-disc list-inside">
                 <li>改用廠商新版機況 API：修正 11/5 廠商換裝連網模組後，24 台機台持續顯示離線的問題</li>
                 <li>換裝後機台編號全部變更，依機台名稱對應回原編號，歷史紀錄與分析不中斷</li>
                 <li>11/5 13:50 ~ 11/8 期間無法取得機況，僅補登每台機台最後一次使用</li>

@@ -2,6 +2,12 @@
 
 本檔記錄 UMC-3D-WasherMonitor 每個版本的修改內容，格式參考 [Keep a Changelog](https://keepachangelog.com/zh-TW/1.1.0/)，版本號遵循 [語意化版本](https://semver.org/lang/zh-TW/)。
 
+## [v2.5.2] - 2026-11-08
+
+### 變更
+- **3D 場景縮小時不再漸層淡出**：縮得比全棟預設視角更遠時，霧氣濃度等比例降低，模型保持清楚；預設距離以內畫面不變。
+- **限制縮小極限**：最遠為全棟預設視角距離的 1.6 倍，依螢幕比例分別計算電腦版與手機版，避免縮太小幾乎看不到模型。
+
 ## [v2.5.1] - 2026-11-08
 
 ### 修正
@@ -92,5 +98,6 @@
 ## [v0.0.9 beta] - 2026-09-12
 - 專案初衷：因為太討厭每週下班搶洗衣機，開始實驗分析這棟樓的洗衣機 IoT API 傳輸方式，做長期分析與數據收集，目標是改善下班洗衣效率和學習 AI 工具開發。
 
+[v2.5.2]: https://github.com/gigijim/UMC-3D-WasherMonitor/releases/tag/v2.5.2
 [v2.5.1]: https://github.com/gigijim/UMC-3D-WasherMonitor/releases/tag/v2.5.1
 [v2.5.0]: https://github.com/gigijim/UMC-3D-WasherMonitor/releases/tag/v2.5.0

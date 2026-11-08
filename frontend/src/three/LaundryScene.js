@@ -1,6 +1,9 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
+const FOG_DENSITY = 0.012;
+const MAX_ZOOM_OUT_RATIO = 1.6;
+
 export class LaundryScene {
   constructor(container, onSelectMachine) {
     this.container = container;
@@ -52,7 +55,7 @@ export class LaundryScene {
     // Scene
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0x0a0f1d);
-    this.scene.fog = new THREE.FogExp2(0x0a0f1d, 0.012);
+    this.scene.fog = new THREE.FogExp2(0x0a0f1d, FOG_DENSITY);
 
     // Camera
     this.camera = new THREE.PerspectiveCamera(45, width / height, 0.5, 200);
@@ -77,7 +80,7 @@ export class LaundryScene {
     this.controls.target.copy(this.targetLookAt);
     this.controls.maxPolarAngle = Math.PI / 2 - 0.02;
     this.controls.minDistance = 0.5; // 允許極近距離自由縮放檢視機台細節
-    this.controls.maxDistance = 280; // 允許自由直接縮小至全域大視野，絕不被鎖定在特定區間
+    this.updateZoomLimits(width / height); // 縮小極限依螢幕比例計算（電腦版 / 手機版）
     this.controls.enablePan = true;
     this.controls.screenSpacePanning = true;
     this.controls.panSpeed = 1.2;
@@ -1378,12 +1381,20 @@ export class LaundryScene {
     return this.isPinned;
   }
 
+  // 縮小極限：全棟預設視角距離的 MAX_ZOOM_OUT_RATIO 倍，避免縮太小幾乎看不到模型
+  updateZoomLimits(aspect) {
+    const { cameraPos, lookAt } = this.computeAllFloorsCamera(aspect);
+    this.fogReferenceDistance = cameraPos.distanceTo(lookAt);
+    this.controls.maxDistance = this.fogReferenceDistance * MAX_ZOOM_OUT_RATIO;
+  }
+
   onResize() {
     const width = this.container.clientWidth || window.innerWidth;
     const height = this.container.clientHeight || window.innerHeight;
     this.camera.aspect = width / height;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(width, height);
+    this.updateZoomLimits(this.camera.aspect);
 
     // 當目前處於「全部」全棟視野時，動態適應新的螢幕長寬比與縮放
     if (this.currentFocusFloor === 'all') {
@@ -1472,6 +1483,11 @@ export class LaundryScene {
     }
 
     this.controls.update();
+
+    // 縮小超過預設視角時，霧氣濃度等比例降低，模型不再隨縮小漸層淡出（預設距離以內維持原本霧氣）
+    const viewDistance = this.camera.position.distanceTo(this.controls.target);
+    this.scene.fog.density = FOG_DENSITY * Math.min(1, this.fogReferenceDistance / viewDistance);
+
     this.renderer.render(this.scene, this.camera);
   }
 }

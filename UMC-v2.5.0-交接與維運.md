@@ -1,9 +1,9 @@
-# UMC-3D-WasherMonitor v2.5.0 工作交接與系統維運手冊
+# UMC-3D-WasherMonitor 工作交接與系統維運手冊（v2.5.x）
 
-> **發布時間**：2026-10-18 18:06（台北）  
+> **最新版本**：`v2.5.2`（2026-11-08）· 本手冊最初發布於 2026-10-18（v2.5.0）  
 > **系統狀態**：正式上線 (Production OK)  
 > **線上站台**：[umc-3d-washermonitor.vercel.app](https://umc-3d-washermonitor.vercel.app)  
-> **GitHub 儲存庫**：[github.com/gigijim/UMC-3D-WasherMonitor](https://github.com/gigijim/UMC-3D-WasherMonitor)（Release Tag: `v2.5.0`）  
+> **GitHub 儲存庫**：[github.com/gigijim/UMC-3D-WasherMonitor](https://github.com/gigijim/UMC-3D-WasherMonitor)（Release Tag: `v2.5.0`、`v2.5.1`、`v2.5.2`）  
 > **本機工作目錄**：`C:\Users\jimmy\Desktop\AI_Work\20260913_二期洗衣監控分析-v2.5.0`
 
 ---
@@ -32,7 +32,7 @@ Vercel /api/trigger-crawl?token=<CRON_SECRET>
 GitHub Actions (crawl.yml, concurrency: crawl)
        ├─ 簽出 main 分支 (程式碼)
        ├─ 簽出 data 分支 (資料庫與即時 JSON)
-       ├─ node backend/collector.js (抓取 alfaloop 機況，寫入 laundry.db 與 realtime_latest.json)
+       ├─ node backend/collector.js (經 shared/alfaloop.js 向廠商新版 API 抓取機況，寫入 laundry.db 與 realtime_latest.json)
        ├─ node backend/export_data.js (重算統計產出 history_data.json)
        ├─ 自動每日備份 (每天首次執行時上傳 laundry.db 到 GitHub Artifacts，保留 90 天)
        └─ git commit --amend & git push --force-with-lease origin data
@@ -73,24 +73,63 @@ GitHub Actions (crawl.yml, concurrency: crawl)
 
 ---
 
-## 5. 備份存證與災難復原
+## 5. 廠商 API 變更（v2.5.1，2026-11-08）
 
-### 5.1 本機封存備份
+- **狀況**：2026-11-05 起廠商換裝新一代連網模組（AB2），網站 24 台機台全部顯示離線約 3 天。
+- **原因**：機況改由新 API 提供；舊 API 仍回應 200，但資料凍結在換裝當下、全部顯示離線。
+- **現行 API**（與官方頁面 https://service.alfaloop.com/entry/openness/place/67359cb42f71210375a69599 相同來源）：
+  ```text
+  GET https://service.alfaloop.com/api/v1/public/device/device-cloud/info-list?placeId=67359cb42f71210375a69599&tz=Asia%2FTaipei&timestamp=<秒>
+  ```
+- **程式位置**：`shared/alfaloop.js`（爬蟲、`/api/realtime`、Vite 本機開發伺服器共用）。舊 API 不作為備援，避免讀到凍結資料。
+- **機台編號**：換裝後每台機台的 id 都變了，`LEGACY_HWIDS` 依機台名稱對應回原本的編號，資料庫仍為 24 台、歷史紀錄延續。若宿舍新增機台，未在表內的機台會直接使用新 id。
+- **資料空窗**：2026-11-05 13:50 ~ 2026-11-08 期間無法取得機況，只補登到每台機台最後一次使用。
+
+### 5.1 若網站又出現「全部離線」的排查順序
+1. 打開上面的官方頁面：若官方也顯示離線 → 現場網路或機台問題，回報宿舍或廠商。
+2. 官方顯示正常、網站顯示離線 → 很可能廠商又改了 API。用瀏覽器開發者工具（Network）查看官方頁面呼叫的 API 網址與回應格式，再修改 `shared/alfaloop.js`。
+3. 確認爬蟲執行狀態：GitHub → Actions → 10-Minute IoT Laundry Monitor Crawler，日誌中的 `[Collector] Finished crawl ... Offline: N`。
+
+---
+
+## 6. 3D 縮放設定（v2.5.2，2026-11-08）
+
+- **縮小不再淡出**：場景霧氣（`FogExp2`，濃度 0.012）原本會讓模型在縮小時漸層消失。現在縮得比全棟預設視角更遠時，霧氣濃度會等比例降低，模型保持清楚；預設距離以內的畫面與以前完全相同。
+- **縮小極限**：全棟預設視角距離的 1.6 倍（電腦版約 67、手機直式約 72 單位），依螢幕比例自動計算、旋轉螢幕或調整視窗時會重新計算。縮到最小時大樓約為預設大小的 6 成。
+- **調整方式**：`frontend/src/three/LaundryScene.js` 檔案開頭的 `MAX_ZOOM_OUT_RATIO`（縮小極限倍數）與 `FOG_DENSITY`（霧氣濃度）。放大極限與其他操作不變。
+
+---
+
+## 7. 備份存證與災難復原
+
+### 7.1 本機封存備份
 - **位置**：`C:\Users\jimmy\Desktop\AI_Work\UMC-backup-pre-v2.5.0\`
 - **檔案**：
   - `full-history.bundle`（44.1 MB）：包含升級前完整的 5,248 筆 Git 歷史紀錄與所有分支/標籤。
   - `laundry-raw-origin-main.db`（14.5 MB）：未壓縮前的原始 SQLite 資料庫。
 
-### 5.2 雲端每日自動備份
+### 7.2 雲端每日自動備份
 - GitHub Actions 每天首次執行時，會自動將 `laundry.db` 上傳至 GitHub Actions Artifacts。
 - **下載路徑**：進入 GitHub Repo ➔ Actions ➔ 點選當天的執行紀錄 ➔ 下載 Artifacts `laundry-db-YYYY-MM-DD`。
 
 ---
 
-## 6. AI 專用瀏覽器自動化指南
+## 8. AI 專用瀏覽器自動化指南
 
 - **桌面捷徑**：`AI 專用 Chrome 瀏覽器.lnk`
 - **設定檔位置**：`C:\Users\jimmy\.chrome-ai-profile`
 - **遠端偵錯埠**：`9222`
 - **使用方式**：
   保持該瀏覽器開啟，AI 代理程式即可透過 Chrome DevTools Protocol (CDP) 隨時連入，執行自動化表單填寫、排程檢查與第三方主控台操作。
+
+---
+
+## 9. 版本紀錄
+
+| 版本 | 日期 | 內容 |
+|---|---|---|
+| v2.5.2 | 2026-11-08 | 3D 縮小時不再淡出、限制縮小極限（電腦版 / 手機版） |
+| v2.5.1 | 2026-11-08 | 改用廠商新版機況 API，修正 24 台持續顯示離線；機台編號延續 |
+| v2.5.0 | 2026-10-18 | 資料與網站部署分離（data 分支）、事件偵測修正、資料庫瘦身、版本整理 |
+
+完整內容請見 [CHANGELOG.md](./CHANGELOG.md)。

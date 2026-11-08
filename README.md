@@ -4,7 +4,7 @@
 
 - **專案名稱**：`UMC-3D-WasherMonitor`
 - **線上站點**：[https://umc-3d-washermonitor.vercel.app](https://umc-3d-washermonitor.vercel.app)
-- **最新版本**：`v2.5.1` (Release 2026.11.08) · [版本修改紀錄 CHANGELOG](./CHANGELOG.md)
+- **最新版本**：`v2.5.2` (Release 2026.11.08) · [版本修改紀錄 CHANGELOG](./CHANGELOG.md)
 - **維護聲明**：看我心情~和下班有沒有空
 - **版權宣告**：Copyright © 2026 UMC_IT-Jimmy
 
@@ -153,7 +153,7 @@ UMC-3D-WasherMonitor/
 ├── start_all.bat               # Windows 一鍵啟動本機守護程式 + 前端開發伺服器
 ├── vercel.json                 # Vercel 建置設定
 ├── CHANGELOG.md                # 版本修改紀錄
-├── UMC-v2.5.0-交接與維運.md     # v2.5.0 交接與維運手冊 (排程設定、備份與災難復原)
+├── UMC-v2.5.0-交接與維運.md     # 交接與維運手冊 (排程設定、廠商 API、備份與災難復原)
 └── README.md                   # 系統架構與說明文件
 
 (data 分支，只保留最新一個 commit)
@@ -221,6 +221,8 @@ git add -A && git commit -m "data: restore" && git push -f origin data-restore:d
 
 > 完整內容請見 [CHANGELOG.md](./CHANGELOG.md)
 
+- **`v2.5.2` (2026.11.08)**
+  - **3D 縮放調整**：縮小時不再漸層淡出，並限制縮小極限（電腦版 / 手機版分別計算）。
 - **`v2.5.1` (2026.11.08)**
   - **改用廠商新版機況 API**：修正 11/5 廠商換裝新一代連網模組後，24 台機台持續顯示離線的問題；機台編號依名稱對應回原編號，歷史紀錄不中斷。
 - **`v2.5.0` (2026.10.18)**
